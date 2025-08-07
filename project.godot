@@ -10,12 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Projeto Horror"
-config/tags=PackedStringArray("2d", "horror", "indie", "suspense", "topdown")
-run/main_scene="uid://1wcen3oha6cu"
+config/name="O caminho de Narciso"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+config/tags=PackedStringArray("2d", "horror", "indie", "suspense", "topdown")
 
 [dotnet]
 
-project/assembly_name="Projeto Horror"
+project/assembly_name="O caminho de Narciso"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c850ab122ekpp"
-path="res://.godot/imported/tl_arena.png-11eeded99ded4cd280f279933772f849.ctex"
+uid="uid://bwinik7b82pur"
+path="res://.godot/imported/running_left1.png-4d6256bea08880414b36b476b9d39c80.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites (Reutilizados)/Sprites/Tilemaps/tl_arena.png"
-dest_files=["res://.godot/imported/tl_arena.png-11eeded99ded4cd280f279933772f849.ctex"]
+source_file="res://Assets/Player/running_left1.png"
+dest_files=["res://.godot/imported/running_left1.png-4d6256bea08880414b36b476b9d39c80.ctex"]
 
 [params]
 
