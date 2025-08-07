@@ -17,7 +17,7 @@ public partial class movimento : CharacterBody2D
 	}
 	private void handleInput()
 	{
-		currentVelocity = Input.GetVector("mv_esquerdo", "mv_direito", "mv_cima", "mv_baixo");
+		currentVelocity = Input.GetVector("mv_left", "mv_right", "mv_up", "mv_down");
 		currentVelocity *= speed;
 	}
 }
