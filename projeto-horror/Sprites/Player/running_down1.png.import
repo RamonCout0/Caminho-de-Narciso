@@ -1,0 +1,43 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://crnlb7308vduq"
+<<<<<<<< HEAD:Assets/Player/running_down1.png.import
+path="res://.godot/imported/running_down1.png-4f4050824cf68e18ec58031e6b0fb913.ctex"
+========
+path="res://.godot/imported/running_down1.png-47577935ffce47e23abfff0d6ce2382d.ctex"
+>>>>>>>> fd3b615e4229d110bc384e778b6d096d234a93d3:Sprites/Player/running_down1.png.import
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+<<<<<<<< HEAD:Assets/Player/running_down1.png.import
+source_file="res://Assets/Player/running_down1.png"
+dest_files=["res://.godot/imported/running_down1.png-4f4050824cf68e18ec58031e6b0fb913.ctex"]
+========
+source_file="res://Sprites/Player/running_down1.png"
+dest_files=["res://.godot/imported/running_down1.png-47577935ffce47e23abfff0d6ce2382d.ctex"]
+>>>>>>>> fd3b615e4229d110bc384e778b6d096d234a93d3:Sprites/Player/running_down1.png.import
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1
