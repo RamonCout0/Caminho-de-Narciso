@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dnpy7ytcxdmas"]
+[gd_scene load_steps=3 format=3 uid="uid://dnpy7ytcxdmas"]
 
 [ext_resource type="Script" uid="uid://13s2a65vwb6h" path="res://UI/Inventory/Inv_UI.gd" id="1_2qcku"]
+[ext_resource type="Texture2D" uid="uid://bnwojq02sx0u8" path="res://Assets/Objetos_testes/desert eagle.png" id="2_ng72o"]
 
 [node name="Inv_UI" type="Control"]
 layout_mode = 3
@@ -13,6 +14,13 @@ script = ExtResource("1_2qcku")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 41.0
+offset_bottom = 41.0
 color = Color(0.641139, 0.238539, 0.394203, 1)
+
+[node name="DesertEagle" type="Sprite2D" parent="ColorRect"]
+position = Vector2(21, 21)
+scale = Vector2(0.640625, 0.828125)
+texture = ExtResource("2_ng72o")

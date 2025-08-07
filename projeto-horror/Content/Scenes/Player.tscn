@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://diki6nnen66e"]
+
+[ext_resource type="Script" uid="uid://d1w20yjioyopd" path="res://Content/Player/movimento.gd" id="2_ejvqj"]
+[ext_resource type="Texture2D" uid="uid://cn7om8c83rjun" path="res://Assets/PlayerSprites/idle1.png" id="2_wu8k3"]
+[ext_resource type="Resource" uid="uid://cebioetta6y0o" path="res://UI/Inventory/PlayerInv.tres" id="3_ejvqj"]
+[ext_resource type="PackedScene" uid="uid://dnpy7ytcxdmas" path="res://UI/Inventory/inv_ui.tscn" id="5_4sh2a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejvqj"]
+size = Vector2(14.5, 22)
+
+[node name="Player" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("2_ejvqj")
+inv = ExtResource("3_ejvqj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("2_wu8k3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.25, 0)
+shape = SubResource("RectangleShape2D_ejvqj")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Inv_UI" parent="Player" instance=ExtResource("5_4sh2a")]
