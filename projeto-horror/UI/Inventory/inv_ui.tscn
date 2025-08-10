@@ -14,13 +14,11 @@ script = ExtResource("1_2qcku")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 41.0
-offset_bottom = 41.0
-color = Color(0.641139, 0.238539, 0.394203, 1)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.639216, 0.239216, 0.396078, 0)
 
 [node name="DesertEagle" type="Sprite2D" parent="ColorRect"]
-position = Vector2(21, 21)
-scale = Vector2(0.640625, 0.828125)
+position = Vector2(9.625, 10.4375)
+scale = Vector2(0.230469, 0.236328)
 texture = ExtResource("2_ng72o")

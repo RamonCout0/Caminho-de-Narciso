@@ -11,9 +11,18 @@ config_version=5
 [application]
 
 config/name="ramom projeto"
-run/main_scene="uid://dqkwf3bjt41es"
+run/main_scene="uid://cler7tney5i1n"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=950
+window/size/viewport_height=540
+window/size/mode=4
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+window/stretch/scale_mode="integer"
 
 [dotnet]
 
