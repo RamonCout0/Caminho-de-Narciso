@@ -2,31 +2,154 @@
 
 [ext_resource type="Script" uid="uid://d1w20yjioyopd" path="res://Content/Player/movimento.gd" id="2_ejvqj"]
 [ext_resource type="Texture2D" uid="uid://cn7om8c83rjun" path="res://Assets/PlayerSprites/idle1.png" id="2_wu8k3"]
+[ext_resource type="Shader" uid="uid://b8sd4byjatcq7" path="res://Shaders/pisca.gdshader" id="2_x2w1w"]
 [ext_resource type="Resource" uid="uid://cebioetta6y0o" path="res://UI/Inventory/PlayerInv.tres" id="3_ejvqj"]
+[ext_resource type="Texture2D" uid="uid://lbou0xrrrhsn" path="res://Assets/PlayerSprites/idle2.png" id="4_oeyts"]
 [ext_resource type="PackedScene" uid="uid://dnpy7ytcxdmas" path="res://UI/Inventory/inv_ui.tscn" id="5_4sh2a"]
+[ext_resource type="Texture2D" uid="uid://jan882jvs8dc" path="res://Assets/PlayerSprites/idle_left1.png" id="5_ud5ux"]
+[ext_resource type="Texture2D" uid="uid://bjbkqlp6kg23f" path="res://Assets/PlayerSprites/idle_left2.png" id="6_x2w1w"]
+[ext_resource type="Texture2D" uid="uid://bpssfurufvwhh" path="res://Assets/PlayerSprites/idle_up1.png" id="7_8g28b"]
+[ext_resource type="Texture2D" uid="uid://bds1rkn6whfof" path="res://Assets/PlayerSprites/idle_up2.png" id="8_ucgb6"]
+[ext_resource type="Texture2D" uid="uid://khged08hn0lr" path="res://Assets/PlayerSprites/running_down1.png" id="9_aw4rw"]
+[ext_resource type="Texture2D" uid="uid://dny2b5at0g4m1" path="res://Assets/PlayerSprites/running_down2.png" id="10_667ux"]
+[ext_resource type="Texture2D" uid="uid://dfmaqql8lrijm" path="res://Assets/PlayerSprites/running_left1.png" id="11_vslsq"]
+[ext_resource type="Texture2D" uid="uid://br41mjrnnxefy" path="res://Assets/PlayerSprites/running_left2.png" id="12_5jb6x"]
+[ext_resource type="Texture2D" uid="uid://counsfw24fje5" path="res://Assets/PlayerSprites/running_up1.png" id="13_gnote"]
+[ext_resource type="Texture2D" uid="uid://jkvssojevshm" path="res://Assets/PlayerSprites/running_up2.png" id="14_7pmwm"]
+[ext_resource type="Shader" uid="uid://dus1runls0fg4" path="res://Shaders/Burnout.gdshader" id="16_ud5ux"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_05puy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_wu8k3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_oeyts")
+}],
+"loop": true,
+"name": &"idle_down",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ud5ux")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_x2w1w")
+}],
+"loop": true,
+"name": &"idle_side",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_8g28b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ucgb6")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_aw4rw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_667ux")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_vslsq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_5jb6x")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_gnote")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_7pmwm")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 6.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejvqj"]
 size = Vector2(14.5, 22)
 
-[node name="Player" type="Node2D" unique_id=659106632]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x2w1w"]
+shader = ExtResource("2_x2w1w")
+shader_parameter/blink_interval = 30.0
+shader_parameter/blink_count = 1.0
+shader_parameter/blink_speed = 2.0
+shader_parameter/close_ratio = 0.35
+shader_parameter/edge_softness = 0.04
+shader_parameter/blink_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8g28b"]
+shader = ExtResource("16_ud5ux")
+shader_parameter/intensity = 0.17600000836
+shader_parameter/pulse_speed = 4.0
+shader_parameter/pain_color = Color(0.4, 0, 0, 1)
+shader_parameter/vein_color = Color(0.1, 0, 0, 1)
+shader_parameter/vein_thickness = 0.5
+shader_parameter/chromatic_split = 0.03
+shader_parameter/geometry_warp = 0.06
+shader_parameter/warp_speed = 1.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1555702128]
+script = ExtResource("2_ejvqj")
+inv = ExtResource("3_ejvqj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932964432]
+texture_filter = 1
+texture_repeat = 1
+sprite_frames = SubResource("SpriteFrames_05puy")
+animation = &"idle_up"
+frame_progress = 0.9095549
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1094363489]
+position = Vector2(-0.25, 0)
+shape = SubResource("RectangleShape2D_ejvqj")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=316558103]
+remote_path = NodePath("../Camera2D")
+
+[node name="Inv_UI" parent="." unique_id=687405228 instance=ExtResource("5_4sh2a")]
+
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=507977804 groups=["player"]]
+position = Vector2(-263, -135)
+current = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=337142578]
 zoom = Vector2(2, 2)
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=1555702128]
-script = ExtResource("2_ejvqj")
-inv = ExtResource("3_ejvqj")
+[node name="pisca" type="ColorRect" parent="Camera2D" unique_id=1452744870]
+material = SubResource("ShaderMaterial_x2w1w")
+offset_left = -263.0
+offset_top = -135.0
+offset_right = 251.0
+offset_bottom = 136.0
+metadata/_edit_use_anchors_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=560362759]
-texture_filter = 1
-texture_repeat = 1
-texture = ExtResource("2_wu8k3")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1094363489]
-position = Vector2(-0.25, 0)
-shape = SubResource("RectangleShape2D_ejvqj")
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player" unique_id=316558103]
-remote_path = NodePath("../../Camera2D")
-
-[node name="Inv_UI" parent="Player" unique_id=687405228 instance=ExtResource("5_4sh2a")]
+[node name="Bornout" type="ColorRect" parent="Camera2D" unique_id=314274784]
+visible = false
+material = SubResource("ShaderMaterial_8g28b")
+offset_left = -282.0
+offset_top = -154.0
+offset_right = 214.0
+offset_bottom = 116.0
+scale = Vector2(1.16, 1.180702)
