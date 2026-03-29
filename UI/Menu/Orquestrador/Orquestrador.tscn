@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cler7tney5i1n"]
+
+[ext_resource type="Script" uid="uid://c4a2lewjtxsw0" path="res://UI/Menu/Orquestrador/Orquestrador.gd" id="1_8704d"]
+[ext_resource type="PackedScene" uid="uid://d0bt0u0caxe17" path="res://UI/Menu/Orquestrador/OPÇÕES/TelaDeOpcoes.tscn" id="2_i0w7f"]
+[ext_resource type="PackedScene" uid="uid://b60dhhb3mpbtx" path="res://UI/Menu/Orquestrador/Menu.tscn" id="3_icg7q"]
+
+[node name="Orquestrador" type="Node"]
+script = ExtResource("1_8704d")
+
+[node name="Opcoes" parent="." instance=ExtResource("2_i0w7f")]
+
+[node name="MenuPrincipal" parent="." instance=ExtResource("3_icg7q")]
+
+[connection signal="pressed" from="Opcoes/MarginContainer/PanelContainer/VBoxContainer/menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="MenuPrincipal/MarginContainer/PanelContainer/VBoxContainer/jogar" to="." method="_on_jogar_pressed"]
+[connection signal="pressed" from="MenuPrincipal/MarginContainer/PanelContainer/VBoxContainer/opcoes" to="." method="_on_opcoes_pressed"]
+[connection signal="pressed" from="MenuPrincipal/MarginContainer/PanelContainer/VBoxContainer/sair" to="." method="_on_sair_pressed"]
+
+[editable path="Opcoes"]
+[editable path="MenuPrincipal"]
