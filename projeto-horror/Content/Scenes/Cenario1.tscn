@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://0hoq4ixqfel8" path="res://Assets/TileSets/piso1(teste).png" id="1_bqd4v"]
 [ext_resource type="Texture2D" uid="uid://deex58j70bpax" path="res://Assets/TileSets/teste2.png" id="2_6wggt"]
 [ext_resource type="PackedScene" uid="uid://diki6nnen66e" path="res://Content/Scenes/Player.tscn" id="3_ck8vv"]
+[ext_resource type="AudioStream" uid="uid://bpbcw5ukn5f5g" path="res://musicas/A Step In The Dark Forest - Karl Schoenberg (youtube).mp3" id="4_6wggt"]
+[ext_resource type="PackedScene" uid="uid://73a1dki11dht" path="res://Assets/Enemys/boneca/blink_enemy.tscn" id="5_ck8vv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bqd4v"]
 texture = ExtResource("1_bau58")
@@ -795,6 +797,19 @@ texture = ExtResource("1_bau58")
 5:17/0 = 0
 3:6/0 = 0
 
+[node name="Player" parent="." unique_id=948795192 instance=ExtResource("3_ck8vv")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=239163977]
+stream = ExtResource("4_6wggt")
+volume_db = -31.93
+pitch_scale = 0.45
+autoplay = true
+parameters/looping = true
+
+[node name="BlinkEnemy" parent="." unique_id=1373699795 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
+position = Vector2(-251, -120)
+scale = Vector2(0.27879673, 0.32526633)
+player = NodePath("../Player")
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ck8vv"]
 texture = ExtResource("2_6wggt")
 0:0/0 = 0
