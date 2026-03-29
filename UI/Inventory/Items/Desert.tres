@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="InvItem" load_steps=3 format=3 uid="uid://b5t35qcbe03vn"]
+
+[ext_resource type="Script" uid="uid://bs315sacildhh" path="res://UI/Inventory/Inventory_item.gd" id="1_f7p2v"]
+[ext_resource type="Texture2D" uid="uid://bnwojq02sx0u8" path="res://Assets/Objetos_testes/desert eagle.png" id="2_cylyd"]
+
+[resource]
+script = ExtResource("1_f7p2v")
+name = "Dessert"
+texture = ExtResource("2_cylyd")
+metadata/_custom_type_script = "uid://bs315sacildhh"
