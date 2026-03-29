@@ -32,10 +32,6 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="narciso"
 
-[global_group]
-
-player=""
-
 [input]
 
 mv_right={
