@@ -110,6 +110,17 @@ shader_parameter/chromatic_split = 0.03
 shader_parameter/geometry_warp = 0.06
 shader_parameter/warp_speed = 1.0
 
+[sub_resource type="Gradient" id="Gradient_x2w1w"]
+offsets = PackedFloat32Array(0.15662651, 0.52409637, 0.58433735, 0.6987952)
+colors = PackedColorArray(1, 1, 1, 1, 0.41129035, 0.41129035, 0.41129035, 1, 0.092871994, 0.092871994, 0.092871994, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8g28b"]
+gradient = SubResource("Gradient_x2w1w")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5043478, 0.5043478)
+
 [node name="Player" type="CharacterBody2D" unique_id=1555702128]
 script = ExtResource("2_ejvqj")
 inv = ExtResource("3_ejvqj")
@@ -144,6 +155,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="pisca" type="ColorRect" parent="Control" unique_id=904047024]
+visible = false
 material = SubResource("ShaderMaterial_x2w1w")
 layout_mode = 0
 offset_left = -263.0
@@ -152,6 +164,7 @@ offset_right = 251.0
 offset_bottom = 136.0
 
 [node name="Bornout" type="ColorRect" parent="Control" unique_id=1545285822]
+visible = false
 material = SubResource("ShaderMaterial_8g28b")
 layout_mode = 0
 offset_left = -282.0
@@ -159,3 +172,10 @@ offset_top = -154.0
 offset_right = 214.0
 offset_bottom = 116.0
 scale = Vector2(1.16, 1.180702)
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=780445922]
+blend_mode = 2
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 5.1
+texture = SubResource("GradientTexture2D_8g28b")
