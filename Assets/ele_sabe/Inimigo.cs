@@ -7,21 +7,21 @@ public partial class Inimigo : CharacterBody2D
 	
 	private Node2D _alvo = null;
 	private AudioStreamPlayer2D _somPerseguicao;
+	private AudioStreamPlayer2D _somPassos; // Novo nó para passos
 	private Area2D _areaDeteccao;
 	private AnimatedSprite2D _anim;
 
 	public override void _Ready()
 	{
-		// Pegando as referências dos nós
+		// Referências dos nós
 		_somPerseguicao = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
-		_areaDeteccao = GetNode<Area2D>("AreaDeteccao"); // Verifique se o nome no Editor está igual!
+		_somPassos = GetNode<AudioStreamPlayer2D>("SomPassos"); // Nome que você deu no Editor
+		_areaDeteccao = GetNode<Area2D>("AreaDeteccao");
 		_anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-		// Conectando os sinais
 		_areaDeteccao.BodyEntered += OnBodyEntered;
 		_areaDeteccao.BodyExited += OnBodyExited;
 		
-		// Começa com a animação de parado
 		_anim.Play("idle");
 	}
 
@@ -29,33 +29,37 @@ public partial class Inimigo : CharacterBody2D
 	{
 		if (_alvo != null)
 		{
-			// Movimentação
 			Vector2 direcao = (_alvo.GlobalPosition - GlobalPosition).Normalized();
 			Velocity = direcao * Velocidade;
 
-			// Inverter o sprite baseado na direção (olhar para esquerda ou direita)
 			if (direcao.X != 0)
 			{
 				_anim.FlipH = direcao.X < 0;
 			}
 
-			// Tocar animação de correr (apenas se já não estiver tocando)
 			if (_anim.Animation != "run")
 			{
 				_anim.Play("run");
 			}
 
-			// Tocar som de perseguição
+			// --- LÓGICA DO SOM DE PERSEGUIÇÃO (SUSPENSE/ROSNADO) ---
 			if (!_somPerseguicao.Playing)
 			{
 				_somPerseguicao.Play();
+			}
+
+			// --- LÓGICA DO SOM DE PASSOS ---
+			// Toca se estiver se movendo e o som de passo anterior acabou
+			if (Velocity.Length() > 10 && !_somPassos.Playing)
+			{
+				_somPassos.PitchScale = (float)GD.RandRange(0.8, 1.2);
+				_somPassos.Play();
 			}
 
 			MoveAndSlide();
 		}
 		else
 		{
-			// Parar o inimigo e trocar animação para idle
 			Velocity = Vector2.Zero;
 			
 			if (_anim.Animation != "idle")
@@ -63,21 +67,18 @@ public partial class Inimigo : CharacterBody2D
 				_anim.Play("idle");
 			}
 
-			// Parar o som se o jogador sair da área
-			if (_somPerseguicao.Playing)
-			{
-				_somPerseguicao.Stop();
-			}
+			// Para ambos os sons quando perde o alvo
+			if (_somPerseguicao.Playing) _somPerseguicao.Stop();
+			if (_somPassos.Playing) _somPassos.Stop();
 		}
 	}
 
 	private void OnBodyEntered(Node2D body)
 	{
-		// Certifique-se que seu Player está no grupo "player"
 		if (body.IsInGroup("player"))
 		{
 			_alvo = body;
-			GD.Print("Alvo travado!");
+			GD.Print("Inimigo avistou o player! Iniciando perseguição.");
 		}
 	}
 
@@ -86,7 +87,7 @@ public partial class Inimigo : CharacterBody2D
 		if (body == _alvo)
 		{
 			_alvo = null;
-			GD.Print("Alvo perdido.");
+			GD.Print("Player escapou.");
 		}
 	}
 }

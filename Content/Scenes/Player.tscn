@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cn7om8c83rjun" path="res://Assets/PlayerSprites/idle1.png" id="2_wu8k3"]
 [ext_resource type="Shader" uid="uid://b8sd4byjatcq7" path="res://shaders/pisca.gdshader" id="2_x2w1w"]
 [ext_resource type="Resource" uid="uid://cebioetta6y0o" path="res://UI/Inventory/PlayerInv.tres" id="3_ejvqj"]
+[ext_resource type="Shader" uid="uid://blss8dkr4ode6" path="res://shaders/shadow.gdshader" id="3_ucgb6"]
 [ext_resource type="Texture2D" uid="uid://lbou0xrrrhsn" path="res://Assets/PlayerSprites/idle2.png" id="4_oeyts"]
 [ext_resource type="PackedScene" uid="uid://dnpy7ytcxdmas" path="res://UI/Inventory/inv_ui.tscn" id="5_4sh2a"]
 [ext_resource type="Texture2D" uid="uid://jan882jvs8dc" path="res://Assets/PlayerSprites/idle_left1.png" id="5_ud5ux"]
@@ -17,6 +18,13 @@
 [ext_resource type="Texture2D" uid="uid://counsfw24fje5" path="res://Assets/PlayerSprites/running_up1.png" id="13_gnote"]
 [ext_resource type="Texture2D" uid="uid://jkvssojevshm" path="res://Assets/PlayerSprites/running_up2.png" id="14_7pmwm"]
 [ext_resource type="Shader" uid="uid://dus1runls0fg4" path="res://shaders/Burnout.gdshader" id="16_ud5ux"]
+[ext_resource type="AudioStream" uid="uid://giqac7ke0jqk" path="res://efeitos_sonoros/walking_on_floor1.mp3" id="18_8g28b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aw4rw"]
+shader = ExtResource("3_ucgb6")
+shader_parameter/raio = 0.5
+shader_parameter/suavidade = 0.1
+shader_parameter/opacidade_maxima = 0.5
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_05puy"]
 animations = [{
@@ -119,11 +127,19 @@ gradient = SubResource("Gradient_x2w1w")
 width = 512
 height = 512
 fill = 1
-fill_from = Vector2(0.5043478, 0.5043478)
+fill_from = Vector2(0.51304346, 0.5043478)
 
 [node name="Player" type="CharacterBody2D" unique_id=1555702128]
 script = ExtResource("2_ejvqj")
 inv = ExtResource("3_ejvqj")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1721940955]
+material = SubResource("ShaderMaterial_aw4rw")
+offset_left = -6.0
+offset_top = 5.0
+offset_right = 6.0
+offset_bottom = 13.0
+color = Color(0.10747976, 0.10747973, 0.10747973, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932964432]
 texture_filter = 1
@@ -155,12 +171,11 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="pisca" type="ColorRect" parent="Control" unique_id=904047024]
-visible = false
 material = SubResource("ShaderMaterial_x2w1w")
 layout_mode = 0
-offset_left = -263.0
+offset_left = -264.0
 offset_top = -135.0
-offset_right = 251.0
+offset_right = 250.0
 offset_bottom = 136.0
 
 [node name="Bornout" type="ColorRect" parent="Control" unique_id=1545285822]
@@ -174,8 +189,14 @@ offset_bottom = 116.0
 scale = Vector2(1.16, 1.180702)
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=780445922]
+position = Vector2(0, -4)
 blend_mode = 2
 shadow_enabled = true
 shadow_filter = 1
 shadow_filter_smooth = 5.1
 texture = SubResource("GradientTexture2D_8g28b")
+
+[node name="FootstepSound" type="AudioStreamPlayer2D" parent="." unique_id=1036483897]
+stream = ExtResource("18_8g28b")
+volume_db = -0.972
+autoplay = true

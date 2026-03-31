@@ -53,4 +53,5 @@ public partial class Teleporter : Area2D
 		// No C#, o GetTree() é um método
 		GetTree().ChangeSceneToFile(ProximaCena);
 	}
+	
 }
