@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://deex58j70bpax" path="res://Assets/TileSets/teste2.png" id="2_6wggt"]
 [ext_resource type="PackedScene" uid="uid://diki6nnen66e" path="res://Content/Scenes/Player.tscn" id="3_ck8vv"]
 [ext_resource type="PackedScene" uid="uid://73a1dki11dht" path="res://Assets/boneca/blink_enemy.tscn" id="5_ck8vv"]
-[ext_resource type="Script" uid="uid://bi3bl263gfrn0" path="res://Content/Scenes/Area2d.cs" id="6_yairq"]
+[ext_resource type="Script" uid="uid://bi3bl263gfrn0" path="res://Content/Scenes/Teleporter.cs" id="6_yairq"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_yairq"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -1249,9 +1249,10 @@ player = NodePath("../player")
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1516959810]
 color = Color(0.029452106, 0.02426936, 0.021892745, 1)
 
-[node name="Area2d" type="Area2D" parent="." unique_id=1162099256]
+[node name="Area2D" type="Area2D" parent="." unique_id=1162099256]
 script = ExtResource("6_yairq")
+ProximaCena = "uid://qg50kjd5auy2"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2d" unique_id=1024375593]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1024375593]
 position = Vector2(-240.5, 16)
 shape = SubResource("RectangleShape2D_31p03")

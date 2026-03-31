@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Teleporter : Area2d
+public partial class Teleporter : Area2D
 {
 	// O [Export] faz o mesmo que o @export do GDScript
 	[Export(PropertyHint.File, "*.tscn")]
