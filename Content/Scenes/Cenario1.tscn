@@ -1239,7 +1239,7 @@ tile_map_data = PackedByteArray("AAD8//f/AAAQAAgAAAD8//j/AAAQAAkAAAD9//f/AAARAAg
 tile_set = SubResource("TileSet_pgfbv")
 
 [node name="player" parent="." unique_id=948795192 groups=["player"] instance=ExtResource("3_ck8vv")]
-position = Vector2(36, 51)
+position = Vector2(-211, 12)
 
 [node name="BlinkEnemy" parent="." unique_id=1373699795 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
 position = Vector2(94.99997, 75)
