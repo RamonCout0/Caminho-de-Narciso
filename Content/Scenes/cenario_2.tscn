@@ -1,10 +1,11 @@
-[gd_scene format=4 uid="uid://cou7ll1y1js4v"]
+[gd_scene format=4 uid="uid://qg50kjd5auy2"]
 
 [ext_resource type="Texture2D" uid="uid://cdw5hku6r5pv" path="res://Assets/TileSets/TileSetH1.png" id="1_1gwcf"]
 [ext_resource type="Texture2D" uid="uid://deex58j70bpax" path="res://Assets/TileSets/teste2.png" id="1_laxwj"]
 [ext_resource type="PackedScene" uid="uid://diki6nnen66e" path="res://Content/Scenes/Player.tscn" id="1_lq0s5"]
 [ext_resource type="Texture2D" uid="uid://0hoq4ixqfel8" path="res://Assets/TileSets/piso1(teste).png" id="2_hogvq"]
 [ext_resource type="Script" uid="uid://bi3bl263gfrn0" path="res://Content/Scenes/Teleporter.cs" id="4_v2e5d"]
+[ext_resource type="PackedScene" uid="uid://ditsyw1v4pw8v" path="res://Assets/ele_sabe/inimigo.tscn" id="6_c57up"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_efmvp"]
 texture = ExtResource("1_laxwj")
@@ -1081,3 +1082,5 @@ ProximaCena = "uid://dqkwf3bjt41es"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=400044470]
 position = Vector2(430.75, 0)
 shape = SubResource("RectangleShape2D_8dwhj")
+
+[node name="Inimigo" parent="." unique_id=1768445301 instance=ExtResource("6_c57up")]
