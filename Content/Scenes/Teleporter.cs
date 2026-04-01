@@ -3,42 +3,21 @@ using System;
 
 public partial class Teleporter : Area2D
 {
-	// O [Export] faz o mesmo que o @export do GDScript
 	[Export(PropertyHint.File, "*.tscn")]
 	public string ProximaCena;
 
-	private bool _playerNaArea = false;
-
 	public override void _Ready()
 	{
-		// Conectar os sinais via código (opcional, se não conectou pelo Editor)
+		// Conectamos apenas o sinal de entrada
 		BodyEntered += OnBodyEntered;
-		BodyExited += OnBodyExited;
-	}
-
-	public override void _Process(double delta)
-	{
-		// Verifica se o jogador está na área e pressionou a tecla
-		if (_playerNaArea && Input.IsActionJustPressed("interagir"))
-		{
-			FazerTeleporte();
-		}
 	}
 
 	private void OnBodyEntered(Node2D body)
 	{
+		// Assim que algo entra, verificamos se é o player
 		if (body.IsInGroup("player"))
 		{
-			_playerNaArea = true;
-			GD.Print("Pressione 'E' para entrar");
-		}
-	}
-
-	private void OnBodyExited(Node2D body)
-	{
-		if (body.IsInGroup("player"))
-		{
-			_playerNaArea = false;
+			FazerTeleporte();
 		}
 	}
 
@@ -46,12 +25,11 @@ public partial class Teleporter : Area2D
 	{
 		if (string.IsNullOrEmpty(ProximaCena))
 		{
-			GD.Print("Erro: Nenhuma cena selecionada!");
+			GD.PrintErr("Erro: Nenhuma cena selecionada para o teleporte!");
 			return;
 		}
 
-		// No C#, o GetTree() é um método
+		// Muda a cena instantaneamente
 		GetTree().ChangeSceneToFile(ProximaCena);
 	}
-	
 }

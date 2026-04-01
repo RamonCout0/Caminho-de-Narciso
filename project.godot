@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Transition="*uid://wds3e8d6fc73"
 GameManager="*uid://bjlg3rxjlscw3"
 
 [display]

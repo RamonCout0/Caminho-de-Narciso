@@ -103,7 +103,7 @@ shape = SubResource("CircleShape2D_p32jl")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1263341852]
 stream = ExtResource("3_r6drv")
-volume_db = -14.58
+volume_db = -80.0
 autoplay = true
 
 [node name="SomPassos" type="AudioStreamPlayer2D" parent="." unique_id=615443405]
