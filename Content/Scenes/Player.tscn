@@ -4,8 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cn7om8c83rjun" path="res://Assets/PlayerSprites/idle1.png" id="2_wu8k3"]
 [ext_resource type="Shader" uid="uid://b8sd4byjatcq7" path="res://shaders/pisca.gdshader" id="2_x2w1w"]
 [ext_resource type="Texture2D" uid="uid://uayqxj4j64x" path="res://Assets/Objetos_testes/lanterna1.png" id="3_aw4rw"]
-[ext_resource type="Resource" uid="uid://cebioetta6y0o" path="res://UI/Inventory/PlayerInv.tres" id="3_ejvqj"]
-[ext_resource type="Shader" uid="uid://blss8dkr4ode6" path="res://shaders/shadow.gdshader" id="3_ucgb6"]
+[ext_resource type="Shader" path="res://shaders/shadow.gdshader" id="3_ucgb6"]
 [ext_resource type="Texture2D" uid="uid://lbou0xrrrhsn" path="res://Assets/PlayerSprites/idle2.png" id="4_oeyts"]
 [ext_resource type="PackedScene" uid="uid://dnpy7ytcxdmas" path="res://UI/Inventory/inv_ui.tscn" id="5_4sh2a"]
 [ext_resource type="Texture2D" uid="uid://jan882jvs8dc" path="res://Assets/PlayerSprites/idle_left1.png" id="5_ud5ux"]
@@ -20,7 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://jkvssojevshm" path="res://Assets/PlayerSprites/running_up2.png" id="14_7pmwm"]
 [ext_resource type="Shader" uid="uid://dus1runls0fg4" path="res://shaders/Burnout.gdshader" id="16_ud5ux"]
 [ext_resource type="AudioStream" uid="uid://giqac7ke0jqk" path="res://efeitos_sonoros/walking_on_floor1.mp3" id="18_8g28b"]
-[ext_resource type="Script" uid="uid://cd6ej1iaxevui" path="res://Content/Scenes/LanternaPivot.cs" id="20_vslsq"]
+[ext_resource type="Script" uid="uid://d2tyq0sa0t0sw" path="res://Content/Scenes/LanternaLuz.cs" id="21_luz"]
+[ext_resource type="AudioStream" uid="uid://b5ng5jiynb6uu" path="res://efeitos_sonoros/lanterna.mp3" id="22_5jb6x"]
 [ext_resource type="Texture2D" uid="uid://c5fcbeboeq04q" path="res://Assets/Textures/lanternadireita.png" id="22_vslsq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aw4rw"]
@@ -121,35 +121,8 @@ shader_parameter/chromatic_split = 0.03
 shader_parameter/geometry_warp = 0.06
 shader_parameter/warp_speed = 1.0
 
-[sub_resource type="CSharpScript" id="CSharpScript_vslsq"]
-script/source = "using Godot;
-using System;
-
-public partial class LanternaLuz : PointLight2D
-{
-	public override void _Ready()
-	{
-		// No Godot 4 C#, usamos TextureRotation para radianos
-		// Se der erro de novo, tente o código abaixo que é o \"plano B\"
-		try 
-		{
-			this.TextureRotation = Mathf.DegToRad(90);
-		}
-		catch
-		{
-			// Plano B: Caso sua versão use um nome diferente
-			Set(\"texture_rotation\", Mathf.DegToRad(90));
-		}
-
-		// Zera os offsets para a luz não \"fugir\" do mouse
-		Offset = new Vector2(100, 0); // Ajuste esse 100 até a luz sair da lanterna
-	}
-}S
-"
-
 [node name="Player" type="CharacterBody2D" unique_id=1555702128]
 script = ExtResource("2_ejvqj")
-inv = ExtResource("3_ejvqj")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1721940955]
 material = SubResource("ShaderMaterial_aw4rw")
@@ -213,23 +186,23 @@ stream = ExtResource("18_8g28b")
 volume_db = -0.972
 autoplay = true
 
-[node name="LanternaPivot" type="Node2D" parent="." unique_id=271235166]
-script = ExtResource("20_vslsq")
-
-[node name="Lanterna" type="Sprite2D" parent="LanternaPivot" unique_id=923944907]
-texture_filter = 1
-position = Vector2(5.2819724, 17.435291)
-scale = Vector2(0.39201722, 0.40344766)
-texture = ExtResource("3_aw4rw")
-offset = Vector2(-1.9231129, -0.37862968)
-
-[node name="PointLight2D" type="PointLight2D" parent="LanternaPivot/Lanterna" unique_id=780445922]
-position = Vector2(1.8316231, 1.3997059)
-scale = Vector2(0.2717382, 0.22279878)
+[node name="Lanterna" type="PointLight2D" parent="." unique_id=780445922]
+position = Vector2(1, 8)
+scale = Vector2(0.11972111, 0.18117979)
 blend_mode = 2
 shadow_enabled = true
 shadow_filter = 1
 shadow_filter_smooth = 5.1
 texture = ExtResource("22_vslsq")
 offset = Vector2(895.56, 0)
-script = SubResource("CSharpScript_vslsq")
+script = ExtResource("21_luz")
+
+[node name="sprite_lanterna" type="Sprite2D" parent="Lanterna" unique_id=923944907]
+texture_filter = 1
+position = Vector2(-8.352747, -5.5193787)
+scale = Vector2(3.3549736, 2.0378668)
+texture = ExtResource("3_aw4rw")
+offset = Vector2(-1.9231129, -0.37862968)
+
+[node name="SomLanterna" type="AudioStreamPlayer2D" parent="." unique_id=1210594947]
+stream = ExtResource("22_5jb6x")

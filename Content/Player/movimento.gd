@@ -2,7 +2,9 @@ extends CharacterBody2D
 
 # --- NÓS E RECURSOS ---
 @onready var animated_sprite = $AnimatedSprite2D
-@onready var footstep_sound = $FootstepSound # Adicionado o nó de som
+@onready var footstep_sound = $FootstepSound
+@onready var lanterna = $Lanterna # <-- NOVA LINHA: Pegando a lanterna
+@onready var som_lanterna = $SomLanterna
 
 # --- CONFIGURAÇÕES ---
 @export var max_speed: int = 150
@@ -11,6 +13,11 @@ extends CharacterBody2D
 @export var inv: Inv
 
 var current_direction = "down"
+
+func _ready():
+	# <-- NOVA LINHA: Garante que a lanterna comece ligada
+	if lanterna:
+		lanterna.enabled = true
 
 func _physics_process(delta):
 	var input_direction = Input.get_vector("mv_left", "mv_right", "mv_up", "mv_down")
@@ -30,8 +37,18 @@ func _physics_process(delta):
 	move_and_slide()
 	handle_animations(input_direction)
 
+# --- NOVA FUNÇÃO: _process RODA A CADA FRAME PARA O MOUSE E BOTÕES ---
+func _process(delta):
+	if lanterna:
+		# 1. Faz APENAS a lanterna girar para o mouse
+		lanterna.look_at(get_global_mouse_position())
+		
+		# 2. O botão de Ligar/Desligar
+		if Input.is_action_just_pressed("toggle_lanterna"):
+			lanterna.enabled = !lanterna.enabled
+			som_lanterna.play()
+
 func handle_animations(input_direction: Vector2):
-	# ... (Sua lógica de animação continua igual)
 	if input_direction.length() > 0:
 		if abs(input_direction.x) > abs(input_direction.y):
 			current_direction = "side"
