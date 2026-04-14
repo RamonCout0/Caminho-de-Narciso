@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://ditsyw1v4pw8v"]
+
+[ext_resource type="Texture2D" uid="uid://ck3ghiga6relt" path="res://Assets/ele_sabe/spr_Takerumi_move.png" id="1_puv37"]
+[ext_resource type="Script" uid="uid://botshs61fi5d" path="res://Assets/ele_sabe/Inimigo.cs" id="1_qmxq7"]
+[ext_resource type="Shader" uid="uid://blss8dkr4ode6" path="res://shaders/shadow.gdshader" id="3_8v668"]
+[ext_resource type="AudioStream" uid="uid://cosb8pbmim8jp" path="res://efeitos_sonoros/gritos.mp3" id="3_r6drv"]
+[ext_resource type="AudioStream" uid="uid://b5a74sg5mnsog" path="res://efeitos_sonoros/running_in_a_hall.mp3" id="5_8v668"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75psa"]
+atlas = ExtResource("1_puv37")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmxq7"]
+atlas = ExtResource("1_puv37")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6drv"]
+atlas = ExtResource("1_puv37")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8v668"]
+atlas = ExtResource("1_puv37")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykal2"]
+atlas = ExtResource("1_puv37")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h34f4"]
+atlas = ExtResource("1_puv37")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dcyph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75psa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmxq7")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6drv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8v668")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykal2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h34f4")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykal2"]
+shader = ExtResource("3_8v668")
+shader_parameter/raio = 0.5
+shader_parameter/suavidade = 0.1
+shader_parameter/opacidade_maxima = 0.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kowvn"]
+size = Vector2(11, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p32jl"]
+radius = 270.22397
+
+[node name="Inimigo" type="CharacterBody2D" unique_id=1768445301]
+script = ExtResource("1_qmxq7")
+Velocidade = 120.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1506422653]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_dcyph")
+animation = &"run"
+frame_progress = 0.8007721
+
+[node name="ColorRect" type="ColorRect" parent="AnimatedSprite2D" unique_id=1086849815]
+material = SubResource("ShaderMaterial_ykal2")
+offset_left = -4.0
+offset_top = 12.0
+offset_right = 3.0
+offset_bottom = 18.0
+color = Color(0.10747976, 0.10747973, 0.10747973, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1818203080]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_kowvn")
+
+[node name="AreaDeteccao" type="Area2D" parent="." unique_id=130324633]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDeteccao" unique_id=1176134521]
+visible = false
+shape = SubResource("CircleShape2D_p32jl")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1263341852]
+stream = ExtResource("3_r6drv")
+volume_db = -80.0
+autoplay = true
+
+[node name="SomPassos" type="AudioStreamPlayer2D" parent="." unique_id=615443405]
+stream = ExtResource("5_8v668")
+volume_db = 3.888
+pitch_scale = 0.63

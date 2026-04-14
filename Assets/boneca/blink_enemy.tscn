@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://pyoq7vfcv3fm" path="res://Assets/boneca/blink_enemy.gd" id="1_jluog"]
 [ext_resource type="Texture2D" uid="uid://c251obxsmvtkx" path="res://Assets/boneca/boneca.png" id="1_xm0ts"]
-[ext_resource type="AudioStream" uid="uid://cx11i78umsa2c" path="res://Assets/boneca/efeitos_sonoros/coarse_laughing.mp3" id="2_jluog"]
+[ext_resource type="AudioStream" uid="uid://cx11i78umsa2c" path="res://efeitos_sonoros/coarse_laughing.mp3" id="2_jluog"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlc1u"]
 size = Vector2(25, 28.5)
