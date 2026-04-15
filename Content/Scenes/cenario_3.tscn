@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://bi3bl263gfrn0" path="res://Content/Scenes/Teleporter.cs" id="6_y3y1y"]
 [ext_resource type="Script" uid="uid://brc8q3mgm1v6r" path="res://Content/Scenes/luz_caindo.gd" id="7_hgysn"]
 [ext_resource type="AudioStream" uid="uid://3bb8qeaxyed5" path="res://efeitos_sonoros/dark_atmosphere.mp3" id="8_bjn1n"]
-[ext_resource type="Script" uid="uid://g4oqlwynvmnc" path="res://Content/Scenes/dialogo1.gd" id="9_gssvv"]
+[ext_resource type="Script" path="res://Content/Scenes/dialogo1.gd" id="9_gssvv"]
 [ext_resource type="AudioStream" uid="uid://cnyipvuuqtd6l" path="res://efeitos_sonoros/pc_keyboard.mp3" id="10_0aybq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gssvv"]

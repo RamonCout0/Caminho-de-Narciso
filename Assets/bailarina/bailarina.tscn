@@ -74,7 +74,7 @@ animations = [{
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uy3ky"]
 shader = ExtResource("4_uy3ky")
 shader_parameter/distortion_strength = 0.00400000019
-shader_parameter/chroma_offset = 0.0010000000475
+shader_parameter/chroma_offset = 0.00800000038
 shader_parameter/speed = 0.750000035625
 shader_parameter/grain_amount = 0.08
 

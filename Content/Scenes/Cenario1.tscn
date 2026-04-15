@@ -1384,7 +1384,6 @@ shape = SubResource("RectangleShape2D_31p03")
 [node name="Luz caindo" type="Node2D" parent="Eventos" unique_id=563581409]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Eventos/Luz caindo" unique_id=1516959810]
-visible = false
 color = Color(0, 0.02456609, 0.08510352, 1)
 
 [node name="Area2D" type="Area2D" parent="Eventos/Luz caindo" unique_id=1659199557]

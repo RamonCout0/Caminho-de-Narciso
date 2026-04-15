@@ -48,7 +48,7 @@ func _physics_process(delta):
 	handle_animations(input_direction)
 
 # --- NOVA FUNÇÃO: _process RODA A CADA FRAME PARA O MOUSE E BOTÕES ---
-func _process(delta):
+func _process(_delta):
 	if lanterna:
 		# 1. Faz APENAS a lanterna girar para o mouse
 		lanterna.look_at(get_global_mouse_position())
