@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bi3bl263gfrn0" path="res://Content/Scenes/Teleporter.cs" id="6_y3y1y"]
 [ext_resource type="Script" uid="uid://brc8q3mgm1v6r" path="res://Content/Scenes/luz_caindo.gd" id="7_hgysn"]
 [ext_resource type="AudioStream" uid="uid://3bb8qeaxyed5" path="res://efeitos_sonoros/dark_atmosphere.mp3" id="8_bjn1n"]
-[ext_resource type="Script" uid="uid://cyqt5nldme8ij" path="res://Content/Scenes/dialogo.gd" id="9_gssvv"]
+[ext_resource type="Script" uid="uid://g4oqlwynvmnc" path="res://Content/Scenes/dialogo1.gd" id="9_gssvv"]
 [ext_resource type="AudioStream" uid="uid://cnyipvuuqtd6l" path="res://efeitos_sonoros/pc_keyboard.mp3" id="10_0aybq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gssvv"]
@@ -1130,6 +1130,7 @@ shape = SubResource("RectangleShape2D_gssvv")
 stream = ExtResource("8_bjn1n")
 
 [node name="Dialogos" type="Node2D" parent="Eventos/Luz caindo" unique_id=2001461627]
+visible = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Eventos/Luz caindo/Dialogos" unique_id=295433875]
 
@@ -1176,9 +1177,6 @@ autowrap_mode = 3
 
 [node name="Dialogo" type="Area2D" parent="Eventos/Luz caindo/Dialogos" unique_id=1323844826]
 script = ExtResource("9_gssvv")
-lista_sequencial = Array[String]([" O que foi isso?!", "Devo achar uma lanterna."])
-tom_minimo = 0.4
-tom_maximo = 1.9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Eventos/Luz caindo/Dialogos/Dialogo" unique_id=1525248297]
 position = Vector2(72, -4)
