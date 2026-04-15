@@ -8,8 +8,11 @@ extends CharacterBody2D
 # ⭐ COMPORTAMENTO
 @export var detection_range     : float = 100.0  # Quando começa a perseguir
 @export var attack_range        : float = 50.0   # Quando ataca
-
 @export var move_speed          : float = 28.0   # Velocidade de perseguição
+
+# ⭐ LANTERNA (Novas configurações)
+@export var flashlight_cone_angle : float = 30.0 # Abertura do cone de luz (graus)
+@export var flashlight_max_dist   : float = 250.0 # Distância máxima que a luz cega o inimigo
 
 # ⭐ TELEPORTE E PISCADA
 @export var teleport_delay      : float = 19.0   # Tempo MÍNIMO entre teleportes
@@ -90,7 +93,13 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 
-	# ⭐ Jogador está em range - começa a perseguir
+	# ⭐ SISTEMA DE LANTERNA (Congela o inimigo)
+	if esta_sendo_iluminado():
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return # Para de processar a perseguição neste frame
+
+	# ⭐ Jogador está em range e NÃO está iluminado - começa a perseguir
 	_check_blink(_elapsed)
 
 	# Se está no ataque → não persegue, só teleporta
@@ -102,6 +111,34 @@ func _physics_process(delta: float) -> void:
 		var dir = (player.global_position - global_position).normalized()
 		velocity = dir * move_speed
 		move_and_slide()
+
+
+# --- NOVA FUNÇÃO: DETECÇÃO DE LUZ INDEPENDENTE ---
+func esta_sendo_iluminado() -> bool:
+	# 1. Pega a lanterna pelo grupo, não importa onde ela esteja na cena
+	var lanterna = get_tree().get_first_node_in_group("lanterna_player")
+	
+	# Se não existir lanterna na cena ou ela estiver desligada, ignora
+	if not lanterna or not lanterna.enabled:
+		return false
+		
+	# 2. Verifica a distância (medindo direto da lanterna para o inimigo)
+	var dist = global_position.distance_to(lanterna.global_position)
+	if dist > flashlight_max_dist:
+		return false
+		
+	# 3. Verifica o ângulo do cone
+	var direcao_lanterna = Vector2.RIGHT.rotated(lanterna.global_rotation)
+	var direcao_para_inimigo = (global_position - lanterna.global_position).normalized()
+	
+	var angulo_entre = rad_to_deg(direcao_lanterna.angle_to(direcao_para_inimigo))
+	
+	# Se o ângulo for menor que o cone, ele está na luz!
+	if abs(angulo_entre) <= flashlight_cone_angle:
+		return true
+		
+	return false
+# -------------------------------------------------
 
 
 func _check_blink(t: float) -> void:

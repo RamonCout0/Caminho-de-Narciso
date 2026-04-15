@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://woeqq30njhnn"]
+
+[ext_resource type="Script" uid="uid://iuy0jgs6xdue" path="res://Assets/bailarina/bailarina.gd" id="1_xx10k"]
+[ext_resource type="Texture2D" uid="uid://rhqda7q7xqje" path="res://Assets/bailarina/bailarina-Sheet.png" id="2_tmvk5"]
+[ext_resource type="AudioStream" uid="uid://c5udlqqnmvj85" path="res://Assets/bailarina/La Esmeralda - Ballet Variation - Inspired by The Hunchback of Notre Dame.mp3" id="3_uy3ky"]
+[ext_resource type="Texture2D" uid="uid://c5fcbeboeq04q" path="res://Assets/Textures/lanternadireita.png" id="4_tmvk5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xx10k"]
+size = Vector2(20, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdbn7"]
+atlas = ExtResource("2_tmvk5")
+region = Rect2(0, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u85b2"]
+atlas = ExtResource("2_tmvk5")
+region = Rect2(64, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drs0m"]
+atlas = ExtResource("2_tmvk5")
+region = Rect2(128, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7jdh"]
+atlas = ExtResource("2_tmvk5")
+region = Rect2(192, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oawsi"]
+atlas = ExtResource("2_tmvk5")
+region = Rect2(256, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlq1q"]
+atlas = ExtResource("2_tmvk5")
+region = Rect2(320, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qrqqy"]
+atlas = ExtResource("2_tmvk5")
+region = Rect2(0, 0, 64, 76)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fjcke"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fdbn7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u85b2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drs0m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7jdh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oawsi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wlq1q")
+}],
+"loop": true,
+"name": &"dance",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qrqqy")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Bailarina" type="CharacterBody2D" unique_id=1742570596]
+script = ExtResource("1_xx10k")
+move_speed = 5.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1088172336]
+position = Vector2(0, 5.5)
+shape = SubResource("RectangleShape2D_xx10k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=123820043]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_fjcke")
+animation = &"dance"
+frame_progress = 0.30754796
+
+[node name="MusicaCaixinha" type="AudioStreamPlayer2D" parent="." unique_id=1891699505]
+stream = ExtResource("3_uy3ky")
+
+[node name="LuzPalco" type="PointLight2D" parent="." unique_id=1686766971]
+position = Vector2(0.99999994, -2.000002)
+rotation = 1.5726954
+scale = Vector2(0.10480796, 0.17001566)
+texture = ExtResource("4_tmvk5")
