@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c5udlqqnmvj85"
+path="res://.godot/imported/La Esmeralda - Ballet Variation - Inspired by The Hunchback of Notre Dame.mp3-3ea67c7fd9c9cb2e9ec7ec81a38bd67f.mp3str"
+
+[deps]
+
+source_file="res://Assets/bailarina/La Esmeralda - Ballet Variation - Inspired by The Hunchback of Notre Dame.mp3"
+dest_files=["res://.godot/imported/La Esmeralda - Ballet Variation - Inspired by The Hunchback of Notre Dame.mp3-3ea67c7fd9c9cb2e9ec7ec81a38bd67f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

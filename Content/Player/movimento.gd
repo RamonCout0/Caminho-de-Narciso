@@ -3,14 +3,13 @@ extends CharacterBody2D
 # --- NÓS E RECURSOS ---
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var footstep_sound = $FootstepSound
-@onready var lanterna = $Lanterna # <-- NOVA LINHA: Pegando a lanterna
+@onready var lanterna = $Lanterna
 @onready var som_lanterna = $SomLanterna
 
 # --- CONFIGURAÇÕES ---
 @export var max_speed: int = 150
 @export var acceleration: int = 1500
 @export var friction: int = 1200
-@export var inv: Inv
 
 var current_direction = "down"
 

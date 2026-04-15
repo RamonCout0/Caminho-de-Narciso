@@ -1263,10 +1263,12 @@ ProximaCena = "uid://b807niflfoa01"
 position = Vector2(260, 8)
 shape = SubResource("RectangleShape2D_31p03")
 
+[node name="BlinkEnemy2" parent="." unique_id=160689875 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
+position = Vector2(42.000008, -47)
+scale = Vector2(0.24747077, 0.3302814)
+player = NodePath("../player")
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1016081780]
 stream = ExtResource("7_31p03")
 volume_db = -16.421
 autoplay = true
-
-[node name="BlinkEnemy2" parent="." unique_id=1207961800 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
-player = NodePath("../player")

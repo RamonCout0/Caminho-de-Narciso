@@ -10,6 +10,16 @@ size = Vector2(25, 28.5)
 [node name="BlinkEnemy" type="CharacterBody2D" unique_id=1373699795]
 scale = Vector2(0.3274659, 0.2770476)
 script = ExtResource("1_jluog")
+detection_range = null
+attack_range = null
+move_speed = null
+teleport_delay = null
+teleport_jump = null
+teleport_jump_grow = null
+shader_blink_interval = null
+shader_blink_count = null
+shader_blink_speed = null
+shader_close_ratio = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1418965763]
 texture_filter = 1

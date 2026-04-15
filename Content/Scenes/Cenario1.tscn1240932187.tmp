@@ -1238,12 +1238,6 @@ tile_set = SubResource("TileSet_pgfbv")
 [node name="player" parent="." unique_id=948795192 instance=ExtResource("3_ck8vv")]
 position = Vector2(-63, 1)
 
-[node name="BlinkEnemy" parent="." unique_id=1373699795 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
-visible = false
-position = Vector2(162, 8)
-scale = Vector2(0.24747077, 0.3302814)
-player = NodePath("../player")
-
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1516959810]
 color = Color(0, 0, 0, 1)
 
@@ -1268,5 +1262,14 @@ stream = ExtResource("7_31p03")
 volume_db = -16.421
 autoplay = true
 
-[node name="BlinkEnemy2" parent="." unique_id=1207961800 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
-player = NodePath("../player")
+[node name="BlinkEnemy" parent="." unique_id=1373699795 instance=ExtResource("5_ck8vv")]
+detection_range = 100.0
+attack_range = 50.0
+move_speed = 28.0
+teleport_delay = 19.0
+teleport_jump = 120.0
+teleport_jump_grow = 18.0
+shader_blink_interval = 4.0
+shader_blink_count = 2.0
+shader_blink_speed = 0.18
+shader_close_ratio = 0.35
