@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://0hoq4ixqfel8" path="res://Assets/TileSets/piso1(teste).png" id="3_nfgyx"]
 [ext_resource type="PackedScene" uid="uid://diki6nnen66e" path="res://Content/Scenes/Player.tscn" id="4_fodta"]
 [ext_resource type="AudioStream" uid="uid://d2cv3eju03y86" path="res://efeitos_sonoros/horror_zone1.mp3" id="5_nfgyx"]
+[ext_resource type="PackedScene" uid="uid://woeqq30njhnn" path="res://Assets/bailarina/bailarina.tscn" id="6_0aybq"]
 [ext_resource type="Script" uid="uid://bi3bl263gfrn0" path="res://Content/Scenes/Teleporter.cs" id="6_y3y1y"]
 [ext_resource type="Script" uid="uid://brc8q3mgm1v6r" path="res://Content/Scenes/luz_caindo.gd" id="7_hgysn"]
 [ext_resource type="AudioStream" uid="uid://3bb8qeaxyed5" path="res://efeitos_sonoros/dark_atmosphere.mp3" id="8_bjn1n"]
@@ -1085,15 +1086,19 @@ tile_set = SubResource("TileSet_0aybq")
 texture_filter = 1
 tile_set = SubResource("TileSet_hgysn")
 
-[node name="Player & Inimigos" type="Node2D" parent="." unique_id=2141409037]
+[node name="Player & Inimigos" type="Node2D" parent="." unique_id=2141409037 groups=["player"]]
 
-[node name="Player" parent="Player & Inimigos" unique_id=1555702128 groups=["player"] instance=ExtResource("4_fodta")]
+[node name="Player" parent="Player & Inimigos" unique_id=1555702128 instance=ExtResource("4_fodta")]
 position = Vector2(-166, -2)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player & Inimigos/Player" unique_id=843631881]
 stream = ExtResource("5_nfgyx")
 volume_db = -16.421
 autoplay = true
+
+[node name="Bailarina" parent="Player & Inimigos" unique_id=1742570596 node_paths=PackedStringArray("player") instance=ExtResource("6_0aybq")]
+position = Vector2(367, -115)
+player = NodePath("../Player")
 
 [node name="Scenes" type="Node2D" parent="." unique_id=79252162]
 

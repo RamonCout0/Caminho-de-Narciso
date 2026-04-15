@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://rhqda7q7xqje" path="res://Assets/bailarina/bailarina-Sheet.png" id="2_tmvk5"]
 [ext_resource type="AudioStream" uid="uid://c5udlqqnmvj85" path="res://Assets/bailarina/La Esmeralda - Ballet Variation - Inspired by The Hunchback of Notre Dame.mp3" id="3_uy3ky"]
 [ext_resource type="Texture2D" uid="uid://c5fcbeboeq04q" path="res://Assets/Textures/lanternadireita.png" id="4_tmvk5"]
+[ext_resource type="Shader" uid="uid://c0etyhlvmsso0" path="res://shaders/distorcer.gdshader" id="4_uy3ky"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xx10k"]
 size = Vector2(20, 31)
@@ -70,9 +71,20 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uy3ky"]
+shader = ExtResource("4_uy3ky")
+shader_parameter/distortion_strength = 0.00400000019
+shader_parameter/chroma_offset = 0.0010000000475
+shader_parameter/speed = 0.750000035625
+shader_parameter/grain_amount = 0.08
+
 [node name="Bailarina" type="CharacterBody2D" unique_id=1742570596]
 script = ExtResource("1_xx10k")
-move_speed = 5.0
+move_speed = 9.0
+tempo_de_reacao = 0.8
+tempo_max_idle = 10.0
+tempo_min_dance = 17.0
+tempo_max_dance = 30.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1088172336]
 position = Vector2(0, 5.5)
@@ -91,4 +103,11 @@ stream = ExtResource("3_uy3ky")
 position = Vector2(0.99999994, -2.000002)
 rotation = 1.5726954
 scale = Vector2(0.10480796, 0.17001566)
+texture = ExtResource("4_tmvk5")
+
+[node name="DistorcaoPalco" type="Sprite2D" parent="." unique_id=1983900034]
+material = SubResource("ShaderMaterial_uy3ky")
+position = Vector2(0, -2)
+rotation = 1.5725417
+scale = Vector2(0.105, 0.17)
 texture = ExtResource("4_tmvk5")

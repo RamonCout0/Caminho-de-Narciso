@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var anim = $AnimatedSprite2D
 @onready var musica = $MusicaCaixinha
 @onready var luz_palco = $LuzPalco
+@onready var lente_distorcao = $DistorcaoPalco
 
 # --- CONFIGURAÇÕES ---
 @export var player : CharacterBody2D
@@ -26,6 +27,7 @@ var has_attacked : bool = false
 
 func _ready():
 	luz_palco.enabled = false
+	lente_distorcao.visible = false
 	anim.play("idle")
 	state_timer = randf_range(tempo_min_idle, tempo_max_idle)
 
@@ -67,11 +69,13 @@ func _trocar_estado():
 	if is_dancing:
 		anim.play("dance")
 		luz_palco.enabled = true
+		lente_distorcao.visible = true
 		musica.play()
 		state_timer = randf_range(tempo_min_dance, tempo_max_dance)
 	else:
 		anim.play("idle")
 		luz_palco.enabled = false
+		lente_distorcao.visible = false
 		musica.stop()
 		state_timer = randf_range(tempo_min_idle, tempo_max_idle)
 

@@ -1338,7 +1338,7 @@ tile_set = SubResource("TileSet_pgfbv")
 position = Vector2(162, 8)
 scale = Vector2(0.24747077, 0.3302814)
 
-[node name="player" parent="Player & Inimigos" unique_id=948795192 groups=["player"] instance=ExtResource("3_ck8vv")]
+[node name="player" parent="Player & Inimigos" unique_id=948795192 instance=ExtResource("3_ck8vv")]
 position = Vector2(-909.19824, -21.194048)
 scale = Vector2(4.040881, 3.0277212)
 
