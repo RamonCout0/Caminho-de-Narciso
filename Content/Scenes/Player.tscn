@@ -214,6 +214,7 @@ volume_db = -0.972
 autoplay = true
 
 [node name="LanternaPivot" type="Node2D" parent="." unique_id=271235166]
+visible = false
 script = ExtResource("20_vslsq")
 
 [node name="Lanterna" type="Sprite2D" parent="LanternaPivot" unique_id=923944907]
