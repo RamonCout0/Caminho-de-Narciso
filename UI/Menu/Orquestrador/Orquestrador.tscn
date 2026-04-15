@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://c4a2lewjtxsw0" path="res://UI/Menu/Orquestrador/Orquestrador.gd" id="1_8704d"]
 [ext_resource type="PackedScene" uid="uid://d0bt0u0caxe17" path="res://UI/Menu/Orquestrador/OPÇÕES/TelaDeOpcoes.tscn" id="2_i0w7f"]
 [ext_resource type="PackedScene" uid="uid://b60dhhb3mpbtx" path="res://UI/Menu/Orquestrador/Menu.tscn" id="3_icg7q"]
+[ext_resource type="Texture2D" uid="uid://brhgiy00f3sw2" path="res://Assets/Textures/menu.png" id="4_8evow"]
+[ext_resource type="AudioStream" uid="uid://c4c8q171uvr4f" path="res://musicas/The Forsaken Waltz - Joshua Kyan Aalampour (youtube).mp3" id="5_hlw1d"]
 
 [node name="Orquestrador" type="Node" unique_id=1120403584]
 script = ExtResource("1_8704d")
@@ -10,6 +12,14 @@ script = ExtResource("1_8704d")
 [node name="Opcoes" parent="." unique_id=388558273 instance=ExtResource("2_i0w7f")]
 
 [node name="MenuPrincipal" parent="." unique_id=329911743 instance=ExtResource("3_icg7q")]
+texture_filter = 1
+texture_repeat = 1
+texture = ExtResource("4_8evow")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1631560036]
+stream = ExtResource("5_hlw1d")
+autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="Opcoes/MarginContainer/PanelContainer/VBoxContainer/menu" to="." method="_on_menu_pressed"]
 [connection signal="pressed" from="MenuPrincipal/MarginContainer/PanelContainer/VBoxContainer/jogar" to="." method="_on_jogar_pressed"]

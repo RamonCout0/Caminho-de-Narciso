@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Teleporter : Area2D
 {
@@ -8,16 +7,15 @@ public partial class Teleporter : Area2D
 
 	public override void _Ready()
 	{
-		// Conectamos apenas o sinal de entrada
 		BodyEntered += OnBodyEntered;
 	}
 
 	private void OnBodyEntered(Node2D body)
 	{
-		// Assim que algo entra, verificamos se é o player
 		if (body.IsInGroup("player"))
 		{
-			FazerTeleporte();
+			// Usa CallDeferred para não quebrar o callback de física
+			CallDeferred(MethodName.FazerTeleporte);
 		}
 	}
 
@@ -29,7 +27,6 @@ public partial class Teleporter : Area2D
 			return;
 		}
 
-		// Muda a cena instantaneamente
 		GetTree().ChangeSceneToFile(ProximaCena);
 	}
 }
