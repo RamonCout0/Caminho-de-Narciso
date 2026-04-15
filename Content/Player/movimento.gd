@@ -19,18 +19,29 @@ func _ready():
 		lanterna.enabled = true
 
 func _physics_process(delta):
+	# --- TRAVA DE DIÁLOGO ---
+	# Procura a caixa de diálogo na cena atual
+	var ui_dialogo = get_tree().current_scene.find_child("DialogueBox", true, false)
+	
+	# Se a caixa existir e estiver visível, o player congela
+	if ui_dialogo and ui_dialogo.visible:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		footstep_sound.stop() # Garante que o som de passos pare
+		handle_animations(Vector2.ZERO) # Força a animação de Idle
+		return # Interrompe o restante do código de movimento
+	# ------------------------
+
 	var input_direction = Input.get_vector("mv_left", "mv_right", "mv_up", "mv_down")
 	var target_velocity = input_direction * max_speed
 	
 	if input_direction.length() > 0:
 		velocity = velocity.move_toward(target_velocity, acceleration * delta)
-		# Tocar som de passos se estiver se movendo e o som não estiver tocando
 		if !footstep_sound.playing:
 			footstep_sound.pitch_scale = randf_range(0.8, 1.2)
 			footstep_sound.play()
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
-		# Opcional: Parar o som imediatamente ao soltar a tecla
 		footstep_sound.stop()
 	
 	move_and_slide()
