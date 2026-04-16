@@ -6,7 +6,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_bj6gd"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -176.00003, -104, 0, 0, 0, 0, 211.00002, -108, 0, 0, 0, 0, 205.00002, -74, 0, 0, 0, 0, -175.00003, -79, 0, 0, 0, 0, -177.00003, -102)
+"points": PackedVector2Array(0, 0, 0, 0, 19, 14, 0, 0, 0, 0, 910, 17, 0, 0, 0, 0, 911, 369, 0, 0, 0, 0, 42, 360, 0, 0, 0, 0, 22, 18)
 }
 point_count = 5
 
@@ -72,7 +72,7 @@ animations = [{
 size = Vector2(41, 81.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ljbki"]
-radius = 622.03937
+radius = 325.0062
 
 [sub_resource type="Animation" id="Animation_sxkri"]
 length = 0.001
