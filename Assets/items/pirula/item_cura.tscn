@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cj6hhj3h1ly1k"]
+
+[ext_resource type="Texture2D" uid="uid://clskdknaj0dmv" path="res://Assets/items/pirula/pirula.png" id="1_533es"]
+[ext_resource type="Script" uid="uid://ghrlfiq6v36y" path="res://Assets/items/pirula/item_cura.gd" id="1_v0y4c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v0y4c"]
+radius = 90.65097
+
+[node name="ItemCura" type="Area2D" unique_id=2019573771]
+scale = Vector2(0.3090759, 0.30753204)
+script = ExtResource("1_v0y4c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1254526145]
+shape = SubResource("CircleShape2D_v0y4c")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=929560663]
+texture_filter = 1
+texture = ExtResource("1_533es")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

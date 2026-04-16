@@ -2,35 +2,35 @@
 
 [ext_resource type="Script" uid="uid://pyoq7vfcv3fm" path="res://Assets/boneca/blink_enemy.gd" id="1_jluog"]
 [ext_resource type="Texture2D" uid="uid://c251obxsmvtkx" path="res://Assets/boneca/boneca.png" id="1_xm0ts"]
-[ext_resource type="AudioStream" uid="uid://cx11i78umsa2c" path="res://efeitos_sonoros/coarse_laughing.mp3" id="2_jluog"]
+[ext_resource type="AudioStream" uid="uid://dvreysck4blh6" path="res://efeitos_sonoros/Japanese_drum2.mp3" id="3_3npvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlc1u"]
 size = Vector2(25, 28.5)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_3npvf"]
+radius = 57.854496
+
 [node name="BlinkEnemy" type="CharacterBody2D" unique_id=1373699795]
 scale = Vector2(0.3274659, 0.2770476)
 script = ExtResource("1_jluog")
-detection_range = null
-attack_range = null
-move_speed = null
-teleport_delay = null
-teleport_jump = null
-teleport_jump_grow = null
-shader_blink_interval = null
-shader_blink_count = null
-shader_blink_speed = null
-shader_close_ratio = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1418965763]
 texture_filter = 1
 texture = ExtResource("1_xm0ts")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1193348086]
-stream = ExtResource("2_jluog")
-volume_db = -20.411
+stream = ExtResource("3_3npvf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1378292293]
 position = Vector2(3, 1)
 shape = SubResource("RectangleShape2D_qlc1u")
 
 [node name="BlinkDetector" type="Timer" parent="." unique_id=734026068]
+
+[node name="CollisionShape2D2" type="Area2D" parent="." unique_id=570448720]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D2" unique_id=1883749048]
+shape = SubResource("CircleShape2D_3npvf")
+
+[connection signal="body_entered" from="CollisionShape2D2" to="." method="_on_collision_shape_2d_2_body_entered"]
+[connection signal="body_exited" from="CollisionShape2D2" to="." method="_on_collision_shape_2d_2_body_exited"]

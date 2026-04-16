@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://d2cv3eju03y86" path="res://efeitos_sonoros/horror_zone1.mp3" id="7_31p03"]
 [ext_resource type="Script" uid="uid://cyqt5nldme8ij" path="res://Content/Scenes/dialogo.gd" id="9_pgfbv"]
 [ext_resource type="AudioStream" uid="uid://cnyipvuuqtd6l" path="res://efeitos_sonoros/pc_keyboard.mp3" id="10_ljiqn"]
+[ext_resource type="PackedScene" uid="uid://cj6hhj3h1ly1k" path="res://Assets/items/pirula/item_cura.tscn" id="11_ubi1s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ljiqn"]
 
@@ -1343,20 +1344,28 @@ position = Vector2(-909.19824, -21.194048)
 scale = Vector2(4.040881, 3.0277212)
 
 [node name="BlinkEnemy" parent="Player & Inimigos" unique_id=1373699795 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
-visible = false
 scale = Vector2(0.99999994, 1)
 player = NodePath("../player")
-
-[node name="BlinkEnemy2" parent="Player & Inimigos" unique_id=160689875 node_paths=PackedStringArray("player") instance=ExtResource("5_ck8vv")]
-visible = false
-position = Vector2(-484.9057, -166.52467)
-scale = Vector2(0.99999994, 1)
-player = NodePath("../player")
+detection_range = 800.0
+attack_range = 30.0
+move_speed = 28.0
+teleport_delay = 19.0
+teleport_jump = 120.0
+teleport_jump_grow = 18.0
+shader_blink_interval = 4.0
+shader_blink_count = 2.0
+shader_blink_speed = 0.18
+shader_close_ratio = 0.35
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player & Inimigos" unique_id=1016081780]
 stream = ExtResource("7_31p03")
 volume_db = -16.421
 autoplay = true
+parameters/looping = true
+
+[node name="ItemCura" parent="Player & Inimigos" unique_id=2019573771 instance=ExtResource("11_ubi1s")]
+position = Vector2(-464.70132, 45.415817)
+scale = Vector2(1.2489389, 0.9311213)
 
 [node name="Scenes" type="Node2D" parent="." unique_id=159646278]
 position = Vector2(-261.75, 8.5)
@@ -1391,3 +1400,5 @@ color = Color(0, 0.02456609, 0.08510352, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Eventos/Luz caindo/Area2D" unique_id=1245108496]
 position = Vector2(85, -10)
 shape = SubResource("RectangleShape2D_o4ict")
+
+[connection signal="body_entered" from="Player & Inimigos/ItemCura" to="Player & Inimigos/player" method="_on_item_cura_body_entered"]
