@@ -39,6 +39,7 @@ project/assembly_name="narciso"
 [global_group]
 
 player=""
+lanterna_player=""
 
 [input]
 

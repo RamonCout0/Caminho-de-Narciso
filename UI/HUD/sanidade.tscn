@@ -1,0 +1,183 @@
+[gd_scene format=3 uid="uid://c1y3qxgtsxbf7"]
+
+[ext_resource type="Shader" uid="uid://dus1runls0fg4" path="res://shaders/Burnout.gdshader" id="1_u23ds"]
+[ext_resource type="Script" uid="uid://glp3ryuxc0dd" path="res://Content/Player/bornout.gd" id="2_m7xad"]
+[ext_resource type="Texture2D" uid="uid://bfaxuu8elacb5" path="res://UI/HUD/sanidade.png" id="3_m7xad"]
+[ext_resource type="AudioStream" uid="uid://cn8s0pnbkqqbl" path="res://efeitos_sonoros/heartbeats.mp3" id="4_5881v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8g28b"]
+shader = ExtResource("1_u23ds")
+shader_parameter/intensity = 0.0
+shader_parameter/pulse_speed = 4.0
+shader_parameter/pain_color = Color(0.4, 0, 0, 1)
+shader_parameter/vein_color = Color(0.1, 0, 0, 1)
+shader_parameter/vein_thickness = 0.5
+shader_parameter/chromatic_split = 0.03
+shader_parameter/geometry_warp = 0.06
+shader_parameter/warp_speed = 1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5881v"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3nal8"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qilox"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ifyl6"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywh02"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e71ll"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghd16"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68ajg"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7xad"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyoh4"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jycw"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1kbl"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyws5"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdghn"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7o4n3"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xb23x"]
+atlas = ExtResource("3_m7xad")
+region = Rect2(96, 96, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jyoh4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5881v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3nal8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qilox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ifyl6")
+}],
+"loop": true,
+"name": &"estagio0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ywh02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e71ll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ghd16")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68ajg")
+}],
+"loop": true,
+"name": &"estagio1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7xad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyoh4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jycw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1kbl")
+}],
+"loop": true,
+"name": &"estagio2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iyws5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdghn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7o4n3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xb23x")
+}],
+"loop": true,
+"name": &"estagio3",
+"speed": 5.0
+}]
+
+[node name="Sanidade" type="Control" unique_id=1335370139]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bornout" type="ColorRect" parent="." unique_id=1323244605]
+material = SubResource("ShaderMaterial_8g28b")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.16, 1.180702)
+mouse_filter = 2
+script = ExtResource("2_m7xad")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=706605712]
+texture_filter = 1
+position = Vector2(49, 489.00003)
+scale = Vector2(1.7, 1.7)
+sprite_frames = SubResource("SpriteFrames_jyoh4")
+animation = &"estagio0"
+frame_progress = 0.21448682
+
+[node name="SomBatimento" type="AudioStreamPlayer2D" parent="." unique_id=168595786]
+stream = ExtResource("4_5881v")

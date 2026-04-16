@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bxksrs721i821"]
+
+[ext_resource type="Texture2D" uid="uid://br2c13km1ei0t" path="res://UI/HUD/hp1.png" id="1_ia7gp"]
+[ext_resource type="Script" uid="uid://bmycnpe1ijwmm" path="res://UI/HUD/hud.gd" id="1_ing8j"]
+[ext_resource type="Texture2D" uid="uid://cbsqr4omrnyyq" path="res://UI/HUD/hp2.png" id="3_te8l2"]
+
+[node name="HUD" type="Control" unique_id=912590214]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ing8j")
+textura_cheio = ExtResource("1_ia7gp")
+textura_oco = ExtResource("3_te8l2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2044124529]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1474984164]
+offset_left = 5.0
+offset_top = 52.999996
+offset_right = 181.0
+offset_bottom = 85.0
+scale = Vector2(0.44000044, 0.6000024)
+
+[node name="Coracao1" type="TextureRect" parent="CanvasLayer/HBoxContainer" unique_id=1492391189]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("1_ia7gp")
+
+[node name="Coracao2" type="TextureRect" parent="CanvasLayer/HBoxContainer" unique_id=945670664]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("1_ia7gp")
+
+[node name="Coracao3" type="TextureRect" parent="CanvasLayer/HBoxContainer" unique_id=339551616]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("1_ia7gp")
+
+[node name="Coracao4" type="TextureRect" parent="CanvasLayer/HBoxContainer" unique_id=1837013499]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("1_ia7gp")
+
+[node name="Coracao5" type="TextureRect" parent="CanvasLayer/HBoxContainer" unique_id=947788870]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("1_ia7gp")

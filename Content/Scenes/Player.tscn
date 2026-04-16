@@ -6,7 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://c88fy6wio1n75" path="res://Assets/PlayerSprites/idle.png" id="3_ia0ys"]
 [ext_resource type="Shader" uid="uid://blss8dkr4ode6" path="res://shaders/shadow.gdshader" id="3_ucgb6"]
 [ext_resource type="Texture2D" uid="uid://coewiwpc1vjno" path="res://Assets/PlayerSprites/protagonista.png" id="4_8gc88"]
-[ext_resource type="Shader" uid="uid://dus1runls0fg4" path="res://shaders/Burnout.gdshader" id="16_ud5ux"]
+[ext_resource type="PackedScene" uid="uid://bxksrs721i821" path="res://UI/HUD/hud.tscn" id="12_8gc88"]
+[ext_resource type="AudioStream" uid="uid://vhinow1a6mdr" path="res://efeitos_sonoros/damage.mp3" id="13_4hvbg"]
+[ext_resource type="AudioStream" uid="uid://cilgw5m6vw3ro" path="res://efeitos_sonoros/cura.mp3" id="14_35d0k"]
+[ext_resource type="PackedScene" uid="uid://c1y3qxgtsxbf7" path="res://UI/HUD/sanidade.tscn" id="14_oeyts"]
 [ext_resource type="AudioStream" uid="uid://giqac7ke0jqk" path="res://efeitos_sonoros/walking_on_floor1.mp3" id="18_8g28b"]
 [ext_resource type="Script" uid="uid://d2tyq0sa0t0sw" path="res://Content/Scenes/LanternaLuz.cs" id="21_luz"]
 [ext_resource type="AudioStream" uid="uid://b5ng5jiynb6uu" path="res://efeitos_sonoros/lanterna.mp3" id="22_5jb6x"]
@@ -138,7 +141,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejvqj"]
 size = Vector2(14.5, 22)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_x2w1w"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4hvbg"]
 shader = ExtResource("2_x2w1w")
 shader_parameter/blink_interval = 30.0
 shader_parameter/blink_count = 1.0
@@ -146,17 +149,6 @@ shader_parameter/blink_speed = 2.0
 shader_parameter/close_ratio = 0.35
 shader_parameter/edge_softness = 0.04
 shader_parameter/blink_color = Color(0, 0, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8g28b"]
-shader = ExtResource("16_ud5ux")
-shader_parameter/intensity = 0.17600000836
-shader_parameter/pulse_speed = 4.0
-shader_parameter/pain_color = Color(0.4, 0, 0, 1)
-shader_parameter/vein_color = Color(0.1, 0, 0, 1)
-shader_parameter/vein_thickness = 0.5
-shader_parameter/chromatic_split = 0.03
-shader_parameter/geometry_warp = 0.06
-shader_parameter/warp_speed = 1.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1555702128 groups=["player"]]
 script = ExtResource("2_ejvqj")
@@ -190,39 +182,14 @@ current = true
 [node name="Camera2D" type="Camera2D" parent="." unique_id=337142578]
 zoom = Vector2(2, 2)
 
-[node name="Control" type="Control" parent="." unique_id=58244320]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="pisca" type="ColorRect" parent="Control" unique_id=904047024]
-visible = false
-material = SubResource("ShaderMaterial_x2w1w")
-layout_mode = 0
-offset_left = -260.0
-offset_top = -127.0
-offset_right = 254.0
-offset_bottom = 144.0
-
-[node name="Bornout" type="ColorRect" parent="Control" unique_id=1545285822]
-visible = false
-material = SubResource("ShaderMaterial_8g28b")
-layout_mode = 0
-offset_left = -282.0
-offset_top = -154.0
-offset_right = 214.0
-offset_bottom = 116.0
-scale = Vector2(1.16, 1.180702)
-
 [node name="FootstepSound" type="AudioStreamPlayer2D" parent="." unique_id=1036483897]
 stream = ExtResource("18_8g28b")
 volume_db = -0.972
 autoplay = true
 
-[node name="Lanterna" type="PointLight2D" parent="." unique_id=780445922]
-position = Vector2(3, 5.0000005)
-scale = Vector2(0.11972111, 0.18117979)
+[node name="Lanterna" type="PointLight2D" parent="." unique_id=780445922 groups=["lanterna_player"]]
+position = Vector2(5, 5)
+scale = Vector2(0.15972233, 0.22117978)
 blend_mode = 2
 shadow_enabled = true
 shadow_filter = 1
@@ -233,10 +200,30 @@ script = ExtResource("21_luz")
 
 [node name="sprite_lanterna" type="Sprite2D" parent="Lanterna" unique_id=923944907]
 texture_filter = 1
-position = Vector2(-25.058237, -5.5193787)
-scale = Vector2(3.3549736, 2.0378668)
+position = Vector2(-31.304329, -4.521208)
+scale = Vector2(2.5147467, 1.669322)
 texture = ExtResource("3_aw4rw")
 offset = Vector2(-1.9231129, -0.37862968)
 
 [node name="SomLanterna" type="AudioStreamPlayer2D" parent="." unique_id=1210594947]
 stream = ExtResource("22_5jb6x")
+
+[node name="HUD" parent="." unique_id=912590214 instance=ExtResource("12_8gc88")]
+
+[node name="SomDano" type="AudioStreamPlayer2D" parent="." unique_id=660062716]
+stream = ExtResource("13_4hvbg")
+
+[node name="SomCura" type="AudioStreamPlayer2D" parent="." unique_id=968624029]
+stream = ExtResource("14_35d0k")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=73643384]
+
+[node name="pisca" type="ColorRect" parent="CanvasLayer" unique_id=168488460]
+visible = false
+material = SubResource("ShaderMaterial_4hvbg")
+offset_left = -260.0
+offset_top = -127.0
+offset_right = 254.0
+offset_bottom = 144.0
+
+[node name="Sanidade" parent="CanvasLayer" unique_id=1335370139 instance=ExtResource("14_oeyts")]

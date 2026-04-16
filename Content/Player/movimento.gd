@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var footstep_sound = $FootstepSound
 @onready var lanterna = $Lanterna
 @onready var som_lanterna = $SomLanterna
+@onready var som_dano = $SomDano
+@onready var som_cura = $SomCura
 
 # --- CONFIGURAÇÕES ---
 @export var max_speed: int = 150
@@ -77,3 +79,35 @@ func handle_animations(input_direction: Vector2):
 			"down": animated_sprite.play("idle_down")
 			"up": animated_sprite.play("idle_up")
 			"side": animated_sprite.play("idle_side")
+			
+#FUNÇÃO DE HP(CHAMANDO O GAMELOADER)===========================================
+func levar_dano(quantidade: int):
+	#chamando o autoload
+	GameManager.take_damage(quantidade)
+	if som_dano:
+		som_dano.pitch_scale = randf_range(0.9, 1.1)
+		som_dano.play()
+	
+	#feedback visual
+	var tween = create_tween()
+	tween.tween_property(animated_sprite, "modulate", Color.RED, 0.1)
+	tween.tween_property(animated_sprite, "modulate",Color.WHITE, 0.1)
+	
+	
+
+func receber_cura(quantidade: int):
+	if som_cura:
+		som_cura.pitch_scale = randf_range(1.0, 1.2) # Um tom um pouco mais agudo soa mais "alegre"
+		som_cura.play()
+	# Se já estiver com vida cheia, talvez você não queira gastar o item?
+	# Se quiser gastar mesmo assim, apenas chame o GameManager:
+	GameManager.heal(quantidade)
+	
+	# Feedback Visual (Flash Verde)
+	var tween = create_tween()
+	tween.tween_property(animated_sprite, "modulate", Color.GREEN, 0.1)
+	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.1)
+
+
+func _on_item_cura_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.

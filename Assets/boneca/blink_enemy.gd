@@ -35,6 +35,7 @@ var _player_in_range    : bool  = false  # Detectado?
 var _is_in_burst        : bool  = false  # Piscando?
 var _can_teleport       : bool  = true   # Cooldown de TP?
 var _blinked_this_burst : bool  = false
+var _is_attacking       : bool  = false
 
 # ⭐ FADE DE TELA
 var _fade_overlay : CanvasLayer
@@ -98,6 +99,10 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return # Para de processar a perseguição neste frame
+
+# <-- NOVA TRAVA: Se já está atacando, não faz mais nada até terminar!
+	if _is_attacking:
+		return
 
 	# ⭐ Jogador está em range e NÃO está iluminado - começa a perseguir
 	_check_blink(_elapsed)
@@ -212,7 +217,14 @@ func _spawn_ghost_at(pos: Vector2) -> void:
 
 
 func _on_reach_player() -> void:
+	_is_attacking = true
 	print("💀 Chegou perto! ATACANDO!")
+	# ==========================================
+	# ⭐ AQUI ESTÁ A IMPLEMENTAÇÃO DO DANO ⭐
+	# Verificamos se o player tem a função de tomar dano e aplicamos 1 de hit!
+	if player.has_method("levar_dano"):
+		player.levar_dano(1)
+	# ==========================================
 	# ⭐ Fade in rápido
 	var tween = create_tween()
 	tween.tween_property(_fade_rect, "color", Color(0, 0, 0, 0.8), 0.15)
@@ -240,3 +252,13 @@ func _on_reach_player() -> void:
 func _smoothstep(edge0: float, edge1: float, x: float) -> float:
 	var t = clampf((x - edge0) / (edge1 - edge0), 0.0, 1.0)
 	return t * t * (3.0 - 2.0 * t)
+
+
+func _on_collision_shape_2d_2_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		GameManager.is_threatened = true
+
+
+func _on_collision_shape_2d_2_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		GameManager.is_threatened = false
