@@ -1,0 +1,254 @@
+[gd_scene format=3 uid="uid://304wbv33al8"]
+
+[ext_resource type="Script" uid="uid://c5q3dxo3cht6d" path="res://Assets/torre/inimigo_torre.gd" id="1_roiwp"]
+[ext_resource type="Texture2D" uid="uid://b7rk63s043nmu" path="res://Assets/torre/torre-Sheet.png" id="2_sxkri"]
+[ext_resource type="AudioStream" uid="uid://bqa1p4xe123vj" path="res://musicas/Dmitri Shostakovich - Waltz No. 2 - The Wicked North (youtube).mp3" id="3_sxkri"]
+
+[sub_resource type="Curve2D" id="Curve2D_bj6gd"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -176.00003, -104, 0, 0, 0, 0, 211.00002, -108, 0, 0, 0, 0, 205.00002, -74, 0, 0, 0, 0, -175.00003, -79, 0, 0, 0, 0, -177.00003, -102)
+}
+point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_khlga"]
+size = Vector2(24, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pi2xu"]
+atlas = ExtResource("2_sxkri")
+region = Rect2(0, 0, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywuvd"]
+atlas = ExtResource("2_sxkri")
+region = Rect2(64, 0, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y64i5"]
+atlas = ExtResource("2_sxkri")
+region = Rect2(128, 0, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfr73"]
+atlas = ExtResource("2_sxkri")
+region = Rect2(0, 72, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6g8k"]
+atlas = ExtResource("2_sxkri")
+region = Rect2(64, 72, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d01gd"]
+atlas = ExtResource("2_sxkri")
+region = Rect2(128, 72, 64, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_omctn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pi2xu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ywuvd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y64i5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfr73")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6g8k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d01gd")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_48j3b"]
+size = Vector2(41, 81.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ljbki"]
+radius = 622.03937
+
+[sub_resource type="Animation" id="Animation_sxkri"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("InimigoTorre/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InimigoTorre/AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"move"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("InimigoTorre/AnimatedSprite2D:sprite_frames")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_omctn")]
+}
+
+[sub_resource type="Animation" id="Animation_bj6gd"]
+resource_name = "idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("InimigoTorre/AnimatedSprite2D:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_omctn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InimigoTorre/AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("InimigoTorre/AnimatedSprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("InimigoTorre/AnimatedSprite2D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_khlga"]
+resource_name = "move"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("InimigoTorre/AnimatedSprite2D:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("SpriteFrames_omctn"), SubResource("SpriteFrames_omctn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InimigoTorre/AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"move", &"move"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("InimigoTorre/AnimatedSprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.17453292, 0.17453292]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bj6gd"]
+_data = {
+&"RESET": SubResource("Animation_sxkri"),
+&"idle": SubResource("Animation_bj6gd"),
+&"move": SubResource("Animation_khlga")
+}
+
+[node name="CaminhoTorre" type="Path2D" unique_id=2085015653]
+curve = SubResource("Curve2D_bj6gd")
+
+[node name="Trilho" type="PathFollow2D" parent="." unique_id=1179347284]
+
+[node name="InimigoTorre" type="CharacterBody2D" parent="Trilho" unique_id=1592576326]
+script = ExtResource("1_roiwp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trilho/InimigoTorre" unique_id=1420165706]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_khlga")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Trilho/InimigoTorre" unique_id=1529998431]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_omctn")
+animation = &"move"
+
+[node name="AreaDano" type="Area2D" parent="Trilho/InimigoTorre" unique_id=1541161867]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trilho/InimigoTorre/AreaDano" unique_id=1380063400]
+position = Vector2(0.5, 4.25)
+shape = SubResource("RectangleShape2D_48j3b")
+
+[node name="AreaDeteccao" type="Area2D" parent="Trilho/InimigoTorre" unique_id=1921606887]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trilho/InimigoTorre/AreaDeteccao" unique_id=1371544372]
+shape = SubResource("CircleShape2D_ljbki")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Trilho/InimigoTorre" unique_id=2115874457]
+stream = ExtResource("3_sxkri")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Trilho/InimigoTorre" unique_id=956411884]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_bj6gd")
+
+[connection signal="body_entered" from="Trilho/InimigoTorre/AreaDano" to="Trilho/InimigoTorre" method="_on_area_dano_body_entered"]
+[connection signal="body_exited" from="Trilho/InimigoTorre/AreaDano" to="Trilho/InimigoTorre" method="_on_area_dano_body_exited"]
+[connection signal="body_entered" from="Trilho/InimigoTorre/AreaDeteccao" to="Trilho/InimigoTorre" method="_on_area_deteccao_body_entered"]
+[connection signal="body_exited" from="Trilho/InimigoTorre/AreaDeteccao" to="Trilho/InimigoTorre" method="_on_area_deteccao_body_exited"]
