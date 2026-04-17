@@ -94,6 +94,7 @@ func _vigiar_jogador(delta):
 
 func _atacar_jogador():
 	has_attacked = true
+	player.levar_dano(5)
 	musica.stop()
 	luz_palco.enabled = false 
 	

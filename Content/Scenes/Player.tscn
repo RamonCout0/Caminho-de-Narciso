@@ -11,7 +11,6 @@
 [ext_resource type="AudioStream" uid="uid://cilgw5m6vw3ro" path="res://efeitos_sonoros/cura.mp3" id="14_35d0k"]
 [ext_resource type="PackedScene" uid="uid://c1y3qxgtsxbf7" path="res://UI/HUD/sanidade.tscn" id="14_oeyts"]
 [ext_resource type="AudioStream" uid="uid://giqac7ke0jqk" path="res://efeitos_sonoros/walking_on_floor1.mp3" id="18_8g28b"]
-[ext_resource type="Script" uid="uid://d2tyq0sa0t0sw" path="res://Content/Scenes/LanternaLuz.cs" id="21_luz"]
 [ext_resource type="AudioStream" uid="uid://b5ng5jiynb6uu" path="res://efeitos_sonoros/lanterna.mp3" id="22_5jb6x"]
 [ext_resource type="Texture2D" uid="uid://c5fcbeboeq04q" path="res://Assets/Textures/lanternadireita.png" id="22_vslsq"]
 
@@ -141,6 +140,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejvqj"]
 size = Vector2(14.5, 22)
 
+[sub_resource type="CSharpScript" id="CSharpScript_4hvbg"]
+script/source = "using Godot;
+
+public partial class LanternaLuz : PointLight2D
+{
+	// Offset zerado - posição é controlada pela cena
+}
+"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4hvbg"]
 shader = ExtResource("2_x2w1w")
 shader_parameter/blink_interval = 30.0
@@ -196,7 +204,7 @@ shadow_filter = 1
 shadow_filter_smooth = 5.1
 texture = ExtResource("22_vslsq")
 offset = Vector2(895.56, 0)
-script = ExtResource("21_luz")
+script = SubResource("CSharpScript_4hvbg")
 
 [node name="sprite_lanterna" type="Sprite2D" parent="Lanterna" unique_id=923944907]
 texture_filter = 1

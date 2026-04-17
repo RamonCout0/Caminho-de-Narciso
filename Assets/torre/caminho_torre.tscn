@@ -217,9 +217,12 @@ _data = {
 curve = SubResource("Curve2D_bj6gd")
 
 [node name="Trilho" type="PathFollow2D" parent="." unique_id=1179347284]
+position = Vector2(19, 14)
+rotation = 0.0033669905
 
 [node name="InimigoTorre" type="CharacterBody2D" parent="Trilho" unique_id=1592576326]
 script = ExtResource("1_roiwp")
+velocidade = 300.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Trilho/InimigoTorre" unique_id=1420165706]
 position = Vector2(0, 5)

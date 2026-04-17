@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://cyqt5nldme8ij" path="res://Content/Scenes/dialogo.gd" id="9_pgfbv"]
 [ext_resource type="AudioStream" uid="uid://cnyipvuuqtd6l" path="res://efeitos_sonoros/pc_keyboard.mp3" id="10_ljiqn"]
 [ext_resource type="PackedScene" uid="uid://cj6hhj3h1ly1k" path="res://Assets/items/pirula/item_cura.tscn" id="11_ubi1s"]
-[ext_resource type="PackedScene" uid="uid://304wbv33al8" path="res://Assets/torre/caminho_torre.tscn" id="12_trorh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ljiqn"]
 
@@ -1692,10 +1691,6 @@ parameters/looping = true
 [node name="ItemCura" parent="Player & Inimigos" unique_id=2019573771 instance=ExtResource("11_ubi1s")]
 position = Vector2(-464.70132, 45.415817)
 scale = Vector2(1.2489389, 0.9311213)
-
-[node name="CaminhoTorre" parent="Player & Inimigos" unique_id=2085015653 instance=ExtResource("12_trorh")]
-position = Vector2(-654.62274, -24.22177)
-scale = Vector2(4.040881, 3.0277212)
 
 [node name="Scenes" type="Node2D" parent="." unique_id=159646278]
 position = Vector2(-261.75, 8.5)
