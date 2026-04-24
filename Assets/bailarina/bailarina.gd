@@ -19,6 +19,13 @@ extends CharacterBody2D
 @export var tempo_min_dance : float = 5.0  # Tempo da música tocando (MAIOR AGORA)
 @export var tempo_max_dance : float = 8.0  
 
+# --- SANIDADE ---
+# A Bailarina é o inimigo mais aterrorizante: luz, música e movimento ao mesmo tempo.
+@export_group("Sanidade")
+@export var range_sanidade : float = 600.0 ## Distância (px) a partir da qual começa a drenar sanidade (pode ser maior que detection_range)
+@export var taxa_sanidade  : float = 15.0  ## Drenagem de sanidade por segundo (enquanto dança)
+const ID_AMEACA : String = "bailarina"
+
 # --- ESTADOS INTERNOS ---
 var is_dancing : bool = false
 var state_timer : float = 0.0
@@ -30,6 +37,10 @@ func _ready():
 	lente_distorcao.visible = false
 	anim.play("idle")
 	state_timer = randf_range(tempo_min_idle, tempo_max_idle)
+
+func _exit_tree() -> void:
+	# Garante que a ameaça seja removida se a bailarina sair da cena
+	GameManager.remover_ameaca(ID_AMEACA)
 
 func _physics_process(delta):
 	if not player or has_attacked:
@@ -50,6 +61,12 @@ func _physics_process(delta):
 		var direction = (player.global_position - global_position).normalized()
 		velocity = direction * move_speed
 		
+		# --- SANIDADE: Drena se dançando e dentro do range ---
+		if dist_to_player <= range_sanidade:
+			GameManager.registrar_ameaca(ID_AMEACA, taxa_sanidade)
+		else:
+			GameManager.remover_ameaca(ID_AMEACA)
+		
 		# Se ela chegar muito perto enquanto você está paralisado, ela ataca!
 		if dist_to_player <= attack_range:
 			_atacar_jogador()
@@ -59,6 +76,8 @@ func _physics_process(delta):
 		# --- ESCURO: ELA FICA TOTALMENTE PARADA ---
 		velocity = Vector2.ZERO
 		reaction_counter = 0 # Reseta a reação do jogador
+		# --- SANIDADE: Aliviada no escuro ---
+		GameManager.remover_ameaca(ID_AMEACA)
 	
 	move_and_slide()
 
@@ -94,6 +113,7 @@ func _vigiar_jogador(delta):
 
 func _atacar_jogador():
 	has_attacked = true
+	GameManager.remover_ameaca(ID_AMEACA) # Limpa a ameaça ao atacar
 	player.levar_dano(5)
 	musica.stop()
 	luz_palco.enabled = false 
@@ -110,3 +130,4 @@ func _force_idle():
 		luz_palco.enabled = false
 		musica.stop()
 		velocity = Vector2.ZERO
+		GameManager.remover_ameaca(ID_AMEACA)

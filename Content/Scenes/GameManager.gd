@@ -42,13 +42,39 @@ signal sanity_changed(new_value)
 
 var max_sanity: float = 100.0
 var current_sanity: float = 100.0
-var is_threatened: bool = false # Ligado pela Boneca
+
+# --- Sistema de Multi-Ameaças ---
+# Cada inimigo se registra com um ID único e sua taxa de drenagem de sanidade.
+# Isso permite que vários inimigos drenem ao mesmo tempo com intensidades diferentes.
+# Taxas de referência:
+#   Boneca    →  8.0 / seg  (aparição súbita, pisca)
+#   Ele Sabe  →  5.0 / seg  (perseguição direta)
+#   Torre     → 12.0 / seg  (máquina imparável, muito opressiva)
+#   Bailarina → 15.0 / seg  (a mais assustadora - dança + luz)
+var _ameacas_ativas: Dictionary = {}
+
+# Mantido para compatibilidade: reflete se há ALGUMA ameaça ativa.
+var is_threatened: bool = false
+
+## Registra (ou atualiza) uma ameaça de sanidade. Chame quando o inimigo ativa.
+func registrar_ameaca(id: String, taxa_por_segundo: float) -> void:
+	_ameacas_ativas[id] = taxa_por_segundo
+	is_threatened = true
+
+## Remove a ameaça de sanidade. Chame quando o inimigo desativa/morre/perde o player.
+func remover_ameaca(id: String) -> void:
+	_ameacas_ativas.erase(id)
+	is_threatened = not _ameacas_ativas.is_empty()
 
 func _process(delta: float) -> void:
-	if is_threatened:
-		_update_sanity(-8.0 * delta) # Cai 8 por seg
+	var drenagem_total: float = 0.0
+	for taxa in _ameacas_ativas.values():
+		drenagem_total += taxa
+
+	if drenagem_total > 0.0:
+		_update_sanity(-drenagem_total * delta)
 	else:
-		_update_sanity(3.0 * delta) # Recupera 3 por seg
+		_update_sanity(3.0 * delta) # Recupera quando seguro
 
 func _update_sanity(amount: float) -> void:
 	var old_val = current_sanity

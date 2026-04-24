@@ -14,6 +14,11 @@ extends CharacterBody2D
 @export var flashlight_cone_angle : float = 30.0 # Abertura do cone de luz (graus)
 @export var flashlight_max_dist   : float = 250.0 # Distância máxima que a luz cega o inimigo
 
+# ⭐ SANIDADE
+@export_group("Sanidade")
+@export var range_sanidade  : float = 150.0 ## Distância (px) a partir da qual começa a drenar sanidade
+@export var taxa_sanidade   : float = 8.0   ## Drenagem de sanidade por segundo
+
 # ⭐ TELEPORTE E PISCADA
 @export var teleport_delay      : float = 19.0   # Tempo MÍNIMO entre teleportes
 @export var teleport_jump       : float = 120.0
@@ -87,6 +92,12 @@ func _physics_process(delta: float) -> void:
 	# ⭐ Detecta se jogador está em range
 	var dist_to_player = global_position.distance_to(player.global_position)
 	_player_in_range = dist_to_player <= detection_range
+
+	# Sanidade: drena apenas quando o player está dentro do range_sanidade
+	if dist_to_player <= range_sanidade:
+		GameManager.registrar_ameaca("boneca", taxa_sanidade)
+	else:
+		GameManager.remover_ameaca("boneca")
 
 	# Se jogador não está em range → para
 	if not _player_in_range:
@@ -219,6 +230,8 @@ func _spawn_ghost_at(pos: Vector2) -> void:
 func _on_reach_player() -> void:
 	_is_attacking = true
 	print("💀 Chegou perto! ATACANDO!")
+	# Remove a ameaça de sanidade durante o ataque/teleporte
+	GameManager.remover_ameaca("boneca")
 	# ==========================================
 	# ⭐ AQUI ESTÁ A IMPLEMENTAÇÃO DO DANO ⭐
 	# Verificamos se o player tem a função de tomar dano e aplicamos 1 de hit!
@@ -254,11 +267,10 @@ func _smoothstep(edge0: float, edge1: float, x: float) -> float:
 	return t * t * (3.0 - 2.0 * t)
 
 
-func _on_collision_shape_2d_2_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		GameManager.is_threatened = true
+# Sinais da collision shape de proximidade desativados —
+# o range agora é controlado por 'range_sanidade' no Inspector.
+func _on_collision_shape_2d_2_body_entered(_body: Node2D) -> void:
+	pass
 
-
-func _on_collision_shape_2d_2_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		GameManager.is_threatened = false
+func _on_collision_shape_2d_2_body_exited(_body: Node2D) -> void:
+	pass

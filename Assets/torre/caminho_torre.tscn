@@ -72,7 +72,7 @@ animations = [{
 size = Vector2(41, 81.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ljbki"]
-radius = 325.0062
+radius = 356.06882
 
 [sub_resource type="Animation" id="Animation_sxkri"]
 length = 0.001
