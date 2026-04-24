@@ -5,9 +5,12 @@ extends ColorRect
 
 func _ready():
 	GameManager.sanity_changed.connect(_on_sanity_updated)
-	_on_sanity_updated(GameManager.current_sanity)
+	call_deferred("_on_sanity_updated", GameManager.current_sanity)
 
 func _on_sanity_updated(valor: float):
+	# Garante que o nó está na árvore antes de tentar reproduzir áudio
+	if not is_inside_tree():
+		return
 	# 1. ATUALIZA O SHADER
 	var intensity_val: float = 0.0
 	if valor <= 80.0:

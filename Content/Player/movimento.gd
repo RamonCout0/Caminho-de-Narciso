@@ -109,5 +109,5 @@ func receber_cura(quantidade: int):
 	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.1)
 
 
-func _on_item_cura_body_entered(body: Node2D) -> void:
+func _on_item_cura_body_entered(_body: Node2D) -> void:
 	pass # Replace with function body.
