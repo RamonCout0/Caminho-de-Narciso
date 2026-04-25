@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brw0u5uv3ewp1"
-path="res://.godot/imported/tilechao1.png-762b789551c65a91d277e830b60380f3.ctex"
+uid="uid://b42yolbejhpme"
+path="res://.godot/imported/consultorio1.2.png-b17f57648d851c73fd01af46e3b6374e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileSets/tilechao1.png"
-dest_files=["res://.godot/imported/tilechao1.png-762b789551c65a91d277e830b60380f3.ctex"]
+source_file="res://Assets/TileSets/consultorio1.2.png"
+dest_files=["res://.godot/imported/consultorio1.2.png-b17f57648d851c73fd01af46e3b6374e.ctex"]
 
 [params]
 

@@ -16,13 +16,42 @@ extends CharacterBody2D
 
 var current_direction = "down"
 var has_shield: bool = false
+var pode_se_mover: bool = true
 
-func _ready():
+func _ready() -> void:
+	print("[DEBUG PLAYER] O Player nasceu na fase!")
+	
+	if GameManager.target_spawn_point != "":
+		print("[DEBUG PLAYER] O GameManager mandou nascer em: '", GameManager.target_spawn_point, "'")
+		
+		# Espera a física carregar
+		await get_tree().physics_frame
+		
+		var spawn_node = get_tree().current_scene.find_child(GameManager.target_spawn_point, true, false)
+		
+		if spawn_node:
+			print("[DEBUG PLAYER] Marker2D achado! Movendo para: ", spawn_node.global_position)
+			global_position = spawn_node.global_position
+		else:
+			printerr("[ERRO FATAL PLAYER] O nó '", GameManager.target_spawn_point, "' não existe!")
+	else:
+		print("[DEBUG PLAYER] Nenhum ponto registrado. Usando posição padrão.")
+	
+	# Garante que a lanterna comece ligada (se existir o nó)
+	if has_node("lanterna"):
+		$lanterna.enabled = true
 	# Garante que a lanterna comece ligada
 	if lanterna:
-		lanterna.enabled = true
+			lanterna.enabled = true
 
 func _physics_process(delta):
+	
+	if not pode_se_mover:
+		velocity = Vector2.ZERO # Para o boneco imediatamente
+		move_and_slide()        # Aplica a parada
+		return
+
+	# ... aqui continua o seu código normal de movimento ...
 	# --- TRAVA DE DIÁLOGO ---
 	# Procura a caixa de diálogo na cena atual
 	var ui_dialogo = get_tree().current_scene.find_child("DialogueBox", true, false)

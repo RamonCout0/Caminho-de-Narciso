@@ -100,3 +100,37 @@ func _update_sanity(amount: float) -> void:
 func tomar_remedio():
 	current_sanity = 100.0
 	sanity_changed.emit(current_sanity)
+	
+	
+	
+	
+	# Referências para o sistema de transição (ajuste os caminhos se precisar)
+@onready var color_rect: ColorRect = $TransitionScreen/ColorRect
+@onready var anim_player: AnimationPlayer = $TransitionScreen/AnimationPlayer
+
+# Essa variável vai guardar o nome de onde o jogador deve nascer na próxima tela
+var target_spawn_point: String = ""
+
+func _ready() -> void:
+	# Garante que a tela preta comece desligada
+	if color_rect:
+		color_rect.hide()
+
+# Adicione esta função ao seu GameManager
+func change_scene_with_fade(target_path: String) -> void:
+	color_rect.show()
+	
+	# 1. Fade Out
+	anim_player.play("fade_to_black")
+	await anim_player.animation_finished
+	
+	# 2. Troca a Cena
+	var error = get_tree().change_scene_to_file(target_path)
+	if error != OK:
+		printerr("[ERRO] GameManager falhou ao carregar: ", target_path)
+	
+	# 3. Fade In
+	anim_player.play_backwards("fade_to_black")
+	await anim_player.animation_finished
+	
+	color_rect.hide()

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://kl11jurxs36c"]
+
+[ext_resource type="Texture2D" uid="uid://cmb4odsvbq52f" path="res://Assets/Textures/porta_fechada1.png" id="1_3j57r"]
+[ext_resource type="Script" uid="uid://q1gekty7cahr" path="res://Content/Scenes/door.gd" id="1_vseq3"]
+[ext_resource type="Texture2D" uid="uid://i62i6x4w4rm7" path="res://Assets/Textures/porta_aberta.png" id="2_c62sc"]
+[ext_resource type="AudioStream" uid="uid://c27kpfwkcspxo" path="res://efeitos_sonoros/room_door_O.mp3" id="3_c62sc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3j57r"]
+size = Vector2(31, 29)
+
+[node name="door" type="Area2D" unique_id=1109670938]
+script = ExtResource("1_vseq3")
+open_door_sprite = ExtResource("2_c62sc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1869991282]
+texture_filter = 1
+position = Vector2(455, 225)
+texture = ExtResource("1_3j57r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=314771791]
+position = Vector2(455.5, 224.5)
+shape = SubResource("RectangleShape2D_3j57r")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1877774855]
+stream = ExtResource("3_c62sc")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=203211855]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
