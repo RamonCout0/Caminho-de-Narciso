@@ -14,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://giqac7ke0jqk" path="res://efeitos_sonoros/walking_on_floor1.mp3" id="18_8g28b"]
 [ext_resource type="AudioStream" uid="uid://b5ng5jiynb6uu" path="res://efeitos_sonoros/lanterna.mp3" id="22_5jb6x"]
 [ext_resource type="Texture2D" uid="uid://c5fcbeboeq04q" path="res://Assets/Textures/lanternadireita.png" id="22_vslsq"]
-[ext_resource type="Script" uid="uid://dhp0rb5k8fn41" path="res://Content/Scenes/LanternaLuz.cs" id="25_lantluz"]
+[ext_resource type="Script" uid="uid://dhp0rb5k8fn41" path="res://Scripts/Gameplay/LanternaLuz.cs" id="25_lantluz"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aw4rw"]
 shader = ExtResource("3_ucgb6")
