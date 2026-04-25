@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c8sgfgvyn4hpk"]
+
+[ext_resource type="Shader" uid="uid://dgfrg5yqv60ar" path="res://Assets/Hatman/bala.gdshader" id="1_fj2lq"]
+[ext_resource type="Script" uid="uid://bgllpuxhbt6gb" path="res://Assets/Hatman/bala.gd" id="1_qug52"]
+[ext_resource type="Texture2D" uid="uid://ok66t68ko3bb" path="res://Assets/Hatman/bala.png" id="2_qug52"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_30b05"]
+resource_local_to_scene = true
+shader = ExtResource("1_fj2lq")
+shader_parameter/intensity = 0.0
+shader_parameter/glow_color = Color(1, 0.2, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fj2lq"]
+radius = 2.0
+
+[node name="Area2D" type="Area2D" unique_id=4055360 groups=["shield"]]
+script = ExtResource("1_qug52")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=709816829]
+texture_filter = 1
+material = SubResource("ShaderMaterial_30b05")
+texture = ExtResource("2_qug52")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1126964466]
+shape = SubResource("CircleShape2D_fj2lq")

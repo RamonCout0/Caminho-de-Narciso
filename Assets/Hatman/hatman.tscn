@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://b2cujqyp56l55"]
+
+[ext_resource type="Texture2D" uid="uid://xmne2mq2okuu" path="res://Assets/Hatman/hatman.png" id="1_ljtts"]
+[ext_resource type="Script" uid="uid://cnj0j5yitl0jt" path="res://Assets/Hatman/hatman.gd" id="1_yh26j"]
+[ext_resource type="Shader" uid="uid://dmfel312lubac" path="res://Assets/Hatman/hatman.gdshader" id="1_ypeya"]
+[ext_resource type="PackedScene" uid="uid://eoyu3wc00saf" path="res://Assets/Hatman/arma.tscn" id="2_bdc1g"]
+[ext_resource type="PackedScene" uid="uid://b084hrp2p2ekn" path="res://Assets/Hatman/escudo.tscn" id="3_i81j4"]
+[ext_resource type="Shader" uid="uid://d4frsi2quswjl" path="res://Assets/Hatman/aura.gdshader" id="6_i81j4"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ypeya"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yh26j"]
+noise = SubResource("FastNoiseLite_ypeya")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yh26j"]
+shader = ExtResource("1_ypeya")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_yh26j")
+shader_parameter/progress = 1.10000002384186
+shader_parameter/cor_base_trevas = Color(0.05, 0, 0.1, 1)
+shader_parameter/cor_chama_negra = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ypeya"]
+size = Vector2(20, 78)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ypeya"]
+radius = 82.1523
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5w84o"]
+shader = ExtResource("6_i81j4")
+shader_parameter/cor_perigo = Color(0.1, 0, 0.2, 0.4)
+shader_parameter/pulso_velocidade = 3.0
+shader_parameter/raio_borda_suave = 0.45
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1559363353 groups=["enemy"]]
+script = ExtResource("1_yh26j")
+weapon_scene = ExtResource("2_bdc1g")
+shield_scene = ExtResource("3_i81j4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1521229708]
+texture_filter = 1
+material = SubResource("ShaderMaterial_yh26j")
+texture = ExtResource("1_ljtts")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1707274895]
+light_mask = 5
+visibility_layer = 5
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_ypeya")
+
+[node name="Aura_Trevas" type="Area2D" parent="." unique_id=480094325]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Aura_Trevas" unique_id=585827898]
+shape = SubResource("CircleShape2D_ypeya")
+
+[node name="ColorRect" type="ColorRect" parent="Aura_Trevas" unique_id=147732050]
+material = SubResource("ShaderMaterial_5w84o")
+offset_left = -82.0
+offset_top = -86.0
+offset_right = 83.0
+offset_bottom = 85.0

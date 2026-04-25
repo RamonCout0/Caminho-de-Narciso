@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://eoyu3wc00saf"]
+
+[ext_resource type="Texture2D" uid="uid://du48cvcwf05ir" path="res://Assets/Hatman/rifle.png" id="1_n0eme"]
+[ext_resource type="Shader" uid="uid://v53nemim4l2l" path="res://Assets/Hatman/arma.gdshader" id="1_toqax"]
+[ext_resource type="Script" uid="uid://djk84j4i5j8x1" path="res://Assets/Hatman/arma.gd" id="2_m1cjf"]
+[ext_resource type="PackedScene" uid="uid://c8sgfgvyn4hpk" path="res://Assets/Hatman/bala.tscn" id="3_l5t78"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m1cjf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l5t78"]
+resource_local_to_scene = true
+shader = ExtResource("1_toqax")
+shader_parameter/wave_speed = 3.0
+shader_parameter/distortion_amp = 2.0
+shader_parameter/dark_aura = Color(0.40291372, 0.013899764, 0.016031919, 1)
+
+[node name="Node2D" type="Node2D" unique_id=280017229]
+material = SubResource("ShaderMaterial_m1cjf")
+use_parent_material = true
+script = ExtResource("2_m1cjf")
+bullet_scene = ExtResource("3_l5t78")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=805717774]
+texture_filter = 1
+material = SubResource("ShaderMaterial_l5t78")
+texture = ExtResource("1_n0eme")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=2057531134]
+position = Vector2(36, -6)

@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://b084hrp2p2ekn"]
+
+[ext_resource type="Texture2D" uid="uid://dpcf6qjaacq46" path="res://Assets/Hatman/escudo-Sheet.png" id="1_1c6xx"]
+[ext_resource type="Shader" uid="uid://bd5pepl0pxjpo" path="res://Assets/Hatman/escudo.gdshader" id="1_er47x"]
+[ext_resource type="Script" uid="uid://gwyreum1pf86" path="res://Assets/Hatman/escudo.gd" id="1_l8jvw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_er47x"]
+resource_local_to_scene = true
+shader = ExtResource("1_er47x")
+shader_parameter/intensity = 0.0
+shader_parameter/glow_color = Color(1, 0.2, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8jvw"]
+atlas = ExtResource("1_1c6xx")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_er47x"]
+atlas = ExtResource("1_1c6xx")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccavm"]
+atlas = ExtResource("1_1c6xx")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjfvb"]
+atlas = ExtResource("1_1c6xx")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gj6pu"]
+atlas = ExtResource("1_1c6xx")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmcl3"]
+atlas = ExtResource("1_1c6xx")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aubj2"]
+atlas = ExtResource("1_1c6xx")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ojbnx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8jvw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_er47x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ccavm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjfvb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gj6pu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmcl3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aubj2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 40.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_er47x"]
+radius = 14.0
+
+[node name="Area2D" type="Area2D" unique_id=1137243055 groups=["shield"]]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_l8jvw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=849593996]
+texture_filter = 1
+material = SubResource("ShaderMaterial_er47x")
+sprite_frames = SubResource("SpriteFrames_ojbnx")
+frame_progress = 0.15347199
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1503089598]
+shape = SubResource("CircleShape2D_er47x")

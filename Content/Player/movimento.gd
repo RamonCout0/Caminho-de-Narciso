@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var som_lanterna = $SomLanterna
 @onready var som_dano = $SomDano
 @onready var som_cura = $SomCura
+@onready var pivot_escudo = $pivot_escudo
 
 # --- CONFIGURAÇÕES ---
 @export var max_speed: int = 150
@@ -14,9 +15,10 @@ extends CharacterBody2D
 @export var friction: int = 1200
 
 var current_direction = "down"
+var has_shield: bool = false
 
 func _ready():
-	# <-- NOVA LINHA: Garante que a lanterna comece ligada
+	# Garante que a lanterna comece ligada
 	if lanterna:
 		lanterna.enabled = true
 
@@ -49,7 +51,7 @@ func _physics_process(delta):
 	move_and_slide()
 	handle_animations(input_direction)
 
-# --- NOVA FUNÇÃO: _process RODA A CADA FRAME PARA O MOUSE E BOTÕES ---
+# --- FUNÇÃO RODA A CADA FRAME PARA O MOUSE E BOTÕES ---
 func _process(_delta):
 	if lanterna:
 		# 1. Faz APENAS a lanterna girar para o mouse
@@ -59,6 +61,27 @@ func _process(_delta):
 		if Input.is_action_just_pressed("toggle_lanterna"):
 			lanterna.enabled = !lanterna.enabled
 			som_lanterna.play()
+			
+	# 3. Lógica para pegar o escudo do chão
+	if Input.is_action_just_pressed("interagir"):
+		if has_node("Area_Coleta"):
+			var areas = $Area_Coleta.get_overlapping_areas()
+			print("Botão apertado! Áreas encostando no jogador: ", areas)
+			
+			for area in areas:
+				if area.is_in_group("pickup_shield"):
+					print("Pegou o escudo!")
+					has_shield = true
+					area.queue_free()
+					break
+		else:
+			print("ERRO: O jogador não tem o nó chamado 'Area_Coleta'!")
+	if pivot_escudo:
+		if has_shield:
+			pivot_escudo.visible = true
+			pivot_escudo.look_at(get_global_mouse_position())
+		else:
+			pivot_escudo.visible = false
 
 func handle_animations(input_direction: Vector2):
 	if input_direction.length() > 0:
@@ -80,27 +103,24 @@ func handle_animations(input_direction: Vector2):
 			"up": animated_sprite.play("idle_up")
 			"side": animated_sprite.play("idle_side")
 			
-#FUNÇÃO DE HP(CHAMANDO O GAMELOADER)===========================================
+# --- SISTEMA DE HP E CURA ---
 func levar_dano(quantidade: int):
-	#chamando o autoload
+	# Chamando o autoload
 	GameManager.take_damage(quantidade)
 	if som_dano:
 		som_dano.pitch_scale = randf_range(0.9, 1.1)
 		som_dano.play()
 	
-	#feedback visual
+	# Feedback visual
 	var tween = create_tween()
 	tween.tween_property(animated_sprite, "modulate", Color.RED, 0.1)
-	tween.tween_property(animated_sprite, "modulate",Color.WHITE, 0.1)
-	
-	
+	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.1)
 
 func receber_cura(quantidade: int):
 	if som_cura:
-		som_cura.pitch_scale = randf_range(1.0, 1.2) # Um tom um pouco mais agudo soa mais "alegre"
+		som_cura.pitch_scale = randf_range(1.0, 1.2)
 		som_cura.play()
-	# Se já estiver com vida cheia, talvez você não queira gastar o item?
-	# Se quiser gastar mesmo assim, apenas chame o GameManager:
+		
 	GameManager.heal(quantidade)
 	
 	# Feedback Visual (Flash Verde)
@@ -108,6 +128,18 @@ func receber_cura(quantidade: int):
 	tween.tween_property(animated_sprite, "modulate", Color.GREEN, 0.1)
 	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.1)
 
-
 func _on_item_cura_body_entered(_body: Node2D) -> void:
-	pass # Replace with function body.
+	pass
+
+# --- INTERAÇÕES COM O COMBATE (BALA / ESCUDO) ---
+
+# Função chamada pela bala quando acerta o player SEM escudo
+func take_damage():
+	# Redirecionado para levar_dano para reaproveitar o som e o flash vermelho
+	levar_dano(1)
+
+# Função chamada pela bala quando acerta o player COM escudo
+func consume_shield():
+	has_shield = false
+	print("Escudo quebrou e rebateu a bala!")
+	# Opcional: Oculte o visual do escudo no player aqui

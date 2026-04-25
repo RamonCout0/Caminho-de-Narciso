@@ -10,10 +10,11 @@
 [ext_resource type="AudioStream" uid="uid://vhinow1a6mdr" path="res://efeitos_sonoros/damage.mp3" id="13_4hvbg"]
 [ext_resource type="AudioStream" uid="uid://cilgw5m6vw3ro" path="res://efeitos_sonoros/cura.mp3" id="14_35d0k"]
 [ext_resource type="PackedScene" uid="uid://c1y3qxgtsxbf7" path="res://UI/HUD/sanidade.tscn" id="14_oeyts"]
+[ext_resource type="Texture2D" uid="uid://dpcf6qjaacq46" path="res://Assets/Hatman/escudo-Sheet.png" id="15_oeyts"]
 [ext_resource type="AudioStream" uid="uid://giqac7ke0jqk" path="res://efeitos_sonoros/walking_on_floor1.mp3" id="18_8g28b"]
-[ext_resource type="Script" uid="uid://dhp0rb5k8fn41" path="res://Content/Scenes/LanternaLuz.cs" id="25_lantluz"]
 [ext_resource type="AudioStream" uid="uid://b5ng5jiynb6uu" path="res://efeitos_sonoros/lanterna.mp3" id="22_5jb6x"]
 [ext_resource type="Texture2D" uid="uid://c5fcbeboeq04q" path="res://Assets/Textures/lanternadireita.png" id="22_vslsq"]
+[ext_resource type="Script" uid="uid://dhp0rb5k8fn41" path="res://Content/Scenes/LanternaLuz.cs" id="25_lantluz"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aw4rw"]
 shader = ExtResource("3_ucgb6")
@@ -150,6 +151,65 @@ shader_parameter/close_ratio = 0.35
 shader_parameter/edge_softness = 0.04
 shader_parameter/blink_color = Color(0, 0, 0, 1)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_35d0k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pmwm"]
+atlas = ExtResource("15_oeyts")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05puy"]
+atlas = ExtResource("15_oeyts")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6rc1"]
+atlas = ExtResource("15_oeyts")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3cb2"]
+atlas = ExtResource("15_oeyts")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rif3y"]
+atlas = ExtResource("15_oeyts")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lv3ht"]
+atlas = ExtResource("15_oeyts")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7sa4"]
+atlas = ExtResource("15_oeyts")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ie186"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7pmwm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05puy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6rc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3cb2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rif3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lv3ht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7sa4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
+
 [node name="Player" type="CharacterBody2D" unique_id=1555702128 groups=["player"]]
 script = ExtResource("2_ejvqj")
 
@@ -226,3 +286,20 @@ offset_right = 254.0
 offset_bottom = 144.0
 
 [node name="Sanidade" parent="CanvasLayer" unique_id=1335370139 instance=ExtResource("14_oeyts")]
+
+[node name="Area_Coleta" type="Area2D" parent="." unique_id=1540410157]
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area_Coleta" unique_id=548981622]
+shape = SubResource("CircleShape2D_35d0k")
+
+[node name="pivot_escudo" type="Node2D" parent="." unique_id=1254025968]
+visible = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="pivot_escudo" unique_id=1535676728]
+texture_filter = 1
+position = Vector2(23, -7)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_ie186")
+frame_progress = 0.7436577

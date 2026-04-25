@@ -40,6 +40,8 @@ project/assembly_name="narciso"
 
 player=""
 lanterna_player=""
+enemy=""
+shield=""
 
 [input]
 

@@ -72,7 +72,7 @@ animations = [{
 size = Vector2(41, 81.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ljbki"]
-radius = 356.06882
+radius = 129.28264
 
 [sub_resource type="Animation" id="Animation_sxkri"]
 length = 0.001
@@ -223,6 +223,7 @@ rotation = 0.0033669905
 [node name="InimigoTorre" type="CharacterBody2D" parent="Trilho" unique_id=1592576326]
 script = ExtResource("1_roiwp")
 velocidade = 300.0
+range_sanidade = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Trilho/InimigoTorre" unique_id=1420165706]
 position = Vector2(0, 5)
