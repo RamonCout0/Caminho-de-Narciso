@@ -139,7 +139,11 @@ func take_damage():
 	levar_dano(1)
 
 # Função chamada pela bala quando acerta o player COM escudo
-func consume_shield():
+func consume_shield() -> void:
 	has_shield = false
-	print("Escudo quebrou e rebateu a bala!")
-	# Opcional: Oculte o visual do escudo no player aqui
+	if pivot_escudo:
+		pivot_escudo.visible = false
+	# Flash ciano para dar feedback que o escudo foi consumido
+	var tween = create_tween()
+	tween.tween_property(animated_sprite, "modulate", Color(0.3, 0.8, 2.0), 0.06)
+	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.15)

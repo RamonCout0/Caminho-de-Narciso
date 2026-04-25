@@ -37,6 +37,20 @@ func heal(amount:int):
 	hp_changed.emit(current_hp)
 	
 
+# ===================== BOSS =====================
+# Emitido pelo Hatman quando toma dano ou morre.
+# A HUD escuta para mostrar/atualizar a barra de HP do boss.
+signal boss_hp_changed(current_hp: int, max_hp: int)
+signal boss_morreu()
+
+## Chame isso do Hatman ao tomar dano (evita warning de sinal não usado).
+func notificar_boss_hp(hp_atual: int, hp_maximo: int) -> void:
+	boss_hp_changed.emit(hp_atual, hp_maximo)
+
+## Chame isso do Hatman ao morrer.
+func notificar_boss_morreu() -> void:
+	boss_morreu.emit()
+
 #====================sistema de sanidade===============================
 signal sanity_changed(new_value)
 
