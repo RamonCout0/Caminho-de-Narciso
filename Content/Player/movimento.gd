@@ -17,20 +17,19 @@ extends CharacterBody2D
 var current_direction = "down"
 var has_shield: bool = false
 
-# --- VARIÁVEIS DO XADREZ ---
-var in_chess_mode: bool = false
-var is_my_turn_in_chess: bool = false
-var pos_grid_do_player: Vector2i = Vector2i.ZERO
-var grid_size: int = 32 # AJUSTE para o tamanho do seu tile (ex: 32 ou 64)
-var xadrez_manager: Node = null # Referência ao Gerenciador de Turnos
-var movimentos_restantes: int = 0
-
 func _ready():
 	# Garante que a lanterna comece ligada
 	if lanterna:
-		lanterna.enabled = true
+			lanterna.enabled = true
 
 func _physics_process(delta):
+	
+	if not pode_se_mover:
+		velocity = Vector2.ZERO # Para o boneco imediatamente
+		move_and_slide()        # Aplica a parada
+		return
+
+	# ... aqui continua o seu código normal de movimento ...
 	# --- TRAVA DE DIÁLOGO ---
 	var ui_dialogo = get_tree().current_scene.find_child("DialogueBox", true, false)
 	if ui_dialogo and ui_dialogo.visible:

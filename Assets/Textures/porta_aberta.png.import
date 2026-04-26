@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdw5hku6r5pv"
-path="res://.godot/imported/TileSetH1.png-ebe8a5a3a8c54b5e8e9106ae9d702643.ctex"
+uid="uid://i62i6x4w4rm7"
+path="res://.godot/imported/porta_aberta.png-1778eb391e1359757a74776a386c557a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileSets/TileSetH1.png"
-dest_files=["res://.godot/imported/TileSetH1.png-ebe8a5a3a8c54b5e8e9106ae9d702643.ctex"]
+source_file="res://Assets/Textures/porta_aberta.png"
+dest_files=["res://.godot/imported/porta_aberta.png-1778eb391e1359757a74776a386c557a.ctex"]
 
 [params]
 

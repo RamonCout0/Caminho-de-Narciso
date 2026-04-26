@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://dgfjixt3eyhk0"]
+
+[ext_resource type="Script" uid="uid://c1h2uswxd32v2" path="res://Content/Scenes/transition_screen.gd" id="1_sttn3"]
+[ext_resource type="Script" uid="uid://jjbglj087pb8" path="res://Scripts/Global/GameManager.gd" id="1_trr5r"]
+
+[sub_resource type="Animation" id="Animation_6uoi3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_sttn3"]
+resource_name = "fade_to_black"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_trr5r"]
+_data = {
+&"RESET": SubResource("Animation_6uoi3"),
+&"fade_to_black": SubResource("Animation_sttn3")
+}
+
+[node name="GameManager" type="Node2D" unique_id=1783500131]
+script = ExtResource("1_trr5r")
+
+[node name="TransitionScreen" type="CanvasLayer" parent="." unique_id=587781021]
+layer = 100
+script = ExtResource("1_sttn3")
+
+[node name="ColorRect" type="ColorRect" parent="TransitionScreen" unique_id=118648918]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TransitionScreen" unique_id=1080261674]
+root_node = NodePath("../ColorRect")
+libraries/ = SubResource("AnimationLibrary_trr5r")

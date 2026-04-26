@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6as40lo53pxx"
-path="res://.godot/imported/tile1(teste).png-e98fa6290ca275f6b6611050d2ebfc5d.ctex"
+uid="uid://cmb4odsvbq52f"
+path="res://.godot/imported/porta_fechada1.png-cc721b22500f80f215f2b125215cdcf9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileSets/tile1(teste).png"
-dest_files=["res://.godot/imported/tile1(teste).png-e98fa6290ca275f6b6611050d2ebfc5d.ctex"]
+source_file="res://Assets/Textures/porta_fechada1.png"
+dest_files=["res://.godot/imported/porta_fechada1.png-cc721b22500f80f215f2b125215cdcf9.ctex"]
 
 [params]
 

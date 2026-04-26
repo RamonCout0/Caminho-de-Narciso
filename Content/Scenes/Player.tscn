@@ -140,7 +140,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejvqj"]
-size = Vector2(14.5, 22)
+size = Vector2(14.5, 19)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4hvbg"]
 shader = ExtResource("2_x2w1w")
@@ -229,7 +229,7 @@ animation = &"walk_up"
 frame_progress = 0.38534787
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1094363489]
-position = Vector2(-0.25, 0)
+position = Vector2(-0.25, 1.5)
 shape = SubResource("RectangleShape2D_ejvqj")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=316558103]
