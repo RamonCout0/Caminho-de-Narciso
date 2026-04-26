@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://diki6nnen66e"]
+[gd_scene format=3 uid="uid://cnitnlkhigt5e"]
 
 [ext_resource type="Script" uid="uid://d1w20yjioyopd" path="res://Content/Player/movimento.gd" id="2_ejvqj"]
 [ext_resource type="Shader" uid="uid://b8sd4byjatcq7" path="res://shaders/pisca.gdshader" id="2_x2w1w"]

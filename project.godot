@@ -42,6 +42,7 @@ player=""
 lanterna_player=""
 enemy=""
 shield=""
+bailarina=""
 
 [input]
 

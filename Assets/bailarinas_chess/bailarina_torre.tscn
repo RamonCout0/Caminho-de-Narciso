@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://04qrq1pye2wo"]
+
+[ext_resource type="Texture2D" uid="uid://dl5f5nvcbc83v" path="res://Assets/bailarinas_chess/bailarina_torre.png" id="1_65ump"]
+[ext_resource type="Script" uid="uid://x8sfnhdn5dlx" path="res://Assets/bailarinas_chess/bailarina_torre.gd" id="1_l1lrr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1lrr"]
+atlas = ExtResource("1_65ump")
+region = Rect2(0, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4r50s"]
+atlas = ExtResource("1_65ump")
+region = Rect2(0, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33wnv"]
+atlas = ExtResource("1_65ump")
+region = Rect2(64, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x05tx"]
+atlas = ExtResource("1_65ump")
+region = Rect2(128, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7t55p"]
+atlas = ExtResource("1_65ump")
+region = Rect2(192, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18hhc"]
+atlas = ExtResource("1_65ump")
+region = Rect2(256, 0, 64, 76)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4o0y"]
+atlas = ExtResource("1_65ump")
+region = Rect2(320, 0, 64, 76)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pewjl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l1lrr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4r50s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33wnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x05tx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7t55p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18hhc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4o0y")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xs27j"]
+radius = 12.0
+
+[node name="BailarinaTorre" type="Node2D" unique_id=1848959456 groups=["bailarina"]]
+script = ExtResource("1_l1lrr")
+movement_speed = 300.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1829288417]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_pewjl")
+animation = &"walk"
+autoplay = "idle"
+frame_progress = 0.8441754
+offset = Vector2(5, -25)
+
+[node name="CollisionDetector" type="Area2D" parent="." unique_id=1196614294]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetector" unique_id=340027754]
+position = Vector2(4, -16)
+shape = SubResource("CircleShape2D_xs27j")
+
+[connection signal="body_entered" from="CollisionDetector" to="." method="_on_collision_detector_body_entered"]
