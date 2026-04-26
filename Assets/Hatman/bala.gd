@@ -3,20 +3,20 @@ extends Area2D
 var direction   := Vector2.ZERO
 var speed       := 600.0
 var is_deflected := false
+var _spawn_pos  := Vector2.ZERO  # Posição de spawn para calcular distância percorrida
 
 @onready var sprite = $Sprite2D
 
 func _ready() -> void:
-	# IMPORTANTE: a bala não é um escudo.
-	# O .tscn herdou o grupo "shield" por engano — removemos aqui.
 	remove_from_group("shield")
 	add_to_group("bullet")
 	body_entered.connect(_on_body_entered)
+	_spawn_pos = global_position
 
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
-	# Auto-destrui se sair muito longe da origem (evita bala infinita)
-	if global_position.distance_to(Vector2.ZERO) > 8000.0:
+	# Auto-destrui se percorreu mais de 2000px desde o spawn (não da origem do mundo)
+	if global_position.distance_to(_spawn_pos) > 2000.0:
 		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:

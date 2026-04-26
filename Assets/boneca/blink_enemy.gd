@@ -253,13 +253,15 @@ func _on_reach_player() -> void:
 		audio.pitch_scale = randf_range(0.7, 0.9)
 		audio.play()
 
-	# ⭐ Fade out
+	# Fade out
 	tween = create_tween()
 	tween.tween_property(_fade_rect, "color", Color(0, 0, 0, 0), 0.3)
+	await tween.finished
 
 	# Reseta pra perseguição normal
 	_current_jump = teleport_jump
 	_can_teleport = true
+	_is_attacking = false  # ESSENCIAL: sem isso a boneca trava para sempre após o 1º ataque
 
 
 func _smoothstep(edge0: float, edge1: float, x: float) -> float:

@@ -1,5 +1,13 @@
 extends Node
 
+# --- REFERÊNCIAS PARA TRANSIÇÃO ---
+# Certifique-se que esses nós existam dentro do seu GameManager na cena (CanvasLayer)
+@onready var color_rect: ColorRect = $TransitionScreen/ColorRect
+@onready var anim_player: AnimationPlayer = $TransitionScreen/AnimationPlayer
+
+# Onde o jogador deve nascer na próxima tela
+var target_spawn_point: String = ""
+
 # --- ILUMINAÇÃO ---
 var cor_da_luz: Color = Color.WHITE
 
@@ -65,11 +73,7 @@ func tomar_remedio():
 	current_sanity = 100.0
 	sanity_changed.emit(current_sanity)
 
-# ==========================================
-#        SISTEMA DE XADREZ (RECUPERADO)
-# ==========================================
-
-# Dicionário para guardar as posições ocupadas: {Vector2i: NodeID}
+# --- XADREZ ---
 var casas_ocupadas: Dictionary = {}
 
 func registrar_posicao_peca(id: int, grid_pos: Vector2i):
@@ -83,10 +87,31 @@ func casa_esta_livre(grid_pos: Vector2i, meu_id: int) -> bool:
 		return true
 	return casas_ocupadas[grid_pos] == meu_id
 
-# ------------------------------------------
+# --- TRANSIÇÃO DE CENA ---
+func _ready() -> void:
+	if color_rect:
+		color_rect.hide()
 
+func change_scene_with_fade(target_path: String) -> void:
+	if not color_rect or not anim_player:
+		get_tree().change_scene_to_file(target_path)
+		return
+
+	color_rect.show()
+	anim_player.play("fade_to_black")
+	await anim_player.animation_finished
+	
+	var error = get_tree().change_scene_to_file(target_path)
+	if error != OK:
+		printerr("[ERRO] GameManager falhou ao carregar: ", target_path)
+	
+	anim_player.play_backwards("fade_to_black")
+	await anim_player.animation_finished
+	color_rect.hide()
+
+# --- PROCESSAMENTO ---
 func _process(delta: float) -> void:
-	# Processamento de Sanidade
+	# Lógica de Sanidade (Drenagem vs Recuperação)
 	var drenagem_total: float = 0.0
 	for taxa in _ameacas_ativas.values():
 		drenagem_total += taxa
@@ -94,53 +119,4 @@ func _process(delta: float) -> void:
 	if drenagem_total > 0.0:
 		_update_sanity(-drenagem_total * delta)
 	else:
-<<<<<<< HEAD
-		_update_sanity(3.0 * delta)
-=======
-		_update_sanity(3.0 * delta) # Recupera quando seguro
-
-func _update_sanity(amount: float) -> void:
-	var old_val = current_sanity
-	current_sanity = clamp(current_sanity + amount, 0.0, max_sanity)
-	
-	if old_val != current_sanity:
-		sanity_changed.emit(current_sanity)
-
-func tomar_remedio():
-	current_sanity = 100.0
-	sanity_changed.emit(current_sanity)
-	
-	
-	
-	
-	# Referências para o sistema de transição (ajuste os caminhos se precisar)
-@onready var color_rect: ColorRect = $TransitionScreen/ColorRect
-@onready var anim_player: AnimationPlayer = $TransitionScreen/AnimationPlayer
-
-# Essa variável vai guardar o nome de onde o jogador deve nascer na próxima tela
-var target_spawn_point: String = ""
-
-func _ready() -> void:
-	# Garante que a tela preta comece desligada
-	if color_rect:
-		color_rect.hide()
-
-# Adicione esta função ao seu GameManager
-func change_scene_with_fade(target_path: String) -> void:
-	color_rect.show()
-	
-	# 1. Fade Out
-	anim_player.play("fade_to_black")
-	await anim_player.animation_finished
-	
-	# 2. Troca a Cena
-	var error = get_tree().change_scene_to_file(target_path)
-	if error != OK:
-		printerr("[ERRO] GameManager falhou ao carregar: ", target_path)
-	
-	# 3. Fade In
-	anim_player.play_backwards("fade_to_black")
-	await anim_player.animation_finished
-	
-	color_rect.hide()
->>>>>>> b7df3e07ec67bf18ccf74a4a6f2a4eae20a2fe57
+		_update_sanity(3.0 * delta) # Recupera passivamente quando seguro

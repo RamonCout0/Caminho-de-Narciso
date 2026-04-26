@@ -17,6 +17,14 @@ extends CharacterBody2D
 var current_direction = "down"
 var has_shield: bool = false
 
+var pode_se_mover: bool = true
+var in_chess_mode: bool = false
+var is_my_turn_in_chess: bool = false
+var pos_grid_do_player: Vector2i = Vector2i.ZERO
+var grid_size: int = 32 # Ou o tamanho que você estiver usando
+var xadrez_manager: Node = null
+var movimentos_restantes: int = 0
+
 func _ready():
 	# Garante que a lanterna comece ligada
 	if lanterna:
@@ -167,7 +175,7 @@ func iniciar_modo_xadrez(manager_node: Node, inicio_grid_x: int, inicio_grid_y: 
 	handle_animations(Vector2.ZERO)
 
 func iniciar_turno_jogador():
-	print("📢 Turno do player! Você tem 2 movimentos.")
+	print("📢 Turno do player! Você tem 1 movimento.")
 	movimentos_restantes = 1
 	is_my_turn_in_chess = true
 
@@ -238,9 +246,11 @@ func animar_movimento_xadrez(nova_pos_grid: Vector2i):
 	movimentos_restantes -= 1
 	
 	if movimentos_restantes > 0:
-		is_my_turn_in_chess = true 
+		is_my_turn_in_chess = true
 	else:
-		if xadrez_manager and xadrez_manager.has_method("player_finished_move"):
+		if xadrez_manager and xadrez_manager.has_method("PlayerFinishedMove"):
+			xadrez_manager.PlayerFinishedMove()
+		elif xadrez_manager and xadrez_manager.has_method("player_finished_move"):
 			xadrez_manager.player_finished_move()
 
 # Função para limpar o estado de jogo e te libertar
@@ -263,15 +273,8 @@ func morrer_instantaneamente(motivo: String):
 	GameManager.take_damage(GameManager.max_hp)
 
 func esta_em_cheque(pos_grid_alvo: Vector2i) -> bool:
-	var pos_alvo_pixel = Vector2(pos_grid_alvo.x * grid_size + (grid_size / 2.0), pos_grid_alvo.y * grid_size + (grid_size / 2.0))
-	var espaco = get_world_2d().direct_space_state
-	var query = PhysicsPointQueryParameters2D.new()
-	query.position = pos_alvo_pixel
-	
-	# MASCARA 2: Significa que ele SÓ vai detectar o que estiver no Layer 2 (Bailarinas)
-	# Assim ele ignora a parede (Layer 1) e não te mata à toa.
-	query.collision_mask = 2 
-	query.collide_with_areas = true
-	
-	var resultado = espaco.intersect_point(query)
-	return resultado.size() > 0
+	# Consulta direta no grid_pos das bailarinas — sem depender de layer de física
+	for b in get_tree().get_nodes_in_group("bailarina"):
+		if b.get("grid_pos") == pos_grid_alvo:
+			return true
+	return false

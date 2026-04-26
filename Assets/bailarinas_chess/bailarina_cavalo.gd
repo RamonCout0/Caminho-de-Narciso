@@ -74,23 +74,17 @@ func grid_to_world(pos: Vector2i) -> Vector2:
 func is_valid_pos(pos: Vector2i) -> bool:
 	return pos.x >= 0 and pos.x <= 7 and pos.y >= 0 and pos.y <= 7
 
-func _on_area_entered(area: Area2D):
-	if area.is_in_group("player"): GameManager.take_damage(GameManager.max_hp)
-
 func check_collisions():
-	for area in detector.get_overlapping_areas():
-		if area.is_in_group("player"): GameManager.take_damage(GameManager.max_hp)
+	for body in detector.get_overlapping_bodies():
+		if body.is_in_group("player"):
+			body.call("morrer_instantaneamente", "Pisou no Cavalo!")
+			return
 
-
-# Esta função será chamada automaticamente pelo sinal que você conectou agora
-func _on_collision_detector_body_entered(body: Node2D):
-	print("🚨 ALGO ENTOU NO DETECTOR: ", body.name)
-	
+func _on_collision_detector_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		print("💀 PLAYER DETECTADO! Game Over.")
-		GameManager.take_damage(GameManager.max_hp)
+		body.morrer_instantaneamente("Pisou no Cavalo!")
 
-# Mantenha essa para garantir que áreas também matem (como o escudo ou hitbox do player)
-func _on_collision_detector_area_entered(area: Area2D):
-	if area.is_in_group("player") or area.get_parent().is_in_group("player"):
-		GameManager.take_damage(GameManager.max_hp)
+func _on_collision_detector_area_entered(area: Area2D) -> void:
+	var owner_node = area if area.is_in_group("player") else area.get_parent()
+	if owner_node.is_in_group("player"):
+		owner_node.morrer_instantaneamente("Pisou no Cavalo!")

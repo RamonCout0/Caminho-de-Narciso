@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://dgfjixt3eyhk0"]
+[gd_scene format=3 uid="uid://vysvesd117t7"]
 
-[ext_resource type="Script" uid="uid://c1h2uswxd32v2" path="res://Content/Scenes/transition_screen.gd" id="1_sttn3"]
+[ext_resource type="Script" path="res://Content/Scenes/transition_screen.gd" id="1_sttn3"]
 [ext_resource type="Script" uid="uid://jjbglj087pb8" path="res://Scripts/Global/GameManager.gd" id="1_trr5r"]
 
 [sub_resource type="Animation" id="Animation_6uoi3"]
