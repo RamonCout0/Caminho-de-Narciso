@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c8xbp7lw6wswc"]
+
+[ext_resource type="PackedScene" uid="uid://cnitnlkhigt5e" path="res://Content/Scenes/Player.tscn" id="1_ytpil"]
+[ext_resource type="PackedScene" uid="uid://73a1dki11dht" path="res://Assets/boneca/blink_enemy.tscn" id="2_mj4g4"]
+[ext_resource type="PackedScene" uid="uid://304wbv33al8" path="res://Assets/torre/caminho_torre.tscn" id="3_cr2i6"]
+[ext_resource type="PackedScene" uid="uid://b2cujqyp56l55" path="res://Assets/Hatman/hatman.tscn" id="4_sgnt7"]
+[ext_resource type="PackedScene" uid="uid://woeqq30njhnn" path="res://Assets/bailarina/bailarina.tscn" id="5_5jdip"]
+
+[node name="Node2D" type="Node2D" unique_id=1106640738]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1626993613]
+offset_right = 2641.0
+offset_bottom = 1563.0
+color = Color(0.24674505, 0.5363114, 0.40335026, 1)
+
+[node name="Player" parent="." unique_id=1555702128 instance=ExtResource("1_ytpil")]
+position = Vector2(2173, 243)
+
+[node name="BlinkEnemy" parent="." unique_id=1373699795 node_paths=PackedStringArray("player") instance=ExtResource("2_mj4g4")]
+position = Vector2(2131.0002, 1265)
+player = NodePath("../Player")
+
+[node name="CaminhoTorre" parent="." unique_id=2085015653 instance=ExtResource("3_cr2i6")]
+
+[node name="CharacterBody2D" parent="." unique_id=1559363353 instance=ExtResource("4_sgnt7")]
+position = Vector2(1278, 311)
+
+[node name="Bailarina" parent="." unique_id=1742570596 node_paths=PackedStringArray("player") instance=ExtResource("5_5jdip")]
+position = Vector2(2542, 54)
+player = NodePath("../Player")

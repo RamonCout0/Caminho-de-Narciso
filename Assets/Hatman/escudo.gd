@@ -24,6 +24,7 @@ var _pos_inicial_x  : float = 0.0    # Para auto-destruição se sair muito da t
 @onready var sprite = $AnimatedSprite2D
 
 func _ready() -> void:
+	add_to_group("shield")  # Necessário para o outro escudo detectar colisão
 	area_entered.connect(_on_area_entered)
 	sprite.play("default")
 	sprite.material.set_shader_parameter("intensity", 0.0)

@@ -28,6 +28,7 @@ var player : Node2D
 var hp     : int
 
 func _ready() -> void:
+	add_to_group("enemy")  # ESSENCIAL: a bala usa is_in_group("enemy") para detectar o boss
 	hp = hp_max
 	player = get_tree().get_first_node_in_group("player")
 	aura_trevas.body_entered.connect(_on_aura_entered)

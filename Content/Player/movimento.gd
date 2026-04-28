@@ -28,7 +28,18 @@ var movimentos_restantes: int = 0
 func _ready():
 	# Garante que a lanterna comece ligada
 	if lanterna:
-			lanterna.enabled = true
+		lanterna.enabled = true
+	
+	# --- SISTEMA DE SPAWN ---
+	# Lê o spawn point definido pela porta da cena anterior
+	var spawn_name = GameManager.target_spawn_point
+	if spawn_name != "":
+		var spawn = get_tree().current_scene.find_child(spawn_name, true, false)
+		if spawn:
+			global_position = spawn.global_position
+		else:
+			push_warning("[Player] Spawn point '%s' não encontrado na cena!" % spawn_name)
+		GameManager.target_spawn_point = "" # Reseta para não reusar
 
 func _physics_process(delta):
 	
@@ -170,9 +181,19 @@ func iniciar_modo_xadrez(manager_node: Node, inicio_grid_x: int, inicio_grid_y: 
 		xadrez_manager.player_turn_started.connect(iniciar_turno_jogador)
 	
 	pos_grid_do_player = Vector2i(inicio_grid_x, inicio_grid_y)
-	global_position = Vector2(pos_grid_do_player.x * grid_size + (grid_size / 2.0), pos_grid_do_player.y * grid_size + (grid_size / 2.0))
+	# Usa o board_origin da primeira bailarina para calcular posição correta
+	var origem := _get_board_origin()
+	global_position = origem + Vector2(pos_grid_do_player.x * grid_size + grid_size / 2.0,
+									  pos_grid_do_player.y * grid_size + grid_size / 2.0)
 	velocity = Vector2.ZERO
 	handle_animations(Vector2.ZERO)
+
+## Retorna o board_origin da primeira bailarina na cena (ou Vector2.ZERO se não encontrar).
+func _get_board_origin() -> Vector2:
+	var b = get_tree().get_first_node_in_group("bailarina")
+	if b and b.get("board_origin") != null:
+		return b.board_origin
+	return Vector2.ZERO
 
 func iniciar_turno_jogador():
 	print("📢 Turno do player! Você tem 1 movimento.")
@@ -226,7 +247,8 @@ func tentar_mover_jogador(nova_pos_grid: Vector2i):
 	animar_movimento_xadrez(nova_pos_grid)
 
 func animar_movimento_xadrez(nova_pos_grid: Vector2i):
-	var nova_pos_visual = Vector2(nova_pos_grid.x * grid_size + (grid_size / 2.0), nova_pos_grid.y * grid_size + (grid_size / 2.0))
+	var origem := _get_board_origin()
+	var nova_pos_visual = origem + Vector2(nova_pos_grid.x * grid_size + (grid_size / 2.0), nova_pos_grid.y * grid_size + (grid_size / 2.0))
 	
 	handle_animations((nova_pos_visual - global_position).normalized())
 	

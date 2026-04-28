@@ -254,7 +254,7 @@ shadow_enabled = true
 shadow_filter = 1
 shadow_filter_smooth = 5.1
 texture = ExtResource("22_vslsq")
-offset = Vector2(895.56, 0)
+offset = Vector2(970, 0)
 script = ExtResource("25_lantluz")
 
 [node name="sprite_lanterna" type="Sprite2D" parent="Lanterna" unique_id=923944907]
@@ -262,7 +262,7 @@ texture_filter = 1
 position = Vector2(-31.304329, -4.521208)
 scale = Vector2(2.5147467, 1.669322)
 texture = ExtResource("3_aw4rw")
-offset = Vector2(-1.9231129, -0.37862968)
+offset = Vector2(20, 0)
 
 [node name="SomLanterna" type="AudioStreamPlayer2D" parent="." unique_id=1210594947]
 stream = ExtResource("22_5jb6x")

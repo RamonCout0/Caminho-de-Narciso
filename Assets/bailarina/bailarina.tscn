@@ -82,10 +82,7 @@ shader_parameter/grain_amount = 0.08
 script = ExtResource("1_xx10k")
 move_speed = 9.0
 tempo_de_reacao = 0.8
-tempo_max_idle = 10.0
-tempo_min_dance = 17.0
-tempo_max_dance = 30.0
-range_sanidade = 300.0
+range_sanidade = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1088172336]
 position = Vector2(0, 5.5)
