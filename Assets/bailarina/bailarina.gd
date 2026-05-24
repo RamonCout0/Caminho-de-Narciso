@@ -24,7 +24,8 @@ extends CharacterBody2D
 @export_group("Sanidade")
 @export var range_sanidade : float = 600.0 ## Distância (px) a partir da qual começa a drenar sanidade (pode ser maior que detection_range)
 @export var taxa_sanidade  : float = 15.0  ## Drenagem de sanidade por segundo (enquanto dança)
-const ID_AMEACA : String = "bailarina"
+# ID único por instância para não conflitar com outras bailarinas na mesma cena
+var _id_ameaca : String = ""
 
 # --- ESTADOS INTERNOS ---
 var is_dancing : bool = false
@@ -33,14 +34,14 @@ var reaction_counter : float = 0.0
 var has_attacked : bool = false
 
 func _ready():
+	_id_ameaca = "bailarina_%d" % get_instance_id()
 	luz_palco.enabled = false
 	lente_distorcao.visible = false
 	anim.play("idle")
 	state_timer = randf_range(tempo_min_idle, tempo_max_idle)
 
 func _exit_tree() -> void:
-	# Garante que a ameaça seja removida se a bailarina sair da cena
-	GameManager.remover_ameaca(ID_AMEACA)
+	GameManager.remover_ameaca(_id_ameaca)
 
 func _physics_process(delta):
 	if not player or has_attacked:
@@ -63,9 +64,9 @@ func _physics_process(delta):
 		
 		# --- SANIDADE: Drena se dançando e dentro do range ---
 		if dist_to_player <= range_sanidade:
-			GameManager.registrar_ameaca(ID_AMEACA, taxa_sanidade)
+			GameManager.registrar_ameaca(_id_ameaca, taxa_sanidade)
 		else:
-			GameManager.remover_ameaca(ID_AMEACA)
+			GameManager.remover_ameaca(_id_ameaca)
 		
 		# Se ela chegar muito perto enquanto você está paralisado, ela ataca!
 		if dist_to_player <= attack_range:
@@ -76,8 +77,7 @@ func _physics_process(delta):
 		# --- ESCURO: ELA FICA TOTALMENTE PARADA ---
 		velocity = Vector2.ZERO
 		reaction_counter = 0 # Reseta a reação do jogador
-		# --- SANIDADE: Aliviada no escuro ---
-		GameManager.remover_ameaca(ID_AMEACA)
+		GameManager.remover_ameaca(_id_ameaca)
 	
 	move_and_slide()
 
@@ -100,8 +100,8 @@ func _trocar_estado():
 
 func _vigiar_jogador(delta):
 	var detectou_erro = false
-	
-	if player.velocity.length() > 20.0 or player.lanterna.enabled:
+	var lanterna_ligada = player.lanterna != null and player.lanterna.enabled
+	if player.velocity.length() > 20.0 or lanterna_ligada:
 		detectou_erro = true
 	
 	if detectou_erro:
@@ -113,7 +113,7 @@ func _vigiar_jogador(delta):
 
 func _atacar_jogador():
 	has_attacked = true
-	GameManager.remover_ameaca(ID_AMEACA) # Limpa a ameaça ao atacar
+	GameManager.remover_ameaca(_id_ameaca) # Limpa a ameaça ao atacar
 	player.levar_dano(5)
 	musica.stop()
 	luz_palco.enabled = false 
@@ -130,4 +130,4 @@ func _force_idle():
 		luz_palco.enabled = false
 		musica.stop()
 		velocity = Vector2.ZERO
-		GameManager.remover_ameaca(ID_AMEACA)
+		GameManager.remover_ameaca(_id_ameaca)

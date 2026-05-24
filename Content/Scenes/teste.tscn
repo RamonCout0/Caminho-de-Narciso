@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bjf30m6yrit4x"]
+
+[ext_resource type="PackedScene" uid="uid://cnitnlkhigt5e" path="res://Content/Scenes/Player.tscn" id="1_nxhxv"]
+[ext_resource type="PackedScene" uid="uid://woeqq30njhnn" path="res://Assets/bailarina/bailarina.tscn" id="2_jqj28"]
+[ext_resource type="PackedScene" uid="uid://304wbv33al8" path="res://Assets/torre/caminho_torre.tscn" id="3_acrb5"]
+[ext_resource type="PackedScene" uid="uid://73a1dki11dht" path="res://Assets/boneca/blink_enemy.tscn" id="4_7v47y"]
+
+[node name="Node2D" type="Node2D" unique_id=293441980]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1524816204]
+
+[node name="Player" parent="." unique_id=1555702128 instance=ExtResource("1_nxhxv")]
+position = Vector2(579, 450)
+
+[node name="Bailarina" parent="." unique_id=1742570596 node_paths=PackedStringArray("player") instance=ExtResource("2_jqj28")]
+position = Vector2(420, 21)
+player = NodePath("../Player")
+
+[node name="CaminhoTorre" parent="." unique_id=2085015653 instance=ExtResource("3_acrb5")]
+position = Vector2(-89, 26)
+
+[node name="BlinkEnemy" parent="." unique_id=1373699795 node_paths=PackedStringArray("player") instance=ExtResource("4_7v47y")]
+position = Vector2(895.0001, 30)
+player = NodePath("../Player")

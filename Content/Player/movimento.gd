@@ -16,33 +16,30 @@ extends CharacterBody2D
 
 var current_direction = "down"
 var has_shield: bool = false
-var pode_se_mover: bool = true
 
-func _ready() -> void:
-	print("[DEBUG PLAYER] O Player nasceu na fase!")
-	
-	if GameManager.target_spawn_point != "":
-		print("[DEBUG PLAYER] O GameManager mandou nascer em: '", GameManager.target_spawn_point, "'")
-		
-		# Espera a física carregar
-		await get_tree().physics_frame
-		
-		var spawn_node = get_tree().current_scene.find_child(GameManager.target_spawn_point, true, false)
-		
-		if spawn_node:
-			print("[DEBUG PLAYER] Marker2D achado! Movendo para: ", spawn_node.global_position)
-			global_position = spawn_node.global_position
-		else:
-			printerr("[ERRO FATAL PLAYER] O nó '", GameManager.target_spawn_point, "' não existe!")
-	else:
-		print("[DEBUG PLAYER] Nenhum ponto registrado. Usando posição padrão.")
-	
-	# Garante que a lanterna comece ligada (se existir o nó)
-	if has_node("lanterna"):
-		$lanterna.enabled = true
+var pode_se_mover: bool = true
+var in_chess_mode: bool = false
+var is_my_turn_in_chess: bool = false
+var pos_grid_do_player: Vector2i = Vector2i.ZERO
+var grid_size: int = 32 # Ou o tamanho que você estiver usando
+var xadrez_manager: Node = null
+var movimentos_restantes: int = 0
+
+func _ready():
 	# Garante que a lanterna comece ligada
 	if lanterna:
-			lanterna.enabled = true
+		lanterna.enabled = true
+	
+	# --- SISTEMA DE SPAWN ---
+	# Lê o spawn point definido pela porta da cena anterior
+	var spawn_name = GameManager.target_spawn_point
+	if spawn_name != "":
+		var spawn = get_tree().current_scene.find_child(spawn_name, true, false)
+		if spawn:
+			global_position = spawn.global_position
+		else:
+			push_warning("[Player] Spawn point '%s' não encontrado na cena!" % spawn_name)
+		GameManager.target_spawn_point = "" # Reseta para não reusar
 
 func _physics_process(delta):
 	
@@ -53,18 +50,22 @@ func _physics_process(delta):
 
 	# ... aqui continua o seu código normal de movimento ...
 	# --- TRAVA DE DIÁLOGO ---
-	# Procura a caixa de diálogo na cena atual
 	var ui_dialogo = get_tree().current_scene.find_child("DialogueBox", true, false)
-	
-	# Se a caixa existir e estiver visível, o player congela
 	if ui_dialogo and ui_dialogo.visible:
 		velocity = Vector2.ZERO
 		move_and_slide()
-		footstep_sound.stop() # Garante que o som de passos pare
-		handle_animations(Vector2.ZERO) # Força a animação de Idle
-		return # Interrompe o restante do código de movimento
+		footstep_sound.stop()
+		handle_animations(Vector2.ZERO)
+		return
 	# ------------------------
 
+	# --- TRAVA DO XADREZ ---
+	if in_chess_mode:
+		_process_chess_input()
+		return
+	# ------------------------
+
+	# MOVIMENTAÇÃO LIVRE NORMAL
 	var input_direction = Input.get_vector("mv_left", "mv_right", "mv_up", "mv_down")
 	var target_velocity = input_direction * max_speed
 	
@@ -79,32 +80,33 @@ func _physics_process(delta):
 	
 	move_and_slide()
 	handle_animations(input_direction)
+	
+	# Checagem de colisão física (move_and_slide)
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var objeto = collision.get_collider()
+		
+		# Se encostar em algo que está no grupo das bailarinas
+		if objeto.is_in_group("bailarina"):
+			morrer_instantaneamente("Atropelado por uma bailarina!")
 
-# --- FUNÇÃO RODA A CADA FRAME PARA O MOUSE E BOTÕES ---
+
 func _process(_delta):
 	if lanterna:
-		# 1. Faz APENAS a lanterna girar para o mouse
 		lanterna.look_at(get_global_mouse_position())
-		
-		# 2. O botão de Ligar/Desligar
 		if Input.is_action_just_pressed("toggle_lanterna"):
 			lanterna.enabled = !lanterna.enabled
 			som_lanterna.play()
 			
-	# 3. Lógica para pegar o escudo do chão
 	if Input.is_action_just_pressed("interagir"):
 		if has_node("Area_Coleta"):
 			var areas = $Area_Coleta.get_overlapping_areas()
-			print("Botão apertado! Áreas encostando no jogador: ", areas)
-			
 			for area in areas:
 				if area.is_in_group("pickup_shield"):
-					print("Pegou o escudo!")
 					has_shield = true
 					area.queue_free()
 					break
-		else:
-			print("ERRO: O jogador não tem o nó chamado 'Area_Coleta'!")
+					
 	if pivot_escudo:
 		if has_shield:
 			pivot_escudo.visible = true
@@ -131,16 +133,17 @@ func handle_animations(input_direction: Vector2):
 			"down": animated_sprite.play("idle_down")
 			"up": animated_sprite.play("idle_up")
 			"side": animated_sprite.play("idle_side")
-			
-# --- SISTEMA DE HP E CURA ---
+
+# ==========================================
+#        SISTEMA DE COMBATE / STATUS
+# ==========================================
+
 func levar_dano(quantidade: int):
-	# Chamando o autoload
 	GameManager.take_damage(quantidade)
 	if som_dano:
 		som_dano.pitch_scale = randf_range(0.9, 1.1)
 		som_dano.play()
 	
-	# Feedback visual
 	var tween = create_tween()
 	tween.tween_property(animated_sprite, "modulate", Color.RED, 0.1)
 	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.1)
@@ -149,30 +152,151 @@ func receber_cura(quantidade: int):
 	if som_cura:
 		som_cura.pitch_scale = randf_range(1.0, 1.2)
 		som_cura.play()
-		
 	GameManager.heal(quantidade)
-	
-	# Feedback Visual (Flash Verde)
 	var tween = create_tween()
 	tween.tween_property(animated_sprite, "modulate", Color.GREEN, 0.1)
 	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.1)
 
-func _on_item_cura_body_entered(_body: Node2D) -> void:
-	pass
-
-# --- INTERAÇÕES COM O COMBATE (BALA / ESCUDO) ---
-
-# Função chamada pela bala quando acerta o player SEM escudo
 func take_damage():
-	# Redirecionado para levar_dano para reaproveitar o som e o flash vermelho
 	levar_dano(1)
 
-# Função chamada pela bala quando acerta o player COM escudo
 func consume_shield() -> void:
 	has_shield = false
 	if pivot_escudo:
 		pivot_escudo.visible = false
-	# Flash ciano para dar feedback que o escudo foi consumido
 	var tween = create_tween()
 	tween.tween_property(animated_sprite, "modulate", Color(0.3, 0.8, 2.0), 0.06)
 	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.15)
+
+
+# ==========================================
+#        SISTEMA DE XADREZ (NOVO)
+# ==========================================
+
+func iniciar_modo_xadrez(manager_node: Node, inicio_grid_x: int, inicio_grid_y: int):
+	in_chess_mode = true
+	xadrez_manager = manager_node
+	
+	if not xadrez_manager.player_turn_started.is_connected(iniciar_turno_jogador):
+		xadrez_manager.player_turn_started.connect(iniciar_turno_jogador)
+	
+	pos_grid_do_player = Vector2i(inicio_grid_x, inicio_grid_y)
+	# Usa o board_origin da primeira bailarina para calcular posição correta
+	var origem := _get_board_origin()
+	global_position = origem + Vector2(pos_grid_do_player.x * grid_size + grid_size / 2.0,
+									  pos_grid_do_player.y * grid_size + grid_size / 2.0)
+	velocity = Vector2.ZERO
+	handle_animations(Vector2.ZERO)
+
+## Retorna o board_origin da primeira bailarina na cena (ou Vector2.ZERO se não encontrar).
+func _get_board_origin() -> Vector2:
+	var b = get_tree().get_first_node_in_group("bailarina")
+	if b and b.get("board_origin") != null:
+		return b.board_origin
+	return Vector2.ZERO
+
+func iniciar_turno_jogador():
+	print("📢 Turno do player! Você tem 1 movimento.")
+	movimentos_restantes = 1
+	is_my_turn_in_chess = true
+
+func _process_chess_input():
+	if not is_my_turn_in_chess:
+		return
+
+	var direcao_movimento = Vector2i.ZERO
+	
+	if Input.is_action_just_pressed("mv_right"): direcao_movimento = Vector2i.RIGHT
+	elif Input.is_action_just_pressed("mv_left"): direcao_movimento = Vector2i.LEFT
+	elif Input.is_action_just_pressed("mv_up"): direcao_movimento = Vector2i.UP
+	elif Input.is_action_just_pressed("mv_down"): direcao_movimento = Vector2i.DOWN
+
+	if direcao_movimento != Vector2i.ZERO:
+		tentar_mover_jogador(pos_grid_do_player + direcao_movimento)
+
+func tentar_mover_jogador(nova_pos_grid: Vector2i):
+	var diff_x = abs(nova_pos_grid.x - pos_grid_do_player.x)
+	var diff_y = abs(nova_pos_grid.y - pos_grid_do_player.y)
+
+	# REGRAS: Aceita reta ou diagonal (1 quadrado)
+	var eh_diagonal = (diff_x == diff_y)
+	var eh_reta = (diff_x == 0 or diff_y == 0)
+	var moveu_um_quadrado = (diff_x <= 1 and diff_y <= 1)
+
+	# Regra do tabuleiro 8x8 (0 a 7)
+	var fora_dos_limites = nova_pos_grid.x < 0 or nova_pos_grid.x > 7 or nova_pos_grid.y < 0 or nova_pos_grid.y > 7
+
+	# --- AJUSTE AQUI ---
+	# Se estiver fora do grid, a gente só cancela o movimento em vez de matar!
+	if fora_dos_limites:
+		print("Opa, parede! Não pode sair do grid.")
+		return # Sai da função sem tirar HP e sem gastar o turno
+
+	# Se for um movimento maluco (tipo pular 3 casas), a gente também só ignora
+	if (not eh_reta and not eh_diagonal) or not moveu_um_quadrado:
+		return
+
+	# O ÚNICO jeito de morrer agora é o cheque-mate (pisar na bailarina)
+	if esta_em_cheque(nova_pos_grid):
+		morrer_instantaneamente("Cheque-Mate!")
+		return
+
+	# Se tudo der certo, executa o movimento
+	is_my_turn_in_chess = false 
+	pos_grid_do_player = nova_pos_grid
+	animar_movimento_xadrez(nova_pos_grid)
+
+func animar_movimento_xadrez(nova_pos_grid: Vector2i):
+	var origem := _get_board_origin()
+	var nova_pos_visual = origem + Vector2(nova_pos_grid.x * grid_size + (grid_size / 2.0), nova_pos_grid.y * grid_size + (grid_size / 2.0))
+	
+	handle_animations((nova_pos_visual - global_position).normalized())
+	
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", nova_pos_visual, 0.2).set_trans(Tween.TRANS_SINE)
+	
+	await tween.finished
+	handle_animations(Vector2.ZERO)
+
+	# --- VERIFICAÇÃO DE VITÓRIA (LINHA DE CHEGADA) ---
+	# Se a posição Y for 0, significa que você chegou na última linha!
+	if nova_pos_grid.y <= 0:
+		vencer_xadrez()
+		return # Sai da função para não gastar movimentos ou passar o turno
+	# ------------------------------------------------
+
+	movimentos_restantes -= 1
+	
+	if movimentos_restantes > 0:
+		is_my_turn_in_chess = true
+	else:
+		if xadrez_manager and xadrez_manager.has_method("PlayerFinishedMove"):
+			xadrez_manager.PlayerFinishedMove()
+		elif xadrez_manager and xadrez_manager.has_method("player_finished_move"):
+			xadrez_manager.player_finished_move()
+
+# Função para limpar o estado de jogo e te libertar
+func vencer_xadrez():
+	print("🏆 Você escapou do xadrez!")
+	in_chess_mode = false
+	is_my_turn_in_chess = false
+	
+	# Chama o manager para fazer o fade-out da música
+	if xadrez_manager and xadrez_manager.has_method("finalizar_encontro"):
+		xadrez_manager.finalizar_encontro()
+	
+	GameManager.casas_ocupadas.clear()
+	
+	# Avisa o manager que o encontro acabou (opcional)
+	if xadrez_manager:
+		xadrez_manager.is_encounter_active = false
+func morrer_instantaneamente(motivo: String):
+	print(motivo)
+	GameManager.take_damage(GameManager.max_hp)
+
+func esta_em_cheque(pos_grid_alvo: Vector2i) -> bool:
+	# Consulta direta no grid_pos das bailarinas — sem depender de layer de física
+	for b in get_tree().get_nodes_in_group("bailarina"):
+		if b.get("grid_pos") == pos_grid_alvo:
+			return true
+	return false
