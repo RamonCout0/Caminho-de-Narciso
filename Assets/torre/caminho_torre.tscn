@@ -6,9 +6,9 @@
 
 [sub_resource type="Curve2D" id="Curve2D_bj6gd"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 19, 14, 0, 0, 0, 0, 910, 17, 0, 0, 0, 0, 911, 369, 0, 0, 0, 0, 42, 360, 0, 0, 0, 0, 22, 18)
+"points": PackedVector2Array(0, 0, 0, 0, 244, 681, 0, 0, 0, 0, 294, 681, 0, 0, 0, 0, 291, -17)
 }
-point_count = 5
+point_count = 3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_khlga"]
 size = Vector2(24, 60)
@@ -72,7 +72,7 @@ animations = [{
 size = Vector2(41, 81.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ljbki"]
-radius = 129.28264
+radius = 584.309
 
 [sub_resource type="Animation" id="Animation_sxkri"]
 length = 0.001
@@ -217,13 +217,12 @@ _data = {
 curve = SubResource("Curve2D_bj6gd")
 
 [node name="Trilho" type="PathFollow2D" parent="." unique_id=1179347284]
-position = Vector2(19, 14)
-rotation = 0.0033669905
+position = Vector2(244, 681)
 
 [node name="InimigoTorre" type="CharacterBody2D" parent="Trilho" unique_id=1592576326]
 script = ExtResource("1_roiwp")
-velocidade = 300.0
-range_sanidade = 10.0
+velocidade = 200.0
+taxa_sanidade = 8.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Trilho/InimigoTorre" unique_id=1420165706]
 position = Vector2(0, 5)
@@ -247,6 +246,8 @@ shape = SubResource("CircleShape2D_ljbki")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Trilho/InimigoTorre" unique_id=2115874457]
 stream = ExtResource("3_sxkri")
+max_distance = 4000.0
+attenuation = 0.7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Trilho/InimigoTorre" unique_id=956411884]
 root_node = NodePath("../..")

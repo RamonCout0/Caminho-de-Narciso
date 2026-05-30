@@ -14,7 +14,7 @@ offset_bottom = 1563.0
 color = Color(0.24674505, 0.5363114, 0.40335026, 1)
 
 [node name="Player" parent="." unique_id=1555702128 instance=ExtResource("1_ytpil")]
-position = Vector2(2173, 243)
+position = Vector2(260, 115)
 
 [node name="BlinkEnemy" parent="." unique_id=1373699795 node_paths=PackedStringArray("player") instance=ExtResource("2_mj4g4")]
 position = Vector2(2131.0002, 1265)

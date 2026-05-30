@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dvx4whrytmxgp"]
+
+[ext_resource type="Script" uid="uid://bjnhgx03le5k6" path="res://area_2d.gd" id="1_beww8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pl8m5"]
+size = Vector2(34, 31)
+
+[node name="Checkpoint" type="Area2D" unique_id=1512043602]
+script = ExtResource("1_beww8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2138595136]
+shape = SubResource("RectangleShape2D_pl8m5")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

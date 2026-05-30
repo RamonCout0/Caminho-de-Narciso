@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bnmg6dv7otpip"]
 
 [ext_resource type="Texture2D" uid="uid://b42yolbejhpme" path="res://Assets/TileSets/consultorio1.2.png" id="1_81b3p"]
-[ext_resource type="PackedScene" uid="uid://diki6nnen66e" path="res://Content/Scenes/Player.tscn" id="2_2gfss"]
+[ext_resource type="PackedScene" uid="uid://cnitnlkhigt5e" path="res://Content/Scenes/Player.tscn" id="2_2gfss"]
 [ext_resource type="PackedScene" uid="uid://nqa4i30wssai" path="res://Content/Scenes/trigger_scene.tscn" id="3_2gfss"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qd7oa"]

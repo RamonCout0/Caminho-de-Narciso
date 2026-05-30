@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bboeojlrxe1p6"]
 
 [ext_resource type="Texture2D" uid="uid://b42yolbejhpme" path="res://Assets/TileSets/consultorio1.2.png" id="1_k8bso"]
-[ext_resource type="PackedScene" uid="uid://diki6nnen66e" path="res://Content/Scenes/Player.tscn" id="1_lk77u"]
+[ext_resource type="PackedScene" uid="uid://cnitnlkhigt5e" path="res://Content/Scenes/Player.tscn" id="1_lk77u"]
 [ext_resource type="PackedScene" uid="uid://kl11jurxs36c" path="res://Content/Scenes/door.tscn" id="3_jxbu1"]
 [ext_resource type="PackedScene" uid="uid://nqa4i30wssai" path="res://Content/Scenes/trigger_scene.tscn" id="4_b5j64"]
 
@@ -989,14 +989,14 @@ tile_set = SubResource("TileSet_gfxm2")
 [node name="portaas" type="Node2D" parent="." unique_id=840839297]
 position = Vector2(0, 2)
 
-[node name="Porta_Consultorio" parent="portaas" unique_id=203211855 instance=ExtResource("3_jxbu1")]
-position = Vector2(754, 770)
+[node name="Porta_Consultorio1" parent="portaas" unique_id=1109670938 instance=ExtResource("3_jxbu1")]
+position = Vector2(304, 771)
 rotation = -3.1415925
-next_scene_path = "uid://bvjyvplfhnp42"
+next_scene_path = "uid://cyku0awx0m7n2"
 target_spawn = "spawn_from_corredor"
 
-[node name="Porta_Consultorio2" parent="portaas" unique_id=1109670938 instance=ExtResource("3_jxbu1")]
-position = Vector2(304, 771)
+[node name="Porta_Consultorio2" parent="portaas" unique_id=203211855 instance=ExtResource("3_jxbu1")]
+position = Vector2(754, 770)
 rotation = -3.1415925
 next_scene_path = "uid://ch4r546dkda5w"
 target_spawn = "spawn_from_corredor"

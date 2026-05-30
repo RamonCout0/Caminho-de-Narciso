@@ -1,8 +1,9 @@
 [gd_scene format=4 uid="uid://nx75y5sfvlj5"]
 
 [ext_resource type="Texture2D" uid="uid://b42yolbejhpme" path="res://Assets/TileSets/consultorio1.2.png" id="1_c6b60"]
-[ext_resource type="PackedScene" uid="uid://diki6nnen66e" path="res://Content/Scenes/Player.tscn" id="2_0r6rc"]
+[ext_resource type="PackedScene" uid="uid://cnitnlkhigt5e" path="res://Content/Scenes/Player.tscn" id="2_0r6rc"]
 [ext_resource type="PackedScene" uid="uid://nqa4i30wssai" path="res://Content/Scenes/trigger_scene.tscn" id="3_1um0y"]
+[ext_resource type="PackedScene" uid="uid://304wbv33al8" path="res://Assets/torre/caminho_torre.tscn" id="4_on2pa"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_on2pa"]
 texture = ExtResource("1_c6b60")
@@ -1027,3 +1028,5 @@ position = Vector2(108, 102)
 
 [node name="spawn_from_ala" type="Marker2D" parent="SpawnPoints" unique_id=78747969]
 position = Vector2(106, 528)
+
+[node name="CaminhoTorre" parent="." unique_id=2085015653 instance=ExtResource("4_on2pa")]
