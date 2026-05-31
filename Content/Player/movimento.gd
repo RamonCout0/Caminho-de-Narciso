@@ -29,7 +29,10 @@ func _ready():
 	# Garante que a lanterna comece ligada
 	if lanterna:
 		lanterna.enabled = true
-	
+
+	# Conecta o shader de morte
+	GameManager.player_died.connect(_on_morrer_animacao)
+
 	# --- SISTEMA DE SPAWN ---
 	# Lê o spawn point definido pela porta da cena anterior
 	var spawn_name = GameManager.target_spawn_point
@@ -293,6 +296,22 @@ func vencer_xadrez():
 func morrer_instantaneamente(motivo: String):
 	print(motivo)
 	GameManager.take_damage(GameManager.max_hp)
+
+# ==========================================
+#        ANIMACAO DE MORTE (DISSOLVE)
+# ==========================================
+
+func _on_morrer_animacao() -> void:
+	var mat = animated_sprite.material as ShaderMaterial
+	if not mat or not mat.shader:
+		return
+	mat.set_shader_parameter("dissolve_progress", 0.0)
+
+	var tween = create_tween()
+	tween.tween_method(
+		func(v: float): mat.set_shader_parameter("dissolve_progress", v),
+		0.0, 1.0, 0.8
+	).set_trans(Tween.TRANS_SINE)
 
 func esta_em_cheque(pos_grid_alvo: Vector2i) -> bool:
 	# Consulta direta no grid_pos das bailarinas — sem depender de layer de física

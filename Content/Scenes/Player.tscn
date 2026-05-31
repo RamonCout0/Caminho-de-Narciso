@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://uayqxj4j64x" path="res://Assets/Objetos_testes/lanterna1.png" id="3_aw4rw"]
 [ext_resource type="Texture2D" uid="uid://c88fy6wio1n75" path="res://Assets/PlayerSprites/idle.png" id="3_ia0ys"]
 [ext_resource type="Shader" uid="uid://blss8dkr4ode6" path="res://shaders/shadow.gdshader" id="3_ucgb6"]
+[ext_resource type="Shader" uid="uid://cm7o31551irot" path="res://shaders/dissolve_morte.gdshader" id="3_ud5ux"]
 [ext_resource type="Texture2D" uid="uid://coewiwpc1vjno" path="res://Assets/PlayerSprites/protagonista.png" id="4_8gc88"]
 [ext_resource type="PackedScene" uid="uid://bxksrs721i821" path="res://UI/HUD/hud.tscn" id="12_8gc88"]
 [ext_resource type="AudioStream" uid="uid://vhinow1a6mdr" path="res://efeitos_sonoros/damage.mp3" id="13_4hvbg"]
@@ -21,6 +22,13 @@ shader = ExtResource("3_ucgb6")
 shader_parameter/raio = 0.5
 shader_parameter/suavidade = 0.1
 shader_parameter/opacidade_maxima = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x2w1w"]
+shader = ExtResource("3_ud5ux")
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/noise_scale = 6.0
+shader_parameter/edge_color = Color(0.3390483, 0, 0.014274473, 1)
+shader_parameter/edge_width = 0.08
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4hvbg"]
 atlas = ExtResource("3_ia0ys")
@@ -224,6 +232,7 @@ color = Color(0.10747976, 0.10747973, 0.10747973, 1)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932964432]
 texture_filter = 1
 texture_repeat = 1
+material = SubResource("ShaderMaterial_x2w1w")
 sprite_frames = SubResource("SpriteFrames_05puy")
 animation = &"walk_up"
 frame_progress = 0.38534787

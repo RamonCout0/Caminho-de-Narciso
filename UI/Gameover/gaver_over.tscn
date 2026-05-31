@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://57g4lw7crjxx" path="res://UI/Gameover/gaver_over.gd" id="1_dm5wu"]
 [ext_resource type="Texture2D" uid="uid://c3fitelvdhqae" path="res://UI/Gameover/gameover.png" id="1_tp6in"]
+[ext_resource type="AudioStream" uid="uid://bpbcw5ukn5f5g" path="res://musicas/A Step In The Dark Forest - Karl Schoenberg (youtube).mp3" id="3_pqcn6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dm5wu"]
 font_size = 41
@@ -34,7 +35,7 @@ position = Vector2(479, 269)
 texture = ExtResource("1_tp6in")
 
 [node name="Timer" type="Timer" parent="." unique_id=1209310507]
-wait_time = 7.0
+wait_time = 36.629999999999995
 one_shot = true
 
 [node name="Label" type="Label" parent="." unique_id=1142593623]
@@ -68,5 +69,10 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Mas não se preocupe, amamos você."
 label_settings = SubResource("LabelSettings_pqcn6")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1999266068]
+stream = ExtResource("3_pqcn6")
+pitch_scale = 0.82
+autoplay = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -130,15 +130,19 @@ func change_scene_with_fade(target_path: String) -> void:
 	if error != OK:
 		printerr("[ERRO] GameManager falhou ao carregar: ", target_path)
 	
-	# 🔴 LÓGICA DE TELEPORTE DO CHECKPOINT:
+	# LÓGICA DE TELEPORTE DO CHECKPOINT:
 	# Se a cena carregada for a do checkpoint ativo, coloca o Player na posição certa
 	if tem_checkpoint and target_path == checkpoint_cena_path:
-		await get_tree().process_frame # Espera a engine montar a árvore do mapa
+		await get_tree().process_frame
+		await get_tree().process_frame # segundo frame garante que _ready() dos nós rodou
 		var player = get_tree().current_scene.find_child("Player", true, false)
 		if player:
 			player.global_position = checkpoint_posicao
 			if "velocity" in player:
 				player.velocity = Vector2.ZERO
+			print("[Checkpoint] Player reposicionado em ", checkpoint_posicao)
+		else:
+			push_warning("[Checkpoint] Nó 'Player' não encontrado na cena: ", target_path)
 
 	anim_player.play_backwards("fade_to_black")
 	await anim_player.animation_finished
@@ -146,7 +150,11 @@ func change_scene_with_fade(target_path: String) -> void:
 
 # FUNÇÃO: Puxa a tela de GameOver com o efeito de Fade
 func _on_player_died() -> void:
-	# Ajustado para o caminho correto da sua pasta!
+	# Trava o movimento do player durante o fade
+	var player = get_tree().get_first_node_in_group("player")
+	if player and "pode_se_mover" in player:
+		player.pode_se_mover = false
+
 	var tela_gameover_path = "res://UI/Gameover/gaver_over.tscn"
 	change_scene_with_fade(tela_gameover_path)
 
