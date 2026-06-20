@@ -33,6 +33,6 @@ func reiniciar_jogo() -> void:
 
 	# Sempre usa o checkpoint se existir; caso contrário vai pro menu/início
 	if GameManager.tem_checkpoint:
-		GameManager.change_scene_with_fade(GameManager.checkpoint_cena_path)
+		GameManager.respawnar_no_checkpoint()
 	else:
 		GameManager.change_scene_with_fade(cena_inicial_padrao)

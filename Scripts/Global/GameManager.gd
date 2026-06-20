@@ -20,15 +20,71 @@ var torres_finalizadas: Array[String] = []
 # ==========================================
 #         💾 SISTEMA DE CHECKPOINT
 # ==========================================
+const SAVE_PATH := "user://narciso_save.cfg"
+
 var checkpoint_cena_path: String = ""          # Guarda o caminho da cena (.tscn)
 var checkpoint_posicao: Vector2 = Vector2.ZERO     # Guarda a posição global (X, Y)
 var tem_checkpoint: bool = false                # Flag se o player ativou algum checkpoint
 
-func salvar_checkpoint(cena_path: String, posicao_global: Vector2) -> void:
+# IDs dos checkpoints que já foram ativados — garante que cada um salve só UMA vez
+var checkpoints_ativados: Array[String] = []
+
+# Fica true só durante o renascimento, para o reposicionamento não atrapalhar
+# transições normais (portas) que voltam para a cena do checkpoint.
+var _respawn_pendente: bool = false
+
+## Autosave: chamado pelo nó Checkpoint quando o player encosta nele.
+## Cada checkpoint (identificado por 'id') salva apenas uma vez.
+func salvar_checkpoint(id: String, cena_path: String, posicao_global: Vector2) -> void:
+	if id in checkpoints_ativados:
+		return # Esse checkpoint já foi ativado antes — não salva de novo
+	checkpoints_ativados.append(id)
 	checkpoint_cena_path = cena_path
 	checkpoint_posicao = posicao_global
 	tem_checkpoint = true
-	print("💾 Checkpoint salvo com sucesso!")
+	_salvar_em_disco()
+	print("💾 Checkpoint salvo: ", id)
+
+## Renasce no último checkpoint (chamado pela tela de Game Over).
+func respawnar_no_checkpoint() -> void:
+	_respawn_pendente = true
+	change_scene_with_fade(checkpoint_cena_path)
+
+## Zera o progresso salvo — use ao começar um Novo Jogo.
+func iniciar_novo_jogo() -> void:
+	checkpoint_cena_path = ""
+	checkpoint_posicao = Vector2.ZERO
+	tem_checkpoint = false
+	checkpoints_ativados.clear()
+	torres_finalizadas.clear()
+	_apagar_disco()
+
+# --- PERSISTÊNCIA EM DISCO ---
+func _salvar_em_disco() -> void:
+	var cfg := ConfigFile.new()
+	cfg.set_value("checkpoint", "cena_path", checkpoint_cena_path)
+	cfg.set_value("checkpoint", "posicao", checkpoint_posicao)
+	cfg.set_value("checkpoint", "tem_checkpoint", tem_checkpoint)
+	cfg.set_value("checkpoint", "ativados", checkpoints_ativados)
+	cfg.set_value("progresso", "torres_finalizadas", torres_finalizadas)
+	var err := cfg.save(SAVE_PATH)
+	if err != OK:
+		printerr("[Save] Falha ao gravar o save: ", err)
+
+func _carregar_do_disco() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(SAVE_PATH) != OK:
+		return # Sem save ainda — começa do zero
+	checkpoint_cena_path = cfg.get_value("checkpoint", "cena_path", "")
+	checkpoint_posicao = cfg.get_value("checkpoint", "posicao", Vector2.ZERO)
+	tem_checkpoint = cfg.get_value("checkpoint", "tem_checkpoint", false)
+	checkpoints_ativados.assign(cfg.get_value("checkpoint", "ativados", []))
+	torres_finalizadas.assign(cfg.get_value("progresso", "torres_finalizadas", []))
+	print("💾 Save carregado (checkpoint: ", tem_checkpoint, ")")
+
+func _apagar_disco() -> void:
+	if FileAccess.file_exists(SAVE_PATH):
+		DirAccess.remove_absolute(SAVE_PATH)
 
 func atualizar_luz_da_cena_atual():
 	var cena_atual = get_tree().current_scene
@@ -113,7 +169,10 @@ func casa_esta_livre(grid_pos: Vector2i, meu_id: int) -> bool:
 func _ready() -> void:
 	if color_rect:
 		color_rect.hide()
-	
+
+	# Carrega o save do disco (se existir) para já saber se há checkpoint
+	_carregar_do_disco()
+
 	# CONEXÃO DA MORTE: Faz o GameManager escutar a si mesmo quando o player morre
 	player_died.connect(_on_player_died)
 
@@ -131,8 +190,9 @@ func change_scene_with_fade(target_path: String) -> void:
 		printerr("[ERRO] GameManager falhou ao carregar: ", target_path)
 	
 	# LÓGICA DE TELEPORTE DO CHECKPOINT:
-	# Se a cena carregada for a do checkpoint ativo, coloca o Player na posição certa
-	if tem_checkpoint and target_path == checkpoint_cena_path:
+	# Só reposiciona quando for um RENASCIMENTO (não em transições normais de porta).
+	if _respawn_pendente:
+		_respawn_pendente = false
 		await get_tree().process_frame
 		await get_tree().process_frame # segundo frame garante que _ready() dos nós rodou
 		var player = get_tree().current_scene.find_child("Player", true, false)
