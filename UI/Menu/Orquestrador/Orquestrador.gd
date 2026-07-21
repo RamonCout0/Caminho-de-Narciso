@@ -19,10 +19,8 @@ func _on_jogar_pressed() -> void:
 
 ## Liga este método a um botão "Continuar" para retomar do último checkpoint.
 func _on_continuar_pressed() -> void:
-	if GameManager.tem_checkpoint:
-		GameManager.respawnar_no_checkpoint()
-	else:
-		# Sem save: cai no comportamento de jogo novo
+	# Sem save válido, começa um jogo novo em vez de travar numa tela preta
+	if not await GameManager.respawnar_no_checkpoint():
 		_on_jogar_pressed()
 
 func _animacao_tela(tela_apagar: Control, tela_aparecer: Control) -> void:

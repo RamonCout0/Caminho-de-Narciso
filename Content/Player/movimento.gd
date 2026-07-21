@@ -46,21 +46,14 @@ func _ready():
 
 func _physics_process(delta):
 	
+	# Cobre também os diálogos: o GatilhoDialogo desliga 'pode_se_mover'
+	# enquanto a timeline do Dialogic estiver na tela.
 	if not pode_se_mover:
 		velocity = Vector2.ZERO # Para o boneco imediatamente
 		move_and_slide()        # Aplica a parada
-		return
-
-	# ... aqui continua o seu código normal de movimento ...
-	# --- TRAVA DE DIÁLOGO ---
-	var ui_dialogo = get_tree().current_scene.find_child("DialogueBox", true, false)
-	if ui_dialogo and ui_dialogo.visible:
-		velocity = Vector2.ZERO
-		move_and_slide()
 		footstep_sound.stop()
 		handle_animations(Vector2.ZERO)
 		return
-	# ------------------------
 
 	# --- TRAVA DO XADREZ ---
 	if in_chess_mode:
@@ -101,7 +94,9 @@ func _process(_delta):
 			lanterna.enabled = !lanterna.enabled
 			som_lanterna.play()
 			
-	if Input.is_action_just_pressed("interagir"):
+	# 'pode_se_mover' também bloqueia a coleta: sem isso, o mesmo 'E' que avança
+	# a fala do Dialogic recolhia itens sem querer durante a conversa.
+	if pode_se_mover and Input.is_action_just_pressed("interagir"):
 		if has_node("Area_Coleta"):
 			var areas = $Area_Coleta.get_overlapping_areas()
 			for area in areas:

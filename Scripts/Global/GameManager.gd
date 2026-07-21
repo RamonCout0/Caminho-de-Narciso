@@ -49,9 +49,31 @@ func salvar_checkpoint(id: String, cena_path: String, posicao_global: Vector2) -
 	print("💾 Checkpoint salvo: ", id)
 
 ## Renasce no último checkpoint (chamado pela tela de Game Over).
-func respawnar_no_checkpoint() -> void:
+## Ao renascer o jogador volta sempre inteiro: vida e sanidade cheias, e os
+## itens da sala reaparecem (a cena é recarregada do zero).
+func respawnar_no_checkpoint() -> bool:
+	# Save corrompido ou apagado: sem cena válida não há para onde renascer.
+	# Sem esta checagem o jogo tentava carregar "" e ficava numa tela preta.
+	if not tem_checkpoint or checkpoint_cena_path == "" \
+			or not ResourceLoader.exists(checkpoint_cena_path):
+		push_warning("[Checkpoint] Nenhum checkpoint válido para renascer.")
+		return false
+
+	reviver() # Vida e sanidade cheias antes de voltar ao mapa
+
+	# Uma transição já em andamento faria o change_scene_with_fade abaixo ser
+	# ignorado, deixando '_respawn_pendente' ligado e teleportando o jogador
+	# para o checkpoint na PRÓXIMA porta que ele atravessasse.
+	while _em_transicao:
+		await get_tree().process_frame
+
+	# Descarta qualquer spawn point pendente de uma porta anterior, senão o
+	# _ready() do Player disputaria a posição com o checkpoint.
+	target_spawn_point = ""
+
 	_respawn_pendente = true
 	change_scene_with_fade(checkpoint_cena_path)
+	return true
 
 ## Zera o progresso salvo — use ao começar um Novo Jogo.
 func iniciar_novo_jogo() -> void:
@@ -229,14 +251,16 @@ func change_scene_with_fade(target_path: String) -> void:
 		_respawn_pendente = false
 		await get_tree().process_frame
 		await get_tree().process_frame # segundo frame garante que _ready() dos nós rodou
-		var player = get_tree().current_scene.find_child("Player", true, false)
+		# Busca pelo GRUPO, e não pelo nome do nó: o resto do projeto todo usa
+		# is_in_group("player"), então renomear o nó não quebra mais o respawn.
+		var player = get_tree().get_first_node_in_group("player")
 		if player:
 			player.global_position = checkpoint_posicao
 			if "velocity" in player:
 				player.velocity = Vector2.ZERO
 			print("[Checkpoint] Player reposicionado em ", checkpoint_posicao)
 		else:
-			push_warning("[Checkpoint] Nó 'Player' não encontrado na cena: ", target_path)
+			push_warning("[Checkpoint] Nenhum nó no grupo 'player' na cena: " + target_path)
 
 	anim_player.play_backwards("fade_to_black")
 	await anim_player.animation_finished
@@ -249,6 +273,12 @@ func _on_player_died() -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	if player and "pode_se_mover" in player:
 		player.pode_se_mover = false
+
+	# A morte tem prioridade, mas não pode atropelar um fade em andamento:
+	# sem esta espera, morrer durante a transição de uma porta fazia a tela de
+	# Game Over ser descartada pela trava e o jogador ficava travado para sempre.
+	while _em_transicao:
+		await get_tree().process_frame
 
 	var tela_gameover_path = "res://UI/Gameover/gaver_over.tscn"
 	change_scene_with_fade(tela_gameover_path)

@@ -25,11 +25,10 @@ func reiniciar_jogo() -> void:
 	pode_reiniciar = false
 	timer.stop()
 
-	# Reseta status antes de sair da tela (inclui destravar a flag de morte)
-	GameManager.reviver()
+	# Renasce no checkpoint — ele já restaura vida e sanidade cheias.
+	# Se não houver save válido (ou o arquivo estiver corrompido), cai no início.
+	if await GameManager.respawnar_no_checkpoint():
+		return
 
-	# Sempre usa o checkpoint se existir; caso contrário vai pro menu/início
-	if GameManager.tem_checkpoint:
-		GameManager.respawnar_no_checkpoint()
-	else:
-		GameManager.change_scene_with_fade(cena_inicial_padrao)
+	GameManager.reviver()
+	GameManager.change_scene_with_fade(cena_inicial_padrao)
