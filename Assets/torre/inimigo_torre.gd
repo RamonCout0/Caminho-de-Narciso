@@ -10,9 +10,11 @@ var player_na_area: bool = false
 
 # --- SANIDADE ---
 @export_group("Sanidade")
-@export var range_sanidade : float = 200.0 
-@export var taxa_sanidade  : float = 12.0  
-const ID_AMEACA : String = "torre"
+@export var range_sanidade : float = 200.0
+@export var taxa_sanidade  : float = 12.0
+# ID único por instância: com um ID compartilhado, uma torre saindo do range
+# apagava a ameaça de sanidade das outras torres da mesma cena.
+var _id_ameaca : String = ""
 
 var _ameaca_registrada: bool = false
 var _player_ref: Node2D = null
@@ -23,6 +25,8 @@ var _player_ref: Node2D = null
 @onready var audio_move = $AudioStreamPlayer2D
 
 func _ready():
+	_id_ameaca = "torre_%d" % get_instance_id()
+
 	# 🔴 CHECAGEM DE PERSISTÊNCIA: Se esta torre já terminou no passado, ela deixa de existir
 	if id_unico_da_torre in GameManager.torres_finalizadas:
 		queue_free()
@@ -35,7 +39,7 @@ func _ready():
 
 func _exit_tree() -> void:
 	if _ameaca_registrada:
-		GameManager.remover_ameaca(ID_AMEACA)
+		GameManager.remover_ameaca(_id_ameaca)
 
 func _physics_process(delta):
 	if em_movimento:
@@ -49,11 +53,11 @@ func _physics_process(delta):
 		var dist = global_position.distance_to(_player_ref.global_position)
 		if dist <= range_sanidade:
 			if not _ameaca_registrada:
-				GameManager.registrar_ameaca(ID_AMEACA, taxa_sanidade)
+				GameManager.registrar_ameaca(_id_ameaca, taxa_sanidade)
 				_ameaca_registrada = true
 		else:
 			if _ameaca_registrada:
-				GameManager.remover_ameaca(ID_AMEACA)
+				GameManager.remover_ameaca(_id_ameaca)
 				_ameaca_registrada = false
 
 func iniciar_torre():
@@ -73,7 +77,7 @@ func parar_torre():
 	anim_player.play("idle")
 	
 	if _ameaca_registrada:
-		GameManager.remover_ameaca(ID_AMEACA)
+		GameManager.remover_ameaca(_id_ameaca)
 		_ameaca_registrada = false
 
 func finalizar_trajeto():
@@ -83,7 +87,7 @@ func finalizar_trajeto():
 	audio_move.stop()
 	
 	if _ameaca_registrada:
-		GameManager.remover_ameaca(ID_AMEACA)
+		GameManager.remover_ameaca(_id_ameaca)
 		_ameaca_registrada = false
 		
 	# 💾 SALVA O ESTADO NO GAMEMANAGER: Avisa que essa torre específica acabou

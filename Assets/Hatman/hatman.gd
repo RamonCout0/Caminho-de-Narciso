@@ -27,7 +27,11 @@ extends CharacterBody2D
 var player : Node2D
 var hp     : int
 
+# ID único por instância para não conflitar com outras ameaças na mesma cena
+var _id_ameaca : String = ""
+
 func _ready() -> void:
+	_id_ameaca = "hatman_%d" % get_instance_id()
 	add_to_group("enemy")  # ESSENCIAL: a bala usa is_in_group("enemy") para detectar o boss
 	hp = hp_max
 	player = get_tree().get_first_node_in_group("player")
@@ -36,6 +40,11 @@ func _ready() -> void:
 	# Avisa a HUD que o boss apareceu
 	GameManager.notificar_boss_hp(hp, hp_max)
 	iniciar_combate()
+
+## Garante que a aura não continue drenando sanidade depois que o boss
+## sai da cena (morte ou troca de sala com o player dentro da aura).
+func _exit_tree() -> void:
+	GameManager.remover_ameaca(_id_ameaca)
 
 # --------------- INICIALIZAÇÃO ---------------
 
@@ -129,7 +138,7 @@ func tomar_dano() -> void:
 		_morrer()
 
 func _morrer() -> void:
-	GameManager.remover_ameaca("boss_simples")
+	GameManager.remover_ameaca(_id_ameaca)
 	GameManager.notificar_boss_morreu()
 	# Fade out com dissolve
 	var tween = create_tween()
@@ -141,8 +150,8 @@ func _morrer() -> void:
 
 func _on_aura_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		GameManager.registrar_ameaca("boss_simples", taxa_sanidade)
+		GameManager.registrar_ameaca(_id_ameaca, taxa_sanidade)
 
 func _on_aura_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		GameManager.remover_ameaca("boss_simples")
+		GameManager.remover_ameaca(_id_ameaca)

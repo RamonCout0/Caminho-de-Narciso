@@ -1,3 +1,58 @@
-# Godot 4+ specific ignores
+# ---------------------------------------------
+# Godot 4+
+# ---------------------------------------------
+# Cache do editor e imports gerados (recriados na primeira abertura)
 .godot/
 /android/
+
+# Builds exportados
+/build/
+/export/
+*.exe
+*.pck
+*.zip
+*.apk
+*.aab
+*.dmg
+*.x86_64
+
+# Presets de export costumam guardar chaves de assinatura / senhas
+export_presets.cfg
+
+# Arquivos temporários que o editor deixa para trás ao salvar cenas
+*.tscn*.tmp
+*.tres*.tmp
+
+# ---------------------------------------------
+# Sobras de C# / .NET
+# ---------------------------------------------
+# O projeto é 100% GDScript. Um build "mono" do Godot recria um .sln vazio
+# toda vez que abre o projeto — ignorado para não sujar os commits.
+*.sln
+*.csproj
+.mono/
+bin/
+obj/
+
+# ---------------------------------------------
+# Editores e IDEs
+# ---------------------------------------------
+.vs/
+.vscode/
+.idea/
+*.swp
+*~
+
+# ---------------------------------------------
+# Sistema operacional
+# ---------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------
+# Lixo de refatoração
+# ---------------------------------------------
+*.old
+*.bak
+*.orig

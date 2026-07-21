@@ -33,6 +33,9 @@ var checkpoints_ativados: Array[String] = []
 # transições normais (portas) que voltam para a cena do checkpoint.
 var _respawn_pendente: bool = false
 
+# Fica true durante um fade de troca de cena, para impedir transições sobrepostas
+var _em_transicao: bool = false
+
 ## Autosave: chamado pelo nó Checkpoint quando o player encosta nele.
 ## Cada checkpoint (identificado por 'id') salva apenas uma vez.
 func salvar_checkpoint(id: String, cena_path: String, posicao_global: Vector2) -> void:
@@ -58,6 +61,7 @@ func iniciar_novo_jogo() -> void:
 	checkpoints_ativados.clear()
 	torres_finalizadas.clear()
 	_apagar_disco()
+	reviver() # Zera HP, sanidade e a flag de morte
 
 # --- PERSISTÊNCIA EM DISCO ---
 func _salvar_em_disco() -> void:
@@ -99,12 +103,20 @@ signal player_died
 var max_hp: int = 5
 var current_hp: int = 5
 
+# Trava de morte: sem ela, um segundo dano com o HP já em zero re-emitia
+# 'player_died' e disparava duas transições para a tela de Game Over.
+var esta_morto: bool = false
+
 func take_damage(amount: int):
+	if esta_morto:
+		return
+
 	current_hp -= amount
 	current_hp = clampi(current_hp, 0, max_hp)
 	hp_changed.emit(current_hp)
-	
+
 	if current_hp <= 0:
+		esta_morto = true
 		player_died.emit()
 		print("jogador foi de vasco")
 		# Limpa as ameaças ativas imediatamente
@@ -112,9 +124,23 @@ func take_damage(amount: int):
 		is_threatened = false
 
 func heal(amount: int):
+	if esta_morto:
+		return
+
 	current_hp += amount
 	current_hp = clampi(current_hp, 0, max_hp)
 	hp_changed.emit(current_hp)
+
+## Restaura o jogador para um novo começo (usado pela tela de Game Over).
+## Precisa zerar 'esta_morto', senão o player renasce incapaz de tomar dano.
+func reviver() -> void:
+	esta_morto     = false
+	current_hp     = max_hp
+	current_sanity = max_sanity
+	_ameacas_ativas.clear()
+	is_threatened  = false
+	hp_changed.emit(current_hp)
+	sanity_changed.emit(current_sanity)
 
 # --- BOSS ---
 signal boss_hp_changed(current_hp: int, max_hp: int)
@@ -177,8 +203,16 @@ func _ready() -> void:
 	player_died.connect(_on_player_died)
 
 func change_scene_with_fade(target_path: String) -> void:
+	# Trava de reentrância: uma porta e um trigger disparando juntos (ou a morte
+	# durante um fade) colocavam dois 'await' competindo pelo mesmo AnimationPlayer.
+	if _em_transicao:
+		push_warning("[GameManager] Transição já em andamento — ignorando: " + target_path)
+		return
+	_em_transicao = true
+
 	if not color_rect or not anim_player:
 		get_tree().change_scene_to_file(target_path)
+		_em_transicao = false
 		return
 
 	color_rect.show()
@@ -207,6 +241,7 @@ func change_scene_with_fade(target_path: String) -> void:
 	anim_player.play_backwards("fade_to_black")
 	await anim_player.animation_finished
 	color_rect.hide()
+	_em_transicao = false
 
 # FUNÇÃO: Puxa a tela de GameOver com o efeito de Fade
 func _on_player_died() -> void:

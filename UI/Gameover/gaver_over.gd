@@ -25,11 +25,8 @@ func reiniciar_jogo() -> void:
 	pode_reiniciar = false
 	timer.stop()
 
-	# Reseta status antes de sair da tela
-	GameManager.current_hp = GameManager.max_hp
-	GameManager.current_sanity = GameManager.max_sanity
-	GameManager.hp_changed.emit(GameManager.current_hp)
-	GameManager.sanity_changed.emit(GameManager.current_sanity)
+	# Reseta status antes de sair da tela (inclui destravar a flag de morte)
+	GameManager.reviver()
 
 	# Sempre usa o checkpoint se existir; caso contrário vai pro menu/início
 	if GameManager.tem_checkpoint:

@@ -16,7 +16,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Caminho de Narciso"
 run/main_scene="uid://cler7tney5i1n"
-config/features=PackedStringArray("4.6", "C#", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -34,7 +34,7 @@ window/stretch/scale_mode="integer"
 
 [dotnet]
 
-project/assembly_name="narciso"
+project/assembly_name="Caminho de Narciso"
 
 [global_group]
 

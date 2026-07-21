@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ditsyw1v4pw8v"]
 
 [ext_resource type="Texture2D" uid="uid://ck3ghiga6relt" path="res://Assets/ele_sabe/spr_Takerumi_move.png" id="1_puv37"]
-[ext_resource type="Script" uid="uid://botshs61fi5d" path="res://Assets/ele_sabe/Inimigo.cs" id="1_qmxq7"]
+[ext_resource type="Script" path="res://Assets/ele_sabe/inimigo.gd" id="1_qmxq7"]
 [ext_resource type="Shader" uid="uid://blss8dkr4ode6" path="res://shaders/shadow.gdshader" id="3_8v668"]
 [ext_resource type="AudioStream" uid="uid://cosb8pbmim8jp" path="res://efeitos_sonoros/gritos.mp3" id="3_r6drv"]
 [ext_resource type="AudioStream" uid="uid://b5a74sg5mnsog" path="res://efeitos_sonoros/running_in_a_hall.mp3" id="5_8v668"]
@@ -75,7 +75,7 @@ radius = 270.22397
 
 [node name="Inimigo" type="CharacterBody2D" unique_id=1768445301]
 script = ExtResource("1_qmxq7")
-Velocidade = 120.0
+velocidade = 120.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1506422653]
 texture_filter = 1

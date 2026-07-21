@@ -19,6 +19,9 @@ extends CharacterBody2D
 @export var range_sanidade  : float = 150.0 ## Distância (px) a partir da qual começa a drenar sanidade
 @export var taxa_sanidade   : float = 8.0   ## Drenagem de sanidade por segundo
 
+# ID único por instância para não conflitar com outras bonecas na mesma cena
+var _id_ameaca : String = ""
+
 # ⭐ TELEPORTE E PISCADA
 @export var teleport_delay      : float = 19.0   # Tempo MÍNIMO entre teleportes
 @export var teleport_jump       : float = 120.0
@@ -48,6 +51,7 @@ var _fade_rect    : ColorRect
 
 
 func _ready() -> void:
+	_id_ameaca      = "boneca_%d" % get_instance_id()
 	_current_jump   = teleport_jump
 	_burst_duration = shader_blink_count * shader_blink_speed
 	_full_cycle     = _burst_duration + shader_blink_interval
@@ -65,6 +69,12 @@ func _ready() -> void:
 
 	# ⭐ Cria overlay de fade
 	_create_fade_overlay()
+
+
+## Garante que a drenagem de sanidade não sobreviva à troca de cena.
+## Sem isso, sair da sala perto da boneca drena sanidade para sempre.
+func _exit_tree() -> void:
+	GameManager.remover_ameaca(_id_ameaca)
 
 
 func _create_fade_overlay() -> void:
@@ -95,9 +105,9 @@ func _physics_process(delta: float) -> void:
 
 	# Sanidade: drena apenas quando o player está dentro do range_sanidade
 	if dist_to_player <= range_sanidade:
-		GameManager.registrar_ameaca("boneca", taxa_sanidade)
+		GameManager.registrar_ameaca(_id_ameaca, taxa_sanidade)
 	else:
-		GameManager.remover_ameaca("boneca")
+		GameManager.remover_ameaca(_id_ameaca)
 
 	# Se jogador não está em range → para
 	if not _player_in_range:
@@ -231,7 +241,7 @@ func _on_reach_player() -> void:
 	_is_attacking = true
 	print("💀 Chegou perto! ATACANDO!")
 	# Remove a ameaça de sanidade durante o ataque/teleporte
-	GameManager.remover_ameaca("boneca")
+	GameManager.remover_ameaca(_id_ameaca)
 	# ==========================================
 	# ⭐ AQUI ESTÁ A IMPLEMENTAÇÃO DO DANO ⭐
 	# Verificamos se o player tem a função de tomar dano e aplicamos 1 de hit!
